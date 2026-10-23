@@ -1,0 +1,283 @@
+/* Logic Money — Manual Digital
+   Paleta tomada de LogicMoney.html (DARK_PALETTE) para mantener la misma marca
+   que el software de asesor, en una UI mucho más simple (tipo encuesta). */
+:root {
+  --bg: #050609;
+  --card: #171B24;
+  --card2: #1D222C;
+  --card3: #242A35;
+  --border: rgba(237,234,226,0.12);
+  --border-strong: rgba(237,234,226,0.22);
+  --text: #F3F1EA;
+  --text-mid: rgba(243,241,234,0.64);
+  --text-faint: rgba(243,241,234,0.40);
+  --gold: #E7A63C;
+  --gold-soft: rgba(231,166,60,0.14);
+  --good: #3ED88E;
+  --good-soft: rgba(62,216,142,0.12);
+  --warn: #FF6A52;
+  --warn-soft: rgba(255,106,82,0.14);
+  --teal: #2FD6D9;
+  --teal-soft: rgba(47,214,217,0.12);
+  --shadow: 0 30px 64px -12px rgba(0,0,0,0.72), 0 8px 22px rgba(0,0,0,0.5);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.lm-wrap {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+  flex: 1;
+}
+
+/* ---------- Header / brand ---------- */
+.lm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.lm-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.lm-brand-logic { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+.lm-brand-money { font-weight: 700; font-size: 18px; color: var(--gold); letter-spacing: -0.01em; }
+
+.lm-breadcrumb {
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+/* ---------- Typography ---------- */
+h1.lm-title { font-size: 26px; font-weight: 700; margin: 4px 0 6px; letter-spacing: -0.01em; }
+h2.lm-subtitle { font-size: 16px; font-weight: 500; color: var(--text-mid); margin: 0 0 24px; line-height: 1.5; }
+h3.lm-h3 { font-size: 15px; font-weight: 600; margin: 0 0 10px; color: var(--text); }
+p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 16px; }
+
+/* ---------- Cards ---------- */
+.lm-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.lm-card-flat {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+/* ---------- Forms ---------- */
+.lm-field { margin-bottom: 16px; }
+.lm-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+}
+.lm-hint { font-size: 12px; color: var(--text-faint); margin-top: 5px; line-height: 1.4; }
+
+.lm-input, .lm-select {
+  width: 100%;
+  background: var(--card3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 11px 12px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.lm-input:focus, .lm-select:focus { border-color: var(--gold); }
+.lm-input::placeholder { color: var(--text-faint); }
+
+.lm-row { display: flex; gap: 10px; }
+.lm-row > * { flex: 1; min-width: 0; }
+
+/* ---------- Buttons ---------- */
+.lm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 13px 18px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.08s, opacity 0.15s, background 0.15s;
+}
+.lm-btn:active { transform: scale(0.98); }
+.lm-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+.lm-btn-primary { background: var(--gold); color: #1A1200; }
+.lm-btn-primary:hover { opacity: 0.92; }
+
+.lm-btn-secondary { background: var(--card3); color: var(--text); border: 1px solid var(--border-strong); }
+.lm-btn-secondary:hover { background: var(--card2); }
+
+.lm-btn-ghost { background: transparent; color: var(--text-mid); border: 1px solid var(--border); }
+.lm-btn-ghost:hover { color: var(--text); border-color: var(--border-strong); }
+
+.lm-btn-sm { width: auto; padding: 8px 14px; font-size: 13px; }
+
+/* ---------- Badges / status ---------- */
+.lm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.lm-badge-good { background: var(--good-soft); color: var(--good); }
+.lm-badge-warn { background: var(--warn-soft); color: var(--warn); }
+.lm-badge-gold { background: var(--gold-soft); color: var(--gold); }
+.lm-badge-teal { background: var(--teal-soft); color: var(--teal); }
+.lm-badge-muted { background: var(--card3); color: var(--text-faint); }
+
+/* ---------- Stat blocks ---------- */
+.lm-stat { text-align: center; padding: 14px 8px; }
+.lm-stat-value { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+.lm-stat-label { font-size: 12px; color: var(--text-faint); margin-top: 4px; }
+.lm-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ---------- Divider ---------- */
+.lm-divider { height: 1px; background: var(--border); margin: 20px 0; border: none; }
+
+/* ---------- Debt list rows ---------- */
+.lm-debt-row {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.lm-debt-row-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.lm-debt-row-title { font-size: 13px; font-weight: 600; color: var(--text-mid); }
+.lm-remove-btn {
+  background: none; border: none; color: var(--warn); font-size: 13px; font-weight: 600; cursor: pointer; padding: 4px 6px;
+}
+
+/* ---------- Footer / section-end actions ---------- */
+.lm-footer-actions { margin-top: 28px; }
+.lm-footer-actions .lm-btn { margin-bottom: 10px; }
+
+.lm-fork {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--border-strong);
+}
+.lm-fork-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; text-align: center; }
+.lm-fork-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.lm-site-footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-faint);
+  padding: 24px 16px;
+  line-height: 1.6;
+}
+.lm-site-footer a { color: var(--text-faint); }
+
+/* ---------- Progress list (landing) ---------- */
+.lm-section-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+.lm-section-card[data-disabled="true"] { opacity: 0.45; pointer-events: none; }
+.lm-section-card-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.lm-section-num {
+  flex-shrink: 0;
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: var(--card3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--text-mid);
+}
+.lm-section-card-title { font-size: 15px; font-weight: 600; }
+.lm-section-card-sub { font-size: 12px; color: var(--text-faint); margin-top: 2px; }
+.lm-chevron { color: var(--text-faint); font-size: 18px; flex-shrink: 0; }
+
+/* ---------- Callout ---------- */
+.lm-callout {
+  border-radius: var(--radius-sm);
+  padding: 13px 14px;
+  font-size: 13px;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.lm-callout-good { background: var(--good-soft); color: var(--good); }
+.lm-callout-warn { background: var(--warn-soft); color: var(--warn); }
+.lm-callout-gold { background: var(--gold-soft); color: var(--gold); }
+.lm-callout-neutral { background: var(--card3); color: var(--text-mid); }
+
+/* ---------- Save confirmation banner ---------- */
+.lm-save-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--good-soft);
+  color: var(--good);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+@media print {
+  .lm-no-print { display: none !important; }
+  body { background: #fff; color: #111; }
+  .lm-card, .lm-card-flat, .lm-debt-row { background: #fff; border-color: #ccc; box-shadow: none; }
+  .lm-header { border-color: #ccc; }
+}

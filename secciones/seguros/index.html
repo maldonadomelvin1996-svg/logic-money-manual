@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seguros — Logic Money Manual Digital</title>
+<meta name="description" content="Anota qué seguros tienes, cuánto pagas y cuánta cobertura tienes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+</head>
+<body>
+
+<header class="lm-header lm-no-print">
+  <a class="lm-brand" href="../../index.html"><span class="lm-brand-logic">Logic</span><span class="lm-brand-money">Money</span></a>
+  <span class="lm-breadcrumb">Manual Digital · Seguros</span>
+</header>
+
+<main class="lm-wrap">
+  <div id="save-banner-slot"></div>
+
+  <h1 class="lm-title">Seguros</h1>
+  <h2 class="lm-subtitle">El seguro es importante para la estabilidad financiera porque transfiere el riesgo. "Yo le pago a ellos para que si algo sucede, lo paguen ellos, no yo."</h2>
+  <div class="lm-callout lm-callout-neutral">Hay seguros que toda persona debe considerar: <strong>Médico</strong> porque todos nos vamos a enfermar, <strong>Vehículo</strong> porque todos podemos tener un accidente, y <strong>Vida</strong> porque todos nos vamos a morir.</div>
+
+  <div id="insurance-rows"></div>
+  <button class="lm-btn lm-btn-ghost lm-no-print" id="add-insurance" type="button">+ Añadir otro seguro</button>
+
+  <div style="height:18px"></div>
+  <button class="lm-btn lm-btn-primary lm-no-print" id="save-btn" type="button">Guardar</button>
+  <div id="results"></div>
+  <div id="footer-slot"></div>
+</main>
+
+<footer class="lm-site-footer lm-no-print">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="../../assets/js/storage.js"></script>
+<script src="../../assets/js/section-ui.js"></script>
+<script src="seguros.js"></script>
+</body>
+</html>

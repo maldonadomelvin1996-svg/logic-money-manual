@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logic Money — Manual Digital</title>
+<meta name="description" content="La versión digital del manual de planificación financiera de Logic Money. Haz cada sección por tu cuenta, a tu ritmo, en tu teléfono.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body>
+
+<header class="lm-header">
+  <span class="lm-brand"><span class="lm-brand-logic">Logic</span><span class="lm-brand-money">Money</span></span>
+  <span class="lm-breadcrumb">Manual Digital</span>
+</header>
+
+<main class="lm-wrap">
+  <h1 class="lm-title">Tu plan financiero, paso a paso</h1>
+  <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro. Tus respuestas se guardan solo en este teléfono.</h2>
+
+  <div id="sections-list"></div>
+
+  <div class="lm-callout lm-callout-neutral" style="margin-top:8px">Las secciones marcadas "Próximamente" ya están en el libro impreso — mientras las terminamos en digital, continúa ahí.</div>
+</main>
+
+<footer class="lm-site-footer">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="assets/js/storage.js"></script>
+<script>
+var SECTIONS = [
+  { key: "objetivos", title: "Objetivos", sub: "¿Qué quieres lograr y para cuándo?", href: "secciones/objetivos/index.html" },
+  { key: "ingresos", title: "Ingresos", sub: "¿Cuánto dinero entra al mes?", href: "secciones/ingresos/index.html" },
+  { key: "deudas", title: "Deudas", sub: "Tarjetas, préstamos, carro, casa…", href: "secciones/deudas/index.html" },
+  { key: "ahorros", title: "Ahorros", sub: "¿Cuánto tienes ahorrado y para qué?", href: "secciones/ahorros/index.html" },
+  { key: "seguros", title: "Seguros", sub: "Médico, vehículo, vida", href: "secciones/seguros/index.html" },
+  { key: "presupuesto", title: "Presupuesto", sub: "A dónde se va tu dinero", href: null },
+  { key: "resumen-datos", title: "Resumen de datos", sub: "Todo en un solo lugar", href: null },
+  { key: "patrimonio", title: "Patrimonio", sub: "Lo que tienes menos lo que debes", href: null },
+  { key: "reduccion-deudas", title: "Reducción de deudas", sub: "Tu plan para salir de deudas", href: null },
+  { key: "fondo-emergencia", title: "Fondo de emergencia", sub: "¿Cuánto necesitas guardado?", href: null },
+  { key: "credito", title: "Crédito", sub: "Tu puntaje y cómo mejorarlo", href: null },
+  { key: "nivel-deuda", title: "Nivel de deuda", sub: "Razón deuda/ingreso", href: null },
+  { key: "proteccion", title: "Análisis de protección", sub: "¿Necesitas seguro de vida?", href: null },
+  { key: "retiro", title: "Retiro", sub: "Tu número de independencia financiera", href: null },
+  { key: "plan-financiero", title: "Plan Financiero", sub: "Tu resumen y próximos pasos", href: null },
+];
+
+var listEl = document.getElementById("sections-list");
+SECTIONS.forEach(function (s, i) {
+  var done = lmHasSection(s.key);
+  var enabled = !!s.href;
+  var el = document.createElement(enabled ? "a" : "div");
+  el.className = "lm-section-card";
+  if (enabled) el.href = s.href;
+  if (!enabled) el.dataset.disabled = "true";
+  el.innerHTML =
+    '<div class="lm-section-card-left">' +
+      '<div class="lm-section-num">' + (i + 1) + '</div>' +
+      '<div>' +
+        '<div class="lm-section-card-title">' + s.title + '</div>' +
+        '<div class="lm-section-card-sub">' + (enabled ? s.sub : "Próximamente") + '</div>' +
+      '</div>' +
+    '</div>' +
+    (done ? '<span class="lm-badge lm-badge-good">&#10003;</span>' : (enabled ? '<span class="lm-chevron">&#8250;</span>' : ''));
+  listEl.appendChild(el);
+});
+</script>
+</body>
+</html>

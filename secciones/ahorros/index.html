@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ahorros — Logic Money Manual Digital</title>
+<meta name="description" content="Anota cuánto tienes ahorrado y para qué, y cuánto aportas cada mes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+</head>
+<body>
+
+<header class="lm-header lm-no-print">
+  <a class="lm-brand" href="../../index.html"><span class="lm-brand-logic">Logic</span><span class="lm-brand-money">Money</span></a>
+  <span class="lm-breadcrumb">Manual Digital · Ahorros</span>
+</header>
+
+<main class="lm-wrap">
+  <div id="save-banner-slot"></div>
+
+  <h1 class="lm-title">Ahorros</h1>
+  <h2 class="lm-subtitle">Es importante saber cuánto se ahorra y para qué. No es lo mismo ahorrar para tu estabilidad financiera que ahorrar para gastarlo en un viaje el próximo mes.</h2>
+
+  <h3 class="lm-h3">Tus ahorros</h3>
+  <div id="savings-list"></div>
+  <button class="lm-btn lm-btn-ghost lm-no-print" id="add-saving" type="button">+ Añadir otro ahorro</button>
+
+  <div style="height:18px"></div>
+  <button class="lm-btn lm-btn-primary lm-no-print" id="save-btn" type="button">Guardar</button>
+  <div id="validation-msg"></div>
+  <div id="results"></div>
+  <div id="footer-slot"></div>
+</main>
+
+<footer class="lm-site-footer lm-no-print">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="../../assets/js/storage.js"></script>
+<script src="../../assets/js/section-ui.js"></script>
+<script src="ahorros.js"></script>
+</body>
+</html>
