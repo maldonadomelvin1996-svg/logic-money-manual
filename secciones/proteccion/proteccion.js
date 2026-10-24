@@ -100,13 +100,15 @@ function renderProteccion() {
     containerEl: resultsEl,
     mailtoSubject: "Mi análisis de protección — Logic Money",
     mailtoBody: bodyLines.join("\n"),
-    nextSectionHref: null,
+    nextSectionHref: "../retiro-cuando/index.html",
   });
 
   lmSaveSection("proteccion", state);
 }
 
 (function init() {
+  lmWrapUnknown(aniosInput);
+
   var saved = lmGetSection("proteccion");
   deudasInput.value = saved ? saved.deudas : (lmGetDebtsTotalBalance() || "");
   ingresoAnualInput.value = saved ? saved.ingresoAnual : ((lmGetIncomeTotal() * 12) || "");

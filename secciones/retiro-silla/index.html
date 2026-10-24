@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retiro — Silla de retiro — Logic Money</title>
+<meta name="description" content="Las fuentes de ingreso que sostendrán tu retiro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+</head>
+<body>
+
+<header class="lm-header lm-no-print">
+  <a class="lm-brand" href="../../index.html"><span class="lm-brand-logic">Logic</span><span class="lm-brand-money">Money</span></a>
+  <span class="lm-breadcrumb">Manual Digital · Retiro (3/5)</span>
+</header>
+
+<main class="lm-wrap">
+  <div id="save-banner-slot"></div>
+
+  <h1 class="lm-title">Silla de retiro</h1>
+  <h2 class="lm-subtitle">Concepto para visualizar las distintas fuentes de ingreso que sostienen tu retiro. Lo ideal es tener al menos 3 patas: Seguro Social, retiro patronal y retiro personal.</h2>
+
+  <div class="lm-card">
+    <div class="lm-field">
+      <label class="lm-label">Seguro Social (mensual)</label>
+      <div id="wrap-seguro-social"><input class="lm-input" type="number" id="seguro-social" min="0"></div>
+      <div class="lm-hint">Si no lo sabes, usa la calculadora oficial del Seguro Social o toca "No sé".</div>
+    </div>
+    <div class="lm-field">
+      <label class="lm-label">Retiro patronal / pensión (mensual)</label>
+      <div id="wrap-patronal"><input class="lm-input" type="number" id="patronal" min="0"></div>
+    </div>
+    <div class="lm-field" style="margin-bottom:0">
+      <label class="lm-label">Retiro personal / inversiones (mensual)</label>
+      <div id="wrap-personal"><input class="lm-input" type="number" id="personal" min="0"></div>
+    </div>
+  </div>
+
+  <div id="results"></div>
+  <div id="footer-slot"></div>
+</main>
+
+<footer class="lm-site-footer lm-no-print">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="../../assets/js/storage.js"></script>
+<script src="../../assets/js/section-ui.js"></script>
+<script src="../../assets/js/cross-section.js"></script>
+<script src="retiro-silla.js"></script>
+</body>
+</html>

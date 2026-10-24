@@ -84,6 +84,44 @@ function lmRenderSectionFooter(opts) {
   opts.containerEl.appendChild(wrap);
 }
 
+/**
+ * Envuelve un <input> con un botón "No sé" al lado. Al tocarlo, el campo
+ * queda en blanco, marcado como pendiente (data-unknown="true") — nunca
+ * bloquea seguir adelante. La idea es que si el lector no sabe un dato,
+ * el manual lo deje avanzar igual y vuelva a esa pregunta más tarde.
+ * Debe llamarse ANTES de insertar el input en el DOM, o pásale el input
+ * ya insertado y esta función lo envuelve en su lugar.
+ */
+function lmWrapUnknown(inputEl) {
+  var row = document.createElement("div");
+  row.className = "lm-input-row";
+  if (inputEl.parentNode) inputEl.parentNode.replaceChild(row, inputEl);
+  row.appendChild(inputEl);
+
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "lm-unknown-btn lm-no-print";
+  btn.textContent = "No sé";
+  btn.addEventListener("click", function () {
+    inputEl.value = "";
+    inputEl.dataset.unknown = "true";
+    inputEl.classList.add("lm-input-unknown");
+    btn.classList.add("lm-unknown-active");
+    inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+    inputEl.dispatchEvent(new Event("change", { bubbles: true }));
+    inputEl.focus();
+  });
+  inputEl.addEventListener("input", function () {
+    if (inputEl.value !== "") {
+      inputEl.dataset.unknown = "false";
+      inputEl.classList.remove("lm-input-unknown");
+      btn.classList.remove("lm-unknown-active");
+    }
+  });
+  row.appendChild(btn);
+  return row;
+}
+
 /* Calcula la ruta hacia la raíz del sitio desde una sección en /secciones/x/. */
 function lmRootPath() {
   var depth = (window.location.pathname.match(/\/secciones\/[^/]+\//) || [null])[0] ? "../../" : "./";

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retiro — Número de independencia financiera — Logic Money</title>
+<meta name="description" content="La cantidad total que debes acumular para tu retiro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+</head>
+<body>
+
+<header class="lm-header lm-no-print">
+  <a class="lm-brand" href="../../index.html"><span class="lm-brand-logic">Logic</span><span class="lm-brand-money">Money</span></a>
+  <span class="lm-breadcrumb">Manual Digital · Retiro (4/5)</span>
+</header>
+
+<main class="lm-wrap">
+  <div id="save-banner-slot"></div>
+
+  <h1 class="lm-title">Número de independencia financiera</h1>
+  <h2 class="lm-subtitle">Es la cantidad total de dinero que debes acumular para generar lo que te falta recibir cada mes en el retiro.</h2>
+  <div class="lm-callout lm-callout-neutral">Si tu número parece grande, no te asustes — dividido en pequeños objetivos a lo largo del tiempo se vuelve alcanzable. Mientras más joven empieces, más fácil es.</div>
+
+  <div class="lm-card">
+    <div class="lm-field" style="margin-bottom:0">
+      <label class="lm-label">Lo que te falta conseguir al mes</label>
+      <input class="lm-input" type="number" id="objetivo-mensual" min="0">
+      <div class="lm-hint">Se llena solo con el paso anterior.</div>
+    </div>
+  </div>
+
+  <div id="results"></div>
+  <div id="footer-slot"></div>
+</main>
+
+<footer class="lm-site-footer lm-no-print">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="../../assets/js/storage.js"></script>
+<script src="../../assets/js/section-ui.js"></script>
+<script src="../../assets/js/cross-section.js"></script>
+<script src="retiro-nif.js"></script>
+</body>
+</html>

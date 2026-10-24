@@ -3,6 +3,24 @@
 var goalsListEl = document.getElementById("goals-list");
 var goalRowCount = 0;
 
+var PRESET_GOALS = ["Retiro", "Comprar casa", "Pagar deudas", "Fondo de emergencia", "Emprender un negocio", "Educación", "Viajar"];
+
+var chipsEl = document.getElementById("goal-chips");
+PRESET_GOALS.forEach(function (label) {
+  var chip = document.createElement("button");
+  chip.type = "button";
+  chip.className = "lm-chip";
+  chip.textContent = label;
+  chip.addEventListener("click", function () { addGoalRow({ goal: label }); });
+  chipsEl.appendChild(chip);
+});
+var otherChip = document.createElement("button");
+otherChip.type = "button";
+otherChip.className = "lm-chip";
+otherChip.textContent = "+ Otro (escribir el mío)";
+otherChip.addEventListener("click", function () { addGoalRow(); });
+chipsEl.appendChild(otherChip);
+
 function addGoalRow(prefill) {
   goalRowCount++;
   var id = "goal-" + goalRowCount;
@@ -17,11 +35,18 @@ function addGoalRow(prefill) {
     '<div class="lm-field" style="margin-bottom:10px">' +
       '<input class="lm-input" type="text" placeholder="Objetivo específico (ej. comprar casa)" data-field="goal">' +
     '</div>' +
-    '<div class="lm-row">' +
-      '<input class="lm-input" type="text" placeholder="¿Cuánto? (ej. $15,000 o no sé)" data-field="amount">' +
-      '<input class="lm-input" type="text" placeholder="¿Cuándo? (ej. 2 años)" data-field="when">' +
+    '<div class="lm-field" style="margin-bottom:10px">' +
+      '<label class="lm-label" style="font-size:11px">¿Cuánto?</label>' +
+      '<input class="lm-input" type="text" placeholder="Ej. $15,000" data-field="amount">' +
+    '</div>' +
+    '<div class="lm-field" style="margin-bottom:0">' +
+      '<label class="lm-label" style="font-size:11px">¿Cuándo?</label>' +
+      '<input class="lm-input" type="text" placeholder="Ej. 2 años" data-field="when">' +
     '</div>';
   goalsListEl.appendChild(row);
+
+  lmWrapUnknown(row.querySelector('[data-field="amount"]'));
+  lmWrapUnknown(row.querySelector('[data-field="when"]'));
 
   if (prefill) {
     row.querySelector('[data-field="goal"]').value = prefill.goal || "";
@@ -39,8 +64,10 @@ function readGoals() {
   var goals = [];
   rows.forEach(function (row) {
     var goal = row.querySelector('[data-field="goal"]').value.trim();
-    var amount = row.querySelector('[data-field="amount"]').value.trim();
-    var when = row.querySelector('[data-field="when"]').value.trim();
+    var amountEl = row.querySelector('[data-field="amount"]');
+    var whenEl = row.querySelector('[data-field="when"]');
+    var amount = amountEl.value.trim() || (amountEl.dataset.unknown === "true" ? "No sé todavía" : "");
+    var when = whenEl.value.trim() || (whenEl.dataset.unknown === "true" ? "No sé todavía" : "");
     if (goal) goals.push({ goal: goal, amount: amount, when: when });
   });
   return goals;
