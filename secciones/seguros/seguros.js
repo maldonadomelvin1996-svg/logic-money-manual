@@ -87,7 +87,7 @@ function renderInsuranceResults(list) {
     containerEl: resultsEl,
     mailtoSubject: "Mis seguros — Logic Money",
     mailtoBody: bodyLines.join("\n"),
-    nextSectionHref: null,
+    nextSectionHref: "../presupuesto/index.html",
   });
 }
 

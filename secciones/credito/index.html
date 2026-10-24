@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crédito — Logic Money Manual Digital</title>
+<meta name="description" content="Tu puntaje de crédito y cómo mejorarlo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+</head>
+<body>
+
+<header class="lm-header lm-no-print">
+  <a class="lm-brand" href="../../index.html"><span class="lm-brand-logic">Logic</span><span class="lm-brand-money">Money</span></a>
+  <span class="lm-breadcrumb">Manual Digital · Crédito</span>
+</header>
+
+<main class="lm-wrap">
+  <div id="save-banner-slot"></div>
+
+  <h1 class="lm-title">Crédito</h1>
+  <h2 class="lm-subtitle">Aunque a unos les obsesiona y a otros ni les importa, el crédito es un jugador clave en tus finanzas. Nos enfocamos en el puntaje (la empírica), pero el historial también es muy importante.</h2>
+  <div class="lm-callout lm-callout-neutral">Si no conoces tu puntaje, puedes usar aplicaciones como Credit Karma para un aproximado, o solicitar un reporte detallado gratis una vez al año en <strong>annualcreditreport.com</strong>.</div>
+
+  <div class="lm-card">
+    <div class="lm-field">
+      <label class="lm-label">Puntaje de crédito (empírica)</label>
+      <input class="lm-input" type="number" id="score" min="300" max="850" placeholder="Ej. 715">
+    </div>
+    <div class="lm-field" style="margin-bottom:0">
+      <label class="lm-label">Notas (opcional)</label>
+      <input class="lm-input" type="text" id="notes" placeholder="Ej. tarjetas casi al máximo">
+    </div>
+  </div>
+
+  <div id="results"></div>
+  <div id="footer-slot"></div>
+</main>
+
+<footer class="lm-site-footer lm-no-print">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="../../assets/js/storage.js"></script>
+<script src="../../assets/js/section-ui.js"></script>
+<script src="credito.js"></script>
+</body>
+</html>

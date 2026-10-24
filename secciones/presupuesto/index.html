@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presupuesto — Logic Money Manual Digital</title>
+<meta name="description" content="A dónde se va tu dinero cada mes, y si te sobra o te falta.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<style>
+  .lm-pitem { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+  .lm-pitem:last-child { border-bottom: none; }
+  .lm-pitem-label { flex: 1; font-size: 13px; color: var(--text-mid); }
+  .lm-pitem input[type="number"] { width: 92px; flex-shrink: 0; }
+  .lm-pitem select { width: 100px; flex-shrink: 0; font-size: 12px; padding: 9px 6px; }
+  .lm-cat-total { display:flex; justify-content:space-between; padding-top:10px; margin-top:4px; font-weight:600; font-size:13px; }
+</style>
+</head>
+<body>
+
+<header class="lm-header lm-no-print">
+  <a class="lm-brand" href="../../index.html"><span class="lm-brand-logic">Logic</span><span class="lm-brand-money">Money</span></a>
+  <span class="lm-breadcrumb">Manual Digital · Presupuesto</span>
+</header>
+
+<main class="lm-wrap">
+  <div id="save-banner-slot"></div>
+
+  <h1 class="lm-title">Presupuesto</h1>
+  <h2 class="lm-subtitle">Evaluar los gastos mensuales es la base de la estructura financiera. Para cada gasto, marca si es Necesario u Opcional.</h2>
+
+  <div id="categories"></div>
+
+  <div class="lm-card">
+    <h3 class="lm-h3">Resultados de presupuesto mensual</h3>
+    <div class="lm-field">
+      <label class="lm-label">Ingreso mensual</label>
+      <input class="lm-input" type="number" id="income-input" min="0">
+      <div class="lm-hint">Se llena solo si ya hiciste la sección de Ingresos. Puedes ajustarlo.</div>
+    </div>
+    <div class="lm-stat-grid" style="margin-top:14px">
+      <div class="lm-stat"><div class="lm-stat-value" id="stat-gastos">$0</div><div class="lm-stat-label">Gastos (este presupuesto)</div></div>
+      <div class="lm-stat"><div class="lm-stat-value" id="stat-deudas">$0</div><div class="lm-stat-label">Pagos de deudas</div></div>
+    </div>
+    <hr class="lm-divider">
+    <div class="lm-stat">
+      <div class="lm-stat-value" id="stat-result">$0</div>
+      <div class="lm-stat-label" id="stat-result-label">Superávit o déficit mensual</div>
+    </div>
+  </div>
+
+  <div class="lm-callout lm-callout-gold">Este resultado es el dinero que usaremos para crear tu plan financiero. Una guía útil si no tienes experiencia con presupuesto: <strong>50% Necesidades</strong> (vivienda, alimento, transportación), <strong>30% Deseos</strong> (lo opcional, lujos, entretenimiento), <strong>20% Ahorros e inversión</strong> (fondo de emergencia, retiro). No es una ley — cualquier ajuste que no comprometa tu estabilidad está bien.</div>
+
+  <button class="lm-btn lm-btn-primary lm-no-print" id="save-btn" type="button">Guardar</button>
+  <div id="results"></div>
+  <div id="footer-slot"></div>
+</main>
+
+<footer class="lm-site-footer lm-no-print">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="../../assets/js/storage.js"></script>
+<script src="../../assets/js/section-ui.js"></script>
+<script src="../../assets/js/cross-section.js"></script>
+<script src="presupuesto.js"></script>
+</body>
+</html>

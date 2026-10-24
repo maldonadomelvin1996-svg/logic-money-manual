@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nivel de deuda — Logic Money Manual Digital</title>
+<meta name="description" content="Tu razón deuda/ingreso: cuánto de tu ingreso se va en pagar deudas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/base.css">
+</head>
+<body>
+
+<header class="lm-header lm-no-print">
+  <a class="lm-brand" href="../../index.html"><span class="lm-brand-logic">Logic</span><span class="lm-brand-money">Money</span></a>
+  <span class="lm-breadcrumb">Manual Digital · Nivel de deuda</span>
+</header>
+
+<main class="lm-wrap">
+  <div id="save-banner-slot"></div>
+
+  <h1 class="lm-title">Nivel de deuda</h1>
+  <h2 class="lm-subtitle">Usado para identificar cuánto de tu ingreso se usa para pagar deudas, y si representa un peligro para tus finanzas.</h2>
+
+  <div class="lm-card">
+    <div class="lm-field">
+      <label class="lm-label">Pagos mensuales de deudas</label>
+      <input class="lm-input" type="number" id="payments" min="0">
+      <div class="lm-hint">Se llena solo con tu sección de Deudas.</div>
+    </div>
+    <div class="lm-field" style="margin-bottom:0">
+      <label class="lm-label">Ingreso mensual</label>
+      <input class="lm-input" type="number" id="income" min="0">
+      <div class="lm-hint">Se llena solo con tu sección de Ingresos.</div>
+    </div>
+  </div>
+
+  <div id="results"></div>
+
+  <div class="lm-card-flat" style="margin-top:4px">
+    <div style="font-size:12px;color:var(--text-faint);margin-bottom:8px">Escala completa</div>
+    <div style="display:flex;flex-direction:column;gap:4px;font-size:12px">
+      <div style="background:var(--warn);color:#1A0600;padding:6px 10px;border-radius:6px;font-weight:600">56% o más — Embrollao</div>
+      <div style="background:#FF9A4D;color:#2A1400;padding:6px 10px;border-radius:6px;font-weight:600">45%–55% — Crítico</div>
+      <div style="background:var(--gold);color:#1A1200;padding:6px 10px;border-radius:6px;font-weight:600">36%–43% — Riesgoso</div>
+      <div style="background:var(--teal);color:#00201F;padding:6px 10px;border-radius:6px;font-weight:600">16%–35% — Estable</div>
+      <div style="background:var(--good);color:#002814;padding:6px 10px;border-radius:6px;font-weight:600">0%–15% — Ideal</div>
+    </div>
+  </div>
+
+  <div id="footer-slot"></div>
+</main>
+
+<footer class="lm-site-footer lm-no-print">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="../../assets/js/storage.js"></script>
+<script src="../../assets/js/section-ui.js"></script>
+<script src="../../assets/js/cross-section.js"></script>
+<script src="nivel.js"></script>
+</body>
+</html>

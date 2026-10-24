@@ -64,28 +64,12 @@ function readDebts() {
   return debts;
 }
 
-function monthsToPayoff(d) {
-  if (d.payment <= 0) return Infinity;
-  if (d.balance <= 0) return 0;
-  var monthlyRate = d.apr / 1200;
-  if (monthlyRate <= 0) return d.balance / d.payment;
-  if (d.payment <= d.balance * monthlyRate) return Infinity;
-  return Math.log(d.payment / (d.payment - d.balance * monthlyRate)) / Math.log(1 + monthlyRate);
-}
-
-function orderDebts(debts) {
-  var homes = debts.filter(function (d) { return d.isHome; });
-  var rest = debts.filter(function (d) { return !d.isHome; });
-  rest.sort(function (a, b) { return monthsToPayoff(a) - monthsToPayoff(b); });
-  return rest.concat(homes);
-}
-
 function renderResults(debts) {
   var resultsEl = document.getElementById("results");
   resultsEl.innerHTML = "";
   if (debts.length === 0) return;
 
-  var ordered = orderDebts(debts);
+  var ordered = lmOrderDebts(debts);
   var totalBalance = debts.reduce(function (s, d) { return s + d.balance; }, 0);
   var totalPayment = debts.reduce(function (s, d) { return s + d.payment; }, 0);
   var weightedApr = totalBalance > 0
