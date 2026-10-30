@@ -81,7 +81,7 @@ SECTIONS.forEach(function (s, i) {
 document.getElementById("demo-fill-btn").addEventListener("click", function () {
   if (confirm("Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio), para probar el sitio. ¿Continuar?")) {
     lmFillDemoData();
-    location.reload();
+    location.href = "secciones/resumen-datos/index.html";
   }
 });
 document.getElementById("clear-data-btn").addEventListener("click", function () {
