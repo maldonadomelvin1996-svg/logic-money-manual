@@ -24,6 +24,12 @@
   <div id="sections-list"></div>
 
   <div class="lm-callout lm-callout-neutral" style="margin-top:8px">Las secciones marcadas "Próximamente" ya están en el libro impreso — mientras las terminamos en digital, continúa ahí.</div>
+
+  <hr class="lm-divider">
+  <h3 class="lm-h3" style="color:var(--text-faint)">Herramientas de prueba</h3>
+  <button class="lm-btn lm-btn-secondary" id="demo-fill-btn" type="button">Llenar con datos de ejemplo</button>
+  <div style="height:10px"></div>
+  <button class="lm-btn lm-btn-ghost" id="clear-data-btn" type="button">Borrar todos mis datos</button>
 </main>
 
 <footer class="lm-site-footer">
@@ -32,6 +38,7 @@
 </footer>
 
 <script src="assets/js/storage.js"></script>
+<script src="assets/js/demo-data.js"></script>
 <script>
 var SECTIONS = [
   { key: "objetivos", title: "Objetivos", sub: "¿Qué quieres lograr y para cuándo?", href: "secciones/objetivos/index.html" },
@@ -69,6 +76,19 @@ SECTIONS.forEach(function (s, i) {
     '</div>' +
     (done ? '<span class="lm-badge lm-badge-good">&#10003;</span>' : (enabled ? '<span class="lm-chevron">&#8250;</span>' : ''));
   listEl.appendChild(el);
+});
+
+document.getElementById("demo-fill-btn").addEventListener("click", function () {
+  if (confirm("Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio), para probar el sitio. ¿Continuar?")) {
+    lmFillDemoData();
+    location.reload();
+  }
+});
+document.getElementById("clear-data-btn").addEventListener("click", function () {
+  if (confirm("Esto borra TODOS los datos guardados en este teléfono, de todas las secciones. ¿Continuar?")) {
+    lmClearAllData();
+    location.reload();
+  }
 });
 </script>
 </body>

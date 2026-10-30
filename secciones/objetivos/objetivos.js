@@ -41,17 +41,31 @@ function addGoalRow(prefill) {
     '</div>' +
     '<div class="lm-field" style="margin-bottom:0">' +
       '<label class="lm-label" style="font-size:11px">¿Cuándo?</label>' +
-      '<input class="lm-input" type="text" placeholder="Ej. 2 años" data-field="when">' +
+      '<div class="lm-chip-row" style="margin-bottom:8px">' +
+        '<button type="button" class="lm-chip lm-chip-active" data-when-mode="years">En X años</button>' +
+        '<button type="button" class="lm-chip" data-when-mode="age">A una edad</button>' +
+      '</div>' +
+      '<input class="lm-input" type="number" min="0" placeholder="Ej. 5" data-field="whenValue">' +
     '</div>';
   goalsListEl.appendChild(row);
 
   lmWrapUnknown(row.querySelector('[data-field="amount"]'));
-  lmWrapUnknown(row.querySelector('[data-field="when"]'));
+
+  var whenValueInput = row.querySelector('[data-field="whenValue"]');
+  var whenModeBtns = row.querySelectorAll('[data-when-mode]');
+  function setWhenMode(mode) {
+    whenValueInput.dataset.whenMode = mode;
+    whenValueInput.placeholder = mode === "years" ? "Ej. 5" : "Ej. 60";
+    whenModeBtns.forEach(function (b) { b.classList.toggle("lm-chip-active", b.dataset.whenMode === mode); });
+  }
+  whenModeBtns.forEach(function (b) { b.addEventListener("click", function () { setWhenMode(b.dataset.whenMode); }); });
+  setWhenMode((prefill && prefill.whenMode) || "years");
+  lmWrapUnknown(whenValueInput);
 
   if (prefill) {
     row.querySelector('[data-field="goal"]').value = prefill.goal || "";
     row.querySelector('[data-field="amount"]').value = prefill.amount || "";
-    row.querySelector('[data-field="when"]').value = prefill.when || "";
+    if (prefill.whenValue) whenValueInput.value = prefill.whenValue;
   }
 
   row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () { row.remove(); });
@@ -59,16 +73,23 @@ function addGoalRow(prefill) {
 
 document.getElementById("add-goal").addEventListener("click", function () { addGoalRow(); });
 
+function formatWhen(mode, value) {
+  if (!value) return "";
+  return mode === "age" ? ("a los " + value + " años") : ("en " + value + (value === "1" ? " año" : " años"));
+}
+
 function readGoals() {
   var rows = goalsListEl.querySelectorAll(".lm-debt-row");
   var goals = [];
   rows.forEach(function (row) {
     var goal = row.querySelector('[data-field="goal"]').value.trim();
     var amountEl = row.querySelector('[data-field="amount"]');
-    var whenEl = row.querySelector('[data-field="when"]');
+    var whenEl = row.querySelector('[data-field="whenValue"]');
     var amount = amountEl.value.trim() || (amountEl.dataset.unknown === "true" ? "No sé todavía" : "");
-    var when = whenEl.value.trim() || (whenEl.dataset.unknown === "true" ? "No sé todavía" : "");
-    if (goal) goals.push({ goal: goal, amount: amount, when: when });
+    var whenMode = whenEl.dataset.whenMode || "years";
+    var whenValue = whenEl.value.trim();
+    var when = formatWhen(whenMode, whenValue) || (whenEl.dataset.unknown === "true" ? "No sé todavía" : "");
+    if (goal) goals.push({ goal: goal, amount: amount, when: when, whenMode: whenMode, whenValue: whenValue });
   });
   return goals;
 }

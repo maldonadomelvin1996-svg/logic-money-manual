@@ -44,6 +44,10 @@ function lmClearSection(sectionKey) {
   } catch (e) {}
 }
 
+function lmClearAllData() {
+  try { localStorage.removeItem(LM_STORAGE_KEY); } catch (e) {}
+}
+
 /* Formatea números como USD, sin decimales si es entero. */
 function lmMoney(n) {
   n = Number(n) || 0;
