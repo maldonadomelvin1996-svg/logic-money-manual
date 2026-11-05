@@ -22,11 +22,11 @@ function addDebtRow(prefill) {
       '<input class="lm-input" type="text" placeholder="Nombre (ej. Tarjeta, Carro, Casa)" data-field="name">' +
     '</div>' +
     '<div class="lm-row" style="margin-bottom:10px">' +
-      '<input class="lm-input" type="number" placeholder="Balance" min="0" data-field="balance">' +
-      '<input class="lm-input" type="number" placeholder="Pago mensual" min="0" data-field="payment">' +
+      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Balance" min="0" data-field="balance">' +
+      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Pago mensual" min="0" data-field="payment">' +
     '</div>' +
     '<div class="lm-row">' +
-      '<input class="lm-input" type="number" placeholder="Interés % (ej. 18)" min="0" step="0.01" data-field="apr">' +
+      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Interés % (ej. 18)" min="0" step="0.01" data-field="apr">' +
       '<label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-mid);white-space:nowrap">' +
         '<input type="checkbox" data-field="isHome"> Es mi casa' +
       '</label>' +

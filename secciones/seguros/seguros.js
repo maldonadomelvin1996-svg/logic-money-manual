@@ -24,8 +24,8 @@ function addInsuranceRow(prefill, fixedLabel) {
       '</label>' +
     '</div>' +
     '<div class="lm-row">' +
-      '<input class="lm-input" type="number" placeholder="Pago (mensual o anual)" min="0" data-field="payment">' +
-      '<input class="lm-input" type="number" placeholder="Cobertura $" min="0" data-field="coverage">' +
+      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Pago (mensual o anual)" min="0" data-field="payment">' +
+      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Cobertura $" min="0" data-field="coverage">' +
     '</div>';
   insuranceRowsEl.appendChild(row);
 

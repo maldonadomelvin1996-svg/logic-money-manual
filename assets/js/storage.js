@@ -6,6 +6,8 @@
    Ingresos, si lo hizo). */
 
 var LM_STORAGE_KEY = "logicMoneyManualData_v1";
+var LM_LAST_SAVE_OK = true;
+var LM_STORAGE_AVAILABLE = true;
 
 function lmLoadData() {
   try {
@@ -21,11 +23,27 @@ function lmSaveSection(sectionKey, data) {
   all[sectionKey] = Object.assign({}, data, { savedAt: new Date().toISOString() });
   try {
     localStorage.setItem(LM_STORAGE_KEY, JSON.stringify(all));
+    LM_LAST_SAVE_OK = true;
+    LM_STORAGE_AVAILABLE = true;
     return true;
   } catch (e) {
+    LM_LAST_SAVE_OK = false;
     return false;
   }
 }
+
+/* Detecta si localStorage simplemente no está disponible (navegación
+   privada en algunos navegadores, almacenamiento bloqueado por política) —
+   para avisar ANTES de que el lector llene algo y crea que se guardó. */
+(function checkStorageAvailable() {
+  try {
+    var testKey = "__lm_test__";
+    localStorage.setItem(testKey, "1");
+    localStorage.removeItem(testKey);
+  } catch (e) {
+    LM_STORAGE_AVAILABLE = false;
+  }
+})();
 
 function lmGetSection(sectionKey) {
   var all = lmLoadData();

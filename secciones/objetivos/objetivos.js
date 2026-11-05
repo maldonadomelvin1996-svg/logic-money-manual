@@ -45,7 +45,7 @@ function addGoalRow(prefill) {
         '<button type="button" class="lm-chip lm-chip-active" data-when-mode="years">En X años</button>' +
         '<button type="button" class="lm-chip" data-when-mode="age">A una edad</button>' +
       '</div>' +
-      '<input class="lm-input" type="number" min="0" placeholder="Ej. 5" data-field="whenValue">' +
+      '<input class="lm-input" type="number" inputmode="decimal" min="0" placeholder="Ej. 5" data-field="whenValue">' +
     '</div>';
   goalsListEl.appendChild(row);
 

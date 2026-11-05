@@ -123,13 +123,14 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 
 .lm-input, .lm-select {
   width: 100%;
+  min-height: 44px;
   background: var(--card3);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text);
   font-family: inherit;
-  font-size: 15px;
-  padding: 11px 12px;
+  font-size: 16px;
+  padding: 12px;
   outline: none;
   transition: border-color 0.15s;
 }
@@ -170,6 +171,19 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 
 .lm-btn-sm { width: auto; padding: 8px 14px; font-size: 13px; }
 
+/* Botón de acción flotante, fijo abajo de la pantalla — para formularios
+   largos donde el botón normal quedaría fuera de vista tras hacer scroll. */
+.lm-cta-fixed {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  max-width: 608px;
+  margin: 0 auto;
+  z-index: 20;
+  box-shadow: var(--shadow);
+}
+
 /* ---------- Badges / status ---------- */
 .lm-badge {
   display: inline-flex;
@@ -207,7 +221,8 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-debt-row-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .lm-debt-row-title { font-size: 13px; font-weight: 600; color: var(--text-mid); }
 .lm-remove-btn {
-  background: none; border: none; color: var(--warn); font-size: 13px; font-weight: 600; cursor: pointer; padding: 4px 6px;
+  background: none; border: none; color: var(--warn); font-size: 13px; font-weight: 600; cursor: pointer;
+  padding: 10px 8px; min-height: 44px;
 }
 
 /* ---------- Footer / section-end actions ---------- */
@@ -282,9 +297,10 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   border: 1px solid var(--border);
   color: var(--text-faint);
   font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  padding: 0 14px;
+  padding: 0 16px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   white-space: nowrap;
@@ -302,7 +318,8 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
-  padding: 8px 14px;
+  padding: 11px 16px;
+  min-height: 44px;
   border-radius: 999px;
   cursor: pointer;
 }
@@ -321,6 +338,32 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   font-weight: 600;
   margin-bottom: 16px;
 }
+.lm-save-banner-error {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+/* ---------- Toast flotante ---------- */
+.lm-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 16px);
+  background: var(--card3);
+  color: var(--good);
+  border: 1px solid var(--good);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 20px;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 50;
+  pointer-events: none;
+}
+.lm-toast-visible { opacity: 1; transform: translate(-50%, 0); }
+.lm-toast-error { color: var(--warn); border-color: var(--warn); }
 
 @media print {
   .lm-no-print { display: none !important; }

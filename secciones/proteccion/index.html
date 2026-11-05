@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#050609">
 </head>
 <body>
 
@@ -41,32 +45,32 @@
   <div id="life-form" style="display:none">
     <div class="lm-card">
       <div class="lm-field">
-        <label class="lm-label">Deudas totales</label>
-        <input class="lm-input" type="number" id="deudas" min="0">
+        <label class="lm-label" for="deudas">Deudas totales</label>
+        <input class="lm-input" type="number" inputmode="decimal" id="deudas" min="0">
       </div>
       <div class="lm-field">
-        <label class="lm-label">Gastos funerarios</label>
-        <input class="lm-input" type="number" id="funeral" min="0" value="10000">
+        <label class="lm-label" for="funeral">Gastos funerarios</label>
+        <input class="lm-input" type="number" inputmode="decimal" id="funeral" min="0" value="10000">
       </div>
       <div class="lm-field">
-        <label class="lm-label">Ingreso anual</label>
-        <input class="lm-input" type="number" id="ingreso-anual" min="0">
+        <label class="lm-label" for="ingreso-anual">Ingreso anual</label>
+        <input class="lm-input" type="number" inputmode="decimal" id="ingreso-anual" min="0">
       </div>
       <div class="lm-field" style="margin-bottom:0">
-        <label class="lm-label">Años de ingreso a reemplazar</label>
-        <input class="lm-input" type="number" id="anios" min="0" placeholder="Ej. años hasta que tu hijo menor cumpla 18">
+        <label class="lm-label" for="anios">Años de ingreso a reemplazar</label>
+        <input class="lm-input" type="number" inputmode="decimal" id="anios" min="0" placeholder="Ej. años hasta que tu hijo menor cumpla 18">
         <div class="lm-hint">Lo más común: tu ingreso anual × los años que faltan hasta que el menor de tus dependientes cumpla 18, o un número de años con el que te sientas cómodo.</div>
       </div>
     </div>
 
     <div class="lm-card">
       <div class="lm-field">
-        <label class="lm-label">Ahorros disponibles</label>
-        <input class="lm-input" type="number" id="ahorros" min="0">
+        <label class="lm-label" for="ahorros">Ahorros disponibles</label>
+        <input class="lm-input" type="number" inputmode="decimal" id="ahorros" min="0">
       </div>
       <div class="lm-field" style="margin-bottom:0">
-        <label class="lm-label">Cobertura de seguro de vida actual</label>
-        <input class="lm-input" type="number" id="cobertura-actual" min="0">
+        <label class="lm-label" for="cobertura-actual">Cobertura de seguro de vida actual</label>
+        <input class="lm-input" type="number" inputmode="decimal" id="cobertura-actual" min="0">
       </div>
     </div>
   </div>

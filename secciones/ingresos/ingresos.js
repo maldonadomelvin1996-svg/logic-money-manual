@@ -16,8 +16,8 @@ INCOME_CATEGORIES.forEach(function (cat) {
   row.className = "lm-field";
   row.style.marginBottom = "12px";
   row.innerHTML =
-    '<label class="lm-label">' + cat.label + '</label>' +
-    '<input class="lm-input" type="number" placeholder="$0" min="0" data-cat="' + cat.key + '">';
+    '<label class="lm-label" for="income-' + cat.key + '">' + cat.label + '</label>' +
+    '<input class="lm-input" type="number" inputmode="decimal" placeholder="$0" min="0" id="income-' + cat.key + '" data-cat="' + cat.key + '">';
   rowsEl.appendChild(row);
 });
 

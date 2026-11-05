@@ -9,12 +9,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#050609">
 <style>
   .lm-pitem { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); }
   .lm-pitem:last-child { border-bottom: none; }
   .lm-pitem-label { flex: 1; font-size: 13px; color: var(--text-mid); }
-  .lm-pitem input[type="number"] { width: 92px; flex-shrink: 0; }
-  .lm-pitem select { width: 100px; flex-shrink: 0; font-size: 12px; padding: 9px 6px; }
+  .lm-pitem input[type="number"] { width: 92px; flex-shrink: 0; font-size: 16px; padding: 9px 8px; }
+  .lm-pitem select { width: 100px; flex-shrink: 0; font-size: 16px; padding: 9px 4px; }
   .lm-cat-total { display:flex; justify-content:space-between; padding-top:10px; margin-top:4px; font-weight:600; font-size:13px; }
 </style>
 </head>
@@ -37,8 +41,8 @@
   <div class="lm-card">
     <h3 class="lm-h3">Resultados de presupuesto mensual</h3>
     <div class="lm-field">
-      <label class="lm-label">Ingreso mensual</label>
-      <input class="lm-input" type="number" id="income-input" min="0">
+      <label class="lm-label" for="income-input">Ingreso mensual</label>
+      <input class="lm-input" type="number" inputmode="decimal" id="income-input" min="0">
       <div class="lm-hint">Se llena solo si ya hiciste la sección de Ingresos. Puedes ajustarlo.</div>
     </div>
     <div class="lm-stat-grid" style="margin-top:14px">
@@ -54,7 +58,8 @@
 
   <div class="lm-callout lm-callout-gold">Este resultado es el dinero que usaremos para crear tu plan financiero. Una guía útil si no tienes experiencia con presupuesto: <strong>50% Necesidades</strong> (vivienda, alimento, transportación), <strong>30% Deseos</strong> (lo opcional, lujos, entretenimiento), <strong>20% Ahorros e inversión</strong> (fondo de emergencia, retiro). No es una ley — cualquier ajuste que no comprometa tu estabilidad está bien.</div>
 
-  <button class="lm-btn lm-btn-primary lm-no-print" id="save-btn" type="button">Guardar</button>
+  <button class="lm-btn lm-btn-primary lm-cta-fixed lm-no-print" id="save-btn" type="button">Guardar</button>
+  <div style="height:76px" class="lm-no-print"></div>
   <div id="results"></div>
   <div id="footer-slot"></div>
 </main>

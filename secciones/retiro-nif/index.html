@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#050609">
 </head>
 <body>
 
@@ -27,8 +31,8 @@
 
   <div class="lm-card">
     <div class="lm-field" style="margin-bottom:0">
-      <label class="lm-label">Lo que te falta conseguir al mes</label>
-      <input class="lm-input" type="number" id="objetivo-mensual" min="0">
+      <label class="lm-label" for="objetivo-mensual">Lo que te falta conseguir al mes</label>
+      <input class="lm-input" type="number" inputmode="decimal" id="objetivo-mensual" min="0">
       <div class="lm-hint">Se llena solo con el paso anterior.</div>
     </div>
   </div>

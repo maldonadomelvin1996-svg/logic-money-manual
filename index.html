@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/base.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#050609">
 </head>
 <body>
 
@@ -19,17 +23,20 @@
 
 <main class="lm-wrap">
   <h1 class="lm-title">Tu plan financiero, paso a paso</h1>
-  <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro. Tus respuestas se guardan solo en este teléfono.</h2>
+  <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro.</h2>
+  <div class="lm-callout lm-callout-neutral" id="privacy-callout">&#128274; Tus respuestas se guardan solo en este teléfono — nadie más las ve, ni siquiera Logic Money.</div>
+
+  <div id="progress-wrap" style="margin-bottom:20px"></div>
 
   <div id="sections-list"></div>
 
   <div class="lm-callout lm-callout-neutral" style="margin-top:8px">Las secciones marcadas "Próximamente" ya están en el libro impreso — mientras las terminamos en digital, continúa ahí.</div>
 
   <hr class="lm-divider">
-  <h3 class="lm-h3" style="color:var(--text-faint)">Herramientas de prueba</h3>
-  <button class="lm-btn lm-btn-secondary" id="demo-fill-btn" type="button">Llenar con datos de ejemplo</button>
-  <div style="height:10px"></div>
+  <h3 class="lm-h3" style="color:var(--text-faint)">Privacidad</h3>
   <button class="lm-btn lm-btn-ghost" id="clear-data-btn" type="button">Borrar todos mis datos</button>
+
+  <div id="dev-tools"></div>
 </main>
 
 <footer class="lm-site-footer">
@@ -40,56 +47,112 @@
 <script src="assets/js/storage.js"></script>
 <script src="assets/js/demo-data.js"></script>
 <script>
-var SECTIONS = [
-  { key: "objetivos", title: "Objetivos", sub: "¿Qué quieres lograr y para cuándo?", href: "secciones/objetivos/index.html" },
-  { key: "ingresos", title: "Ingresos", sub: "¿Cuánto dinero entra al mes?", href: "secciones/ingresos/index.html" },
-  { key: "deudas", title: "Deudas", sub: "Tarjetas, préstamos, carro, casa…", href: "secciones/deudas/index.html" },
-  { key: "ahorros", title: "Ahorros", sub: "¿Cuánto tienes ahorrado y para qué?", href: "secciones/ahorros/index.html" },
-  { key: "seguros", title: "Seguros", sub: "Médico, vehículo, vida", href: "secciones/seguros/index.html" },
-  { key: "presupuesto", title: "Presupuesto", sub: "A dónde se va tu dinero", href: "secciones/presupuesto/index.html" },
-  { key: "resumen-datos", title: "Resumen de datos", sub: "Todo en un solo lugar", href: "secciones/resumen-datos/index.html" },
-  { key: "patrimonio", title: "Patrimonio", sub: "Lo que tienes menos lo que debes", href: "secciones/patrimonio/index.html" },
-  { key: "reduccion-deudas", title: "Reducción de deudas", sub: "Tu plan para salir de deudas", href: "secciones/reduccion-deudas/index.html" },
-  { key: "fondo-emergencia", title: "Fondo de emergencia", sub: "¿Cuánto necesitas guardado?", href: "secciones/fondo-emergencia/index.html" },
-  { key: "credito", title: "Crédito", sub: "Tu puntaje y cómo mejorarlo", href: "secciones/credito/index.html" },
-  { key: "nivel-deuda", title: "Nivel de deuda", sub: "Razón deuda/ingreso", href: "secciones/nivel-deuda/index.html" },
-  { key: "proteccion", title: "Análisis de protección", sub: "¿Necesitas seguro de vida?", href: "secciones/proteccion/index.html" },
-  { key: "retiro-cuando", title: "Retiro", sub: "Tu número de independencia financiera (5 pasos)", href: "secciones/retiro-cuando/index.html" },
-  { key: "plan-financiero", title: "Plan Financiero", sub: "Tu resumen y próximos pasos", href: null },
+var CHAPTERS = [
+  {
+    title: "1. Tomar datos",
+    sections: [
+      { key: "objetivos", title: "Objetivos", sub: "¿Qué quieres lograr y para cuándo?", href: "secciones/objetivos/index.html" },
+      { key: "ingresos", title: "Ingresos", sub: "¿Cuánto dinero entra al mes?", href: "secciones/ingresos/index.html" },
+      { key: "deudas", title: "Deudas", sub: "Tarjetas, préstamos, carro, casa…", href: "secciones/deudas/index.html" },
+      { key: "ahorros", title: "Ahorros", sub: "¿Cuánto tienes ahorrado y para qué?", href: "secciones/ahorros/index.html" },
+      { key: "seguros", title: "Seguros", sub: "Médico, vehículo, vida", href: "secciones/seguros/index.html" },
+      { key: "presupuesto", title: "Presupuesto", sub: "A dónde se va tu dinero", href: "secciones/presupuesto/index.html" },
+      { key: "resumen-datos", title: "Resumen de datos", sub: "Todo en un solo lugar", href: "secciones/resumen-datos/index.html" },
+    ],
+  },
+  {
+    title: "2. Análisis de datos",
+    sections: [
+      { key: "patrimonio", title: "Patrimonio", sub: "Lo que tienes menos lo que debes", href: "secciones/patrimonio/index.html" },
+      { key: "reduccion-deudas", title: "Reducción de deudas", sub: "Tu plan para salir de deudas", href: "secciones/reduccion-deudas/index.html" },
+      { key: "fondo-emergencia", title: "Fondo de emergencia", sub: "¿Cuánto necesitas guardado?", href: "secciones/fondo-emergencia/index.html" },
+      { key: "credito", title: "Crédito", sub: "Tu puntaje y cómo mejorarlo", href: "secciones/credito/index.html" },
+      { key: "nivel-deuda", title: "Nivel de deuda", sub: "Razón deuda/ingreso", href: "secciones/nivel-deuda/index.html" },
+      { key: "proteccion", title: "Análisis de protección", sub: "¿Necesitas seguro de vida?", href: "secciones/proteccion/index.html" },
+    ],
+  },
+  {
+    title: "3. Retiro y cierre",
+    sections: [
+      { key: "retiro-cuando", title: "Retiro", sub: "Tu número de independencia financiera (5 pasos)", href: "secciones/retiro-cuando/index.html" },
+      { key: "plan-financiero", title: "Plan Financiero", sub: "Tu resumen y próximos pasos", href: null },
+    ],
+  },
 ];
 
+var ALL_SECTIONS = [];
+CHAPTERS.forEach(function (c) { ALL_SECTIONS = ALL_SECTIONS.concat(c.sections); });
+var enabledSections = ALL_SECTIONS.filter(function (s) { return !!s.href; });
+var doneCount = enabledSections.filter(function (s) { return lmHasSection(s.key); }).length;
+
+var progressWrap = document.getElementById("progress-wrap");
+var progressPct = Math.round((doneCount / enabledSections.length) * 100);
+progressWrap.innerHTML =
+  '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-mid);margin-bottom:6px">' +
+    '<span>Tu progreso</span><span>' + doneCount + ' de ' + enabledSections.length + '</span></div>' +
+  '<div style="height:8px;background:var(--card3);border-radius:999px;overflow:hidden">' +
+    '<div style="height:100%;width:' + progressPct + '%;background:var(--gold);border-radius:999px"></div></div>';
+
 var listEl = document.getElementById("sections-list");
-SECTIONS.forEach(function (s, i) {
-  var done = lmHasSection(s.key);
-  var enabled = !!s.href;
-  var el = document.createElement(enabled ? "a" : "div");
-  el.className = "lm-section-card";
-  if (enabled) el.href = s.href;
-  if (!enabled) el.dataset.disabled = "true";
-  el.innerHTML =
-    '<div class="lm-section-card-left">' +
-      '<div class="lm-section-num">' + (i + 1) + '</div>' +
-      '<div>' +
-        '<div class="lm-section-card-title">' + s.title + '</div>' +
-        '<div class="lm-section-card-sub">' + (enabled ? s.sub : "Próximamente") + '</div>' +
+var counter = 0;
+CHAPTERS.forEach(function (chapter) {
+  var h = document.createElement("h3");
+  h.className = "lm-h3";
+  h.style.marginTop = "22px";
+  h.textContent = chapter.title;
+  listEl.appendChild(h);
+
+  chapter.sections.forEach(function (s) {
+    counter++;
+    var done = lmHasSection(s.key);
+    var enabled = !!s.href;
+    var el = document.createElement(enabled ? "a" : "div");
+    el.className = "lm-section-card";
+    if (enabled) el.href = s.href;
+    if (!enabled) el.dataset.disabled = "true";
+    el.innerHTML =
+      '<div class="lm-section-card-left">' +
+        '<div class="lm-section-num">' + counter + '</div>' +
+        '<div>' +
+          '<div class="lm-section-card-title">' + s.title + '</div>' +
+          '<div class="lm-section-card-sub">' + (enabled ? s.sub : "Próximamente") + '</div>' +
+        '</div>' +
       '</div>' +
-    '</div>' +
-    (done ? '<span class="lm-badge lm-badge-good">&#10003;</span>' : (enabled ? '<span class="lm-chevron">&#8250;</span>' : ''));
-  listEl.appendChild(el);
+      (done ? '<span class="lm-badge lm-badge-good">&#10003;</span>' : (enabled ? '<span class="lm-chevron">&#8250;</span>' : ''));
+    listEl.appendChild(el);
+  });
 });
 
-document.getElementById("demo-fill-btn").addEventListener("click", function () {
-  if (confirm("Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio), para probar el sitio. ¿Continuar?")) {
-    lmFillDemoData();
-    location.href = "secciones/resumen-datos/index.html";
-  }
-});
 document.getElementById("clear-data-btn").addEventListener("click", function () {
   if (confirm("Esto borra TODOS los datos guardados en este teléfono, de todas las secciones. ¿Continuar?")) {
     lmClearAllData();
     location.reload();
   }
 });
+
+/* Herramientas de desarrollo — ocultas para cualquier lector normal que
+   llegue por el QR del libro. Solo aparecen si visitas con ?dev=1 una vez
+   (queda recordado en este navegador) o ya quedó activado antes. */
+(function devTools() {
+  try {
+    if (location.search.indexOf("dev=1") !== -1) localStorage.setItem("lm_dev", "1");
+    var isDev = localStorage.getItem("lm_dev") === "1";
+  } catch (e) { var isDev = false; }
+  if (!isDev) return;
+
+  var wrap = document.getElementById("dev-tools");
+  wrap.innerHTML =
+    '<hr class="lm-divider">' +
+    '<h3 class="lm-h3" style="color:var(--text-faint)">Herramientas de prueba (solo tú ves esto)</h3>' +
+    '<button class="lm-btn lm-btn-secondary" id="demo-fill-btn" type="button">Llenar con datos de ejemplo</button>';
+
+  document.getElementById("demo-fill-btn").addEventListener("click", function () {
+    if (confirm("Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio), para probar el sitio. ¿Continuar?")) {
+      lmFillDemoData();
+      location.href = "secciones/resumen-datos/index.html";
+    }
+  });
+})();
 </script>
 </body>
 </html>

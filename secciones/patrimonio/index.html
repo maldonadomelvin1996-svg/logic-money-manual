@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#050609">
 </head>
 <body>
 
@@ -27,13 +31,13 @@
 
   <div class="lm-card">
     <div class="lm-field">
-      <label class="lm-label">Activos (ahorros, cuentas, etc.)</label>
-      <input class="lm-input" type="number" id="activos" min="0">
+      <label class="lm-label" for="activos">Activos (ahorros, cuentas, etc.)</label>
+      <input class="lm-input" type="number" inputmode="decimal" id="activos" min="0">
       <div class="lm-hint">Se llena solo con el total de tu sección de Ahorros. Puedes ajustarlo.</div>
     </div>
     <div class="lm-field" style="margin-bottom:0">
-      <label class="lm-label">Pasivos (deudas)</label>
-      <input class="lm-input" type="number" id="pasivos" min="0">
+      <label class="lm-label" for="pasivos">Pasivos (deudas)</label>
+      <input class="lm-input" type="number" inputmode="decimal" id="pasivos" min="0">
       <div class="lm-hint">Se llena solo con el total de tu sección de Deudas. Puedes ajustarlo.</div>
     </div>
   </div>

@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#050609">
 </head>
 <body>
 
@@ -27,11 +31,11 @@
 
   <div class="lm-card">
     <div class="lm-field">
-      <label class="lm-label">Puntaje de crédito (empírica)</label>
-      <input class="lm-input" type="number" id="score" min="300" max="850" placeholder="Ej. 715">
+      <label class="lm-label" for="score">Puntaje de crédito (empírica)</label>
+      <input class="lm-input" type="number" inputmode="decimal" id="score" min="300" max="850" placeholder="Ej. 715">
     </div>
     <div class="lm-field" style="margin-bottom:0">
-      <label class="lm-label">Notas (opcional)</label>
+      <label class="lm-label" for="notes">Notas (opcional)</label>
       <input class="lm-input" type="text" id="notes" placeholder="Ej. tarjetas casi al máximo">
     </div>
   </div>

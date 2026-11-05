@@ -18,8 +18,8 @@ function addSavingRow(prefill) {
       '<input class="lm-input" type="text" placeholder="Propósito (ej. Fondo de emergencia, retiro, sin propósito)" data-field="purpose">' +
     '</div>' +
     '<div class="lm-row" style="margin-bottom:10px">' +
-      '<input class="lm-input" type="number" placeholder="Cantidad ahorrada" min="0" data-field="amount">' +
-      '<input class="lm-input" type="number" placeholder="Aportación mensual" min="0" data-field="monthly">' +
+      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Cantidad ahorrada" min="0" data-field="amount">' +
+      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Aportación mensual" min="0" data-field="monthly">' +
     '</div>';
   savingsListEl.appendChild(row);
 

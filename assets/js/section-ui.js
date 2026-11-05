@@ -5,10 +5,56 @@
    Cada sección solo tiene que llamar lmRenderSectionFooter(...). */
 
 function lmRenderSaveBanner(containerEl) {
+  var ok = !(typeof LM_LAST_SAVE_OK !== "undefined" && LM_LAST_SAVE_OK === false);
   var el = document.createElement("div");
-  el.className = "lm-save-banner lm-no-print";
-  el.innerHTML = "&#10003; Guardado en este teléfono — nadie más lo ve, ni siquiera Logic Money.";
+  if (!ok) {
+    el.className = "lm-save-banner lm-save-banner-error lm-no-print";
+    el.innerHTML = "&#9888; No se pudo guardar en este navegador (¿modo privado, o almacenamiento lleno?). Si cierras la página, esto podría perderse.";
+  } else {
+    el.className = "lm-save-banner lm-no-print";
+    el.innerHTML = "&#10003; Guardado en este teléfono — nadie más lo ve, ni siquiera Logic Money.";
+  }
   containerEl.appendChild(el);
+  lmShowToast(ok ? "Guardado ✓" : "No se pudo guardar", !ok);
+}
+
+/* Aviso flotante breve (toast) — más visible que el banner inline, que
+   puede quedar fuera de vista en páginas largas. Se desvanece solo.
+   Varias secciones guardan en cada tecla (auto-guardado en vivo), así que
+   esto reutiliza el MISMO toast en vez de apilar uno por cada tecla. */
+var lmActiveToast = null;
+var lmActiveToastTimer = null;
+function lmShowToast(message, isError) {
+  if (lmActiveToast) {
+    clearTimeout(lmActiveToastTimer);
+    lmActiveToast.textContent = message;
+    lmActiveToast.className = "lm-toast lm-toast-visible lm-no-print" + (isError ? " lm-toast-error" : "");
+  } else {
+    lmActiveToast = document.createElement("div");
+    lmActiveToast.className = "lm-toast lm-no-print" + (isError ? " lm-toast-error" : "");
+    lmActiveToast.textContent = message;
+    document.body.appendChild(lmActiveToast);
+    requestAnimationFrame(function () { lmActiveToast.classList.add("lm-toast-visible"); });
+  }
+  lmActiveToastTimer = setTimeout(function () {
+    var t = lmActiveToast;
+    if (!t) return;
+    t.classList.remove("lm-toast-visible");
+    lmActiveToast = null;
+    setTimeout(function () { t.remove(); }, 300);
+  }, 1500);
+}
+
+/* Aviso temprano, antes de que el lector llene nada, si este navegador no
+   puede guardar en absoluto (ej. navegación privada en algunos navegadores
+   de iOS). Se inserta al inicio de la página si hace falta. */
+function lmRenderStorageWarningIfNeeded(containerEl) {
+  if (typeof LM_STORAGE_AVAILABLE !== "undefined" && LM_STORAGE_AVAILABLE === false) {
+    var el = document.createElement("div");
+    el.className = "lm-callout lm-callout-warn lm-no-print";
+    el.innerHTML = "&#9888; Este navegador no permite guardar datos (común en modo privado/incógnito). Puedes seguir usando el manual, pero nada se guardará al cerrar la página — considera abrirlo en una pestaña normal.";
+    containerEl.insertBefore(el, containerEl.firstChild);
+  }
 }
 
 /**
@@ -32,6 +78,15 @@ function lmRenderSectionFooter(opts) {
   sendBtn.href = mailtoHref;
   sendBtn.textContent = "Enviarme una copia por correo";
   wrap.appendChild(sendBtn);
+
+  var waHref = "https://wa.me/?text=" + encodeURIComponent(opts.mailtoSubject + "\n\n" + opts.mailtoBody);
+  var waBtn = document.createElement("a");
+  waBtn.className = "lm-btn lm-btn-secondary";
+  waBtn.href = waHref;
+  waBtn.target = "_blank";
+  waBtn.rel = "noopener";
+  waBtn.textContent = "Enviar por WhatsApp";
+  wrap.appendChild(waBtn);
 
   var printBtn = document.createElement("button");
   printBtn.className = "lm-btn lm-btn-secondary";
@@ -121,6 +176,14 @@ function lmWrapUnknown(inputEl) {
   row.appendChild(btn);
   return row;
 }
+
+/* Se ejecuta solo en páginas de sección (las que tienen #save-banner-slot):
+   si este navegador no puede guardar nada, avisa de una vez, sin esperar a
+   que el lector llene un formulario entero para enterarse. */
+(function () {
+  var slot = document.getElementById("save-banner-slot");
+  if (slot) lmRenderStorageWarningIfNeeded(slot);
+})();
 
 /* Calcula la ruta hacia la raíz del sitio desde una sección en /secciones/x/. */
 function lmRootPath() {

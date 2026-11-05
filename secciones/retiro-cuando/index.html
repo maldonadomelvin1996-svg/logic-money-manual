@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#050609">
 </head>
 <body>
 
@@ -27,12 +31,12 @@
 
   <div class="lm-card">
     <div class="lm-field">
-      <label class="lm-label">Tu edad actual</label>
-      <input class="lm-input" type="number" id="edad-actual" min="0">
+      <label class="lm-label" for="edad-actual">Tu edad actual</label>
+      <input class="lm-input" type="number" inputmode="decimal" id="edad-actual" min="0">
     </div>
     <div class="lm-field" style="margin-bottom:0">
-      <label class="lm-label">¿A qué edad te quieres retirar?</label>
-      <input class="lm-input" type="number" id="edad-retiro" min="0" placeholder="Ej. 60">
+      <label class="lm-label" for="edad-retiro">¿A qué edad te quieres retirar?</label>
+      <input class="lm-input" type="number" inputmode="decimal" id="edad-retiro" min="0" placeholder="Ej. 60">
     </div>
   </div>
 

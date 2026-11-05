@@ -24,7 +24,7 @@ function buildCategoryCard(cat) {
         '<option value="necesario">Necesario</option>' +
         '<option value="opcional">Opcional</option>' +
       '</select>' +
-      '<input type="number" class="lm-input" min="0" placeholder="$0" data-field="amount">' +
+      '<input type="number" inputmode="decimal" class="lm-input" min="0" placeholder="$0" data-field="amount">' +
       '</div>';
   });
   html += '<div class="lm-cat-total"><span>Total</span><span data-cat-total>$0</span></div>';
