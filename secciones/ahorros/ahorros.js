@@ -13,20 +13,27 @@ function addSavingRow(prefill) {
   row.dataset.id = id;
   row.innerHTML =
     '<div class="lm-debt-row-head">' +
-      '<span class="lm-debt-row-title">Ahorro ' + savingRowCount + '</span>' +
+      '<span class="lm-debt-row-title" data-title>Nuevo ahorro</span>' +
       '<button class="lm-remove-btn lm-no-print" type="button" data-remove="' + id + '">Quitar</button>' +
     '</div>' +
-    '<div class="lm-field" style="margin-bottom:10px">' +
-      '<input class="lm-input" type="text" placeholder="Propósito (ej. Fondo de emergencia, retiro, sin propósito)" data-field="purpose">' +
+    '<div class="lm-field" style="margin-bottom:14px">' +
+      '<input class="lm-input lm-input-title" type="text" placeholder="Ej. Fondo de emergencia, retiro" data-field="purpose">' +
     '</div>' +
-    '<div class="lm-row" style="margin-bottom:10px">' +
-      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Cantidad ahorrada" min="0" data-field="amount">' +
-      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Aportación mensual" min="0" data-field="monthly">' +
+    '<div class="lm-row" style="max-width:280px">' +
+      '<div><label class="lm-mini-label">Ahorrado</label><input class="lm-input" type="number" inputmode="decimal" placeholder="$0" min="0" data-field="amount"></div>' +
+      '<div><label class="lm-mini-label">Al mes</label><input class="lm-input" type="number" inputmode="decimal" placeholder="$0" min="0" data-field="monthly"></div>' +
     '</div>';
   savingsListEl.appendChild(row);
 
+  var purposeInput = row.querySelector('[data-field="purpose"]');
+  var titleEl = row.querySelector('[data-title]');
+  purposeInput.addEventListener("input", function () {
+    titleEl.textContent = purposeInput.value.trim() || "Nuevo ahorro";
+  });
+
   if (prefill) {
-    row.querySelector('[data-field="purpose"]').value = prefill.purpose || "";
+    purposeInput.value = prefill.purpose || "";
+    titleEl.textContent = (prefill.purpose || "").trim() || "Nuevo ahorro";
     row.querySelector('[data-field="amount"]').value = prefill.amount || "";
     row.querySelector('[data-field="monthly"]').value = prefill.monthly || "";
   }

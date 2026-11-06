@@ -178,24 +178,32 @@ function lmConfirmInline(triggerBtn, message, onConfirm) {
 }
 
 /**
- * Botón "Llenar con ejemplo" para UNA sección específica — útil para
+ * Toggle chiquito "Ejemplo" para UNA sección específica — útil para
  * probar cada calculadora por su cuenta sin tener que llenar las demás
- * secciones primero. Requiere que demo-data.js esté cargado en la página.
+ * secciones primero. Solo para ti (el asesor) mientras pruebas el sitio
+ * — por ahora queda visible para cualquiera, pero pensado para esconderse
+ * antes de imprimir los QR reales. Requiere que demo-data.js esté
+ * cargado en la página.
  */
 function lmRenderSectionDemoButton(containerEl, sectionKey) {
   if (typeof lmBuildDemoData !== "function") return;
-  var btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "lm-demo-btn lm-no-print";
-  btn.textContent = "\u{1F9EA} Llenar esta sección con un ejemplo";
+  var wrap = document.createElement("div");
+  wrap.className = "lm-demo-toggle-wrap lm-no-print";
+  wrap.innerHTML =
+    '<button type="button" class="lm-demo-toggle">' +
+      '<span class="lm-demo-toggle-track"><span class="lm-demo-toggle-knob"></span></span>' +
+      '<span class="lm-demo-toggle-label">Ejemplo</span>' +
+    '</button>';
+  var btn = wrap.querySelector(".lm-demo-toggle");
   btn.addEventListener("click", function () {
     lmConfirmInline(btn, "Esto reemplaza lo que ya pusiste aquí con un dato de ejemplo, para probar. ¿Continuar?", function () {
+      btn.classList.add("lm-demo-toggle-on");
       var demo = lmBuildDemoData()[sectionKey];
       lmSaveSection(sectionKey, demo);
       location.reload();
     });
   });
-  containerEl.appendChild(btn);
+  containerEl.appendChild(wrap);
 }
 
 /**

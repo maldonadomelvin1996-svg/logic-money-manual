@@ -17,30 +17,54 @@ function addDebtRow(prefill) {
   row.dataset.id = id;
   row.innerHTML =
     '<div class="lm-debt-row-head">' +
-      '<span class="lm-debt-row-title">Deuda ' + rowCount + '</span>' +
+      '<span class="lm-debt-row-title" data-title>Nueva deuda</span>' +
       '<button class="lm-remove-btn lm-no-print" type="button" data-remove="' + id + '">Quitar</button>' +
     '</div>' +
-    '<div class="lm-field" style="margin-bottom:10px">' +
-      '<input class="lm-input" type="text" placeholder="Nombre (ej. Tarjeta, Carro, Casa)" data-field="name">' +
+    '<div class="lm-field" style="margin-bottom:14px">' +
+      '<input class="lm-input lm-input-title" type="text" placeholder="Ej. Tarjeta, Carro, Casa" data-field="name">' +
     '</div>' +
-    '<div class="lm-row" style="margin-bottom:10px">' +
-      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Balance" min="0" data-field="balance">' +
-      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Pago mensual" min="0" data-field="payment">' +
+    '<div class="lm-row-3" style="margin-bottom:10px">' +
+      '<div><label class="lm-mini-label">Balance</label><input class="lm-input" type="number" inputmode="decimal" placeholder="$0" min="0" data-field="balance"></div>' +
+      '<div><label class="lm-mini-label">Pago/mes</label><input class="lm-input" type="number" inputmode="decimal" placeholder="$0" min="0" data-field="payment"></div>' +
+      '<div><label class="lm-mini-label">Interés %</label><input class="lm-input" type="number" inputmode="decimal" placeholder="0" min="0" step="0.01" data-field="apr"></div>' +
     '</div>' +
-    '<div class="lm-row">' +
-      '<input class="lm-input" type="number" inputmode="decimal" placeholder="Interés % (ej. 18)" min="0" step="0.01" data-field="apr">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">' +
       '<label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-mid);white-space:nowrap">' +
         '<input type="checkbox" data-field="isHome"> Es mi casa' +
       '</label>' +
+      '<button type="button" class="lm-link-btn" data-note-toggle style="padding:4px">+ Añadir nota</button>' +
+    '</div>' +
+    '<div class="lm-field" data-note-field style="display:none;margin:12px 0 0">' +
+      '<input class="lm-input" type="text" placeholder="Nota (opcional)" data-field="note">' +
     '</div>';
   debtsListEl.appendChild(row);
 
+  var nameInput = row.querySelector('[data-field="name"]');
+  var titleEl = row.querySelector('[data-title]');
+  nameInput.addEventListener("input", function () {
+    titleEl.textContent = nameInput.value.trim() || "Nueva deuda";
+  });
+
+  var noteField = row.querySelector('[data-note-field]');
+  var noteToggle = row.querySelector('[data-note-toggle]');
+  noteToggle.addEventListener("click", function () {
+    var showing = noteField.style.display !== "none";
+    noteField.style.display = showing ? "none" : "block";
+    noteToggle.textContent = showing ? "+ Añadir nota" : "− Quitar nota";
+  });
+
   if (prefill) {
-    row.querySelector('[data-field="name"]').value = prefill.name || "";
+    nameInput.value = prefill.name || "";
+    titleEl.textContent = (prefill.name || "").trim() || "Nueva deuda";
     row.querySelector('[data-field="balance"]').value = prefill.balance || "";
     row.querySelector('[data-field="payment"]').value = prefill.payment || "";
     row.querySelector('[data-field="apr"]').value = prefill.apr || "";
     row.querySelector('[data-field="isHome"]').checked = !!prefill.isHome;
+    if (prefill.note) {
+      row.querySelector('[data-field="note"]').value = prefill.note;
+      noteField.style.display = "block";
+      noteToggle.textContent = "− Quitar nota";
+    }
   }
 
   row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () {
@@ -59,8 +83,9 @@ function readDebts() {
     var payment = parseFloat(row.querySelector('[data-field="payment"]').value) || 0;
     var apr = parseFloat(row.querySelector('[data-field="apr"]').value) || 0;
     var isHome = row.querySelector('[data-field="isHome"]').checked;
+    var note = row.querySelector('[data-field="note"]').value.trim();
     if (name || balance > 0) {
-      debts.push({ name: name || "Deuda", balance: balance, payment: payment, apr: apr, isHome: isHome });
+      debts.push({ name: name || "Deuda", balance: balance, payment: payment, apr: apr, isHome: isHome, note: note });
     }
   });
   return debts;

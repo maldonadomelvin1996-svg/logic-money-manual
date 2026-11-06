@@ -1,16 +1,20 @@
 /* Logic Money — Manual Digital
-   Paleta tomada de LogicMoney.html (DARK_PALETTE) para mantener la misma marca
-   que el software de asesor, en una UI mucho más simple (tipo encuesta). */
+   Paleta tomada de LogicMoney.html (LIGHT_PALETTE) para mantener la misma
+   marca que el software de asesor — tema claro: fondo blanco, tarjetas
+   blancas que resaltan con sombra real, en vez de todo oscuro y plano.
+   Los colores de acento (gold/good/warn/teal) son los mismos en ambos
+   temas del software a propósito — un indicador nunca debe cambiar de
+   color entre pantallas. */
 :root {
-  --bg: #050609;
-  --card: #171B24;
-  --card2: #1D222C;
-  --card3: #242A35;
-  --border: rgba(237,234,226,0.12);
-  --border-strong: rgba(237,234,226,0.22);
-  --text: #F3F1EA;
-  --text-mid: rgba(243,241,234,0.64);
-  --text-faint: rgba(243,241,234,0.40);
+  --bg: #F5F5F7;
+  --card: #FFFFFF;
+  --card2: #F9F9FB;
+  --card3: #F0F0F2;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.15);
+  --text: #1D1D1F;
+  --text-mid: rgba(29,29,31,0.62);
+  --text-faint: rgba(29,29,31,0.42);
   --gold: #E7A63C;
   --gold-soft: rgba(231,166,60,0.14);
   --good: #3ED88E;
@@ -19,7 +23,7 @@
   --warn-soft: rgba(255,106,82,0.14);
   --teal: #2FD6D9;
   --teal-soft: rgba(47,214,217,0.12);
-  --shadow: 0 30px 64px -12px rgba(0,0,0,0.72), 0 8px 22px rgba(0,0,0,0.5);
+  --shadow: 0 30px 60px -12px rgba(20,20,30,0.26), 0 8px 20px rgba(20,20,30,0.12);
   --radius: 16px;
   --radius-sm: 10px;
 }
@@ -31,7 +35,7 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -98,21 +102,20 @@ h3.lm-h3 { font-size: 16px; font-weight: 600; margin: 0 0 12px; color: var(--tex
 p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 16px; }
 
 /* ---------- Cards ----------
-   Muy ligeras — casi sin borde ni sombra, el espacio en blanco es lo que
-   separa las cosas, no una caja (Typeform no mete cada pregunta en una
-   tarjeta pesada). */
+   Tarjetas blancas reales con sombra — en fondo claro, la separación la
+   da la sombra, no un tinte transparente que se pierde sobre blanco. */
 .lm-card {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(237,234,226,0.06);
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 24px;
   padding: 26px 22px;
   margin-bottom: 20px;
-  box-shadow: 0 24px 48px -24px rgba(0,0,0,0.55);
+  box-shadow: var(--shadow);
 }
 
 .lm-card-flat {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(237,234,226,0.08);
+  background: var(--card2);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 14px;
 }
@@ -138,7 +141,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   min-height: 48px;
   background: transparent;
   border: none;
-  border-bottom: 1.5px solid rgba(237,234,226,0.20);
+  border-bottom: 1.5px solid rgba(0,0,0,0.16);
   border-radius: 0;
   color: var(--text);
   font-family: inherit;
@@ -148,7 +151,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.lm-input:hover, .lm-select:hover { border-bottom-color: rgba(237,234,226,0.4); }
+.lm-input:hover, .lm-select:hover { border-bottom-color: rgba(0,0,0,0.3); }
 .lm-input:focus, .lm-select:focus {
   border-bottom-color: var(--gold);
   box-shadow: 0 10px 20px -14px rgba(231,166,60,0.65);
@@ -171,6 +174,16 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 
 .lm-row { display: flex; gap: 10px; }
 .lm-row > * { flex: 1; min-width: 0; }
+
+/* Fila de 3 campos compactos lado a lado (ej. Balance / Pago / Interés) —
+   para ver todo de un vistazo, sin tener que hacer scroll por cada dato. */
+.lm-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.lm-mini-label { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-faint); margin-bottom: 4px; }
+.lm-row-3 .lm-input { min-height: 38px; font-size: 16px !important; padding: 6px 2px; }
+
+/* El nombre de la deuda/ahorro es lo primero que se lee — se siente como
+   el título de la tarjeta, no un campo más. */
+.lm-input-title { font-size: 21px !important; font-weight: 700; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 /* ---------- Buttons ---------- */
 .lm-btn {
@@ -195,8 +208,8 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-btn-primary { background: var(--gold); color: #1A1200; box-shadow: 0 8px 24px -6px rgba(231,166,60,0.45); }
 .lm-btn-primary:hover { opacity: 0.92; }
 
-.lm-btn-secondary { background: rgba(255,255,255,0.035); color: var(--text); border: 1px solid var(--border-strong); }
-.lm-btn-secondary:hover { background: rgba(255,255,255,0.06); }
+.lm-btn-secondary { background: var(--card3); color: var(--text); border: 1px solid var(--border-strong); }
+.lm-btn-secondary:hover { background: var(--card2); }
 
 .lm-btn-ghost { background: transparent; color: var(--text-mid); border: 1px solid var(--border); }
 .lm-btn-ghost:hover { color: var(--text); border-color: var(--border-strong); }
@@ -243,11 +256,12 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 
 /* ---------- Debt list rows ---------- */
 .lm-debt-row {
-  background: rgba(255,255,255,0.03);
+  background: var(--card);
   border: 1px solid var(--border);
-  border-top: 3px solid var(--gold);
+  border-top: 4px solid var(--gold);
   border-radius: 18px;
-  padding: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow);
   margin-bottom: 12px;
   position: relative;
 }
@@ -309,22 +323,41 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-confirm-actions { display: flex; gap: 8px; }
 .lm-confirm-actions .lm-btn { width: auto; flex: 1; }
 
-/* ---------- Botón de "llenar con ejemplo" por sección ---------- */
-.lm-demo-btn {
-  display: block;
-  width: 100%;
-  background: var(--teal-soft);
-  border: 1px dashed var(--teal);
-  color: var(--teal);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 11px 14px;
-  min-height: 44px;
-  border-radius: var(--radius-sm);
+/* ---------- Toggle "Ejemplo" por sección — chiquito, no un botón grande ---------- */
+.lm-demo-toggle-wrap { text-align: right; margin-bottom: 14px; }
+.lm-demo-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
   cursor: pointer;
-  margin-bottom: 18px;
+  padding: 6px 2px;
 }
+.lm-demo-toggle-track {
+  position: relative;
+  width: 32px;
+  height: 19px;
+  border-radius: 999px;
+  background: var(--border-strong);
+  transition: background 0.2s ease;
+}
+.lm-demo-toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+}
+.lm-demo-toggle-label { font-size: 12px; font-weight: 700; color: var(--text-faint); letter-spacing: 0.02em; }
+.lm-demo-toggle:hover .lm-demo-toggle-track { background: var(--teal-soft); }
+.lm-demo-toggle-on .lm-demo-toggle-track { background: var(--teal); }
+.lm-demo-toggle-on .lm-demo-toggle-knob { transform: translateX(13px); }
+.lm-demo-toggle-on .lm-demo-toggle-label { color: var(--teal); }
 
 .lm-site-footer {
   text-align: center;
@@ -383,7 +416,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-unknown-btn {
   flex-shrink: 0;
   background: transparent;
-  border: 1px dashed rgba(237,234,226,0.20);
+  border: 1px dashed rgba(0,0,0,0.18);
   color: var(--text-faint);
   font-family: inherit;
   font-size: 13px;
@@ -395,7 +428,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   white-space: nowrap;
   transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
-.lm-unknown-btn:hover { border-color: rgba(237,234,226,0.4); color: var(--text-mid); }
+.lm-unknown-btn:hover { border-color: rgba(0,0,0,0.32); color: var(--text-mid); }
 .lm-unknown-btn.lm-unknown-active { border-style: solid; border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
 .lm-input.lm-input-unknown { border-style: dashed; border-color: var(--border-strong); color: var(--text-faint); }
 .lm-pending-note { font-size: 12px; color: var(--gold); margin-top: 4px; }
@@ -403,8 +436,8 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 /* ---------- Objetivo chips ---------- */
 .lm-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
 .lm-chip {
-  background: rgba(255,255,255,0.025);
-  border: 1px solid rgba(237,234,226,0.12);
+  background: var(--card);
+  border: 1px solid var(--border-strong);
   color: var(--text-mid);
   font-family: inherit;
   font-size: 13px;
@@ -413,9 +446,10 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   min-height: 44px;
   border-radius: 999px;
   cursor: pointer;
+  box-shadow: var(--shadow);
   transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
 }
-.lm-chip:hover { border-color: rgba(237,234,226,0.3); }
+.lm-chip:hover { border-color: rgba(0,0,0,0.25); }
 .lm-chip.lm-chip-active { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); box-shadow: 0 0 16px -4px rgba(231,166,60,0.5); }
 
 /* ---------- Resultados: números grandes, tiles compactos, barras finas ----------

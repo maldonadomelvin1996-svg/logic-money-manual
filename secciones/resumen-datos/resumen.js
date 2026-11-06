@@ -4,17 +4,22 @@
 (function () {
   var slot = document.getElementById("demo-btn-slot");
   if (!slot || typeof lmFillDemoData !== "function") return;
-  var btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "lm-demo-btn lm-no-print";
-  btn.textContent = "\u{1F9EA} Llenar TODO con un lector de ejemplo";
+  var wrap = document.createElement("div");
+  wrap.className = "lm-demo-toggle-wrap lm-no-print";
+  wrap.innerHTML =
+    '<button type="button" class="lm-demo-toggle">' +
+      '<span class="lm-demo-toggle-track"><span class="lm-demo-toggle-knob"></span></span>' +
+      '<span class="lm-demo-toggle-label">Ejemplo (todo)</span>' +
+    '</button>';
+  var btn = wrap.querySelector(".lm-demo-toggle");
   btn.addEventListener("click", function () {
     lmConfirmInline(btn, "Esto reemplaza todos tus datos guardados con un lector de ejemplo (ficticio), para probar el sitio completo. ¿Continuar?", function () {
+      btn.classList.add("lm-demo-toggle-on");
       lmFillDemoData();
       location.reload();
     });
   });
-  slot.appendChild(btn);
+  slot.appendChild(wrap);
 })();
 
 var ahorrosTotal = lmGetSavingsTotal();
