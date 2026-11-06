@@ -26,16 +26,17 @@ function render() {
   if (nif <= 0 || anios <= 0) {
     resultsEl.innerHTML = '<div class="lm-callout lm-callout-neutral">Completa tu número de independencia financiera y los años para tu retiro para ver la tabla.</div>';
   } else {
+    var RATE_COLORS = { 0: "var(--warn)", 3: "#FF9A4D", 6: "var(--gold)", 10: "var(--good)" };
     var card = document.createElement("div");
     card.className = "lm-card";
-    var html = '<div class="lm-card-flat">';
-    RATES.forEach(function (rate, i) {
+    var html = '<div class="lm-hero-label" style="text-align:left;margin-bottom:10px">Aportación mensual por crecimiento</div>';
+    html += '<div class="lm-tile-row" style="flex-wrap:wrap">';
+    RATES.forEach(function (rate) {
       var mensual = monthlyPMT(nif, rate, anios);
-      var anual = mensual * 12;
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0' + (i < RATES.length - 1 ? ";border-bottom:1px solid var(--border)" : "") + '">' +
-        '<span class="lm-badge lm-badge-gold">' + rate + '%</span>' +
-        '<span style="color:var(--text-mid);font-size:13px">' + lmMoney(anual) + '/año</span>' +
-        '<span style="font-weight:700">' + lmMoney(mensual) + '/mes</span>' +
+      var color = RATE_COLORS[rate] || "var(--gold)";
+      html += '<div class="lm-tile" style="flex:1 1 40%;border-color:' + color + '55">' +
+        '<div class="lm-tile-label" style="color:' + color + '">' + rate + '% anual</div>' +
+        '<div class="lm-tile-value" style="color:' + color + ';font-size:17px">' + lmMoney(mensual) + '</div>' +
         '</div>';
     });
     html += '</div>';

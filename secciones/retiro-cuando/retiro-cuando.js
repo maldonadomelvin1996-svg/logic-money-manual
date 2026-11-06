@@ -15,8 +15,17 @@ function render() {
 
   if (edadActual > 0 && edadRetiro > 0) {
     var card = document.createElement("div");
-    card.className = "lm-card";
-    card.innerHTML = '<div class="lm-stat"><div class="lm-stat-value">' + anios + ' años</div><div class="lm-stat-label">Para tu retiro</div></div>';
+    card.className = "lm-card lm-card-good";
+    card.innerHTML =
+      '<div class="lm-tile-row">' +
+        '<div class="lm-tile"><div class="lm-tile-label">Edad actual</div><div class="lm-tile-value">' + edadActual + '</div></div>' +
+        '<div class="lm-tile-arrow">&#8594;</div>' +
+        '<div class="lm-tile"><div class="lm-tile-label">Edad de retiro</div><div class="lm-tile-value">' + edadRetiro + '</div></div>' +
+      '</div>' +
+      '<div class="lm-hero" style="padding-top:0">' +
+        '<div class="lm-hero-value" style="color:var(--gold);font-size:clamp(32px,8vw,48px)">' + anios + ' años</div>' +
+        '<div class="lm-hero-sub">para tu retiro</div>' +
+      '</div>';
     resultsEl.appendChild(card);
   } else {
     resultsEl.innerHTML = '<div class="lm-callout lm-callout-neutral">Si no sabes aún a qué edad te quieres retirar, pon un número aproximado — siempre puedes ajustarlo más adelante.</div>';

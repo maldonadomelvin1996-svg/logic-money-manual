@@ -10,9 +10,15 @@ function updatePatrimonio() {
   var pasivos = parseFloat(pasivosInput.value) || 0;
   var patrimonio = activos - pasivos;
 
+  document.getElementById("activos-tile").textContent = lmMoney(activos);
+  document.getElementById("pasivos-tile").textContent = lmMoney(pasivos);
+
   var el = document.getElementById("patrimonio-value");
   el.textContent = lmMoney(patrimonio);
   el.style.color = patrimonio >= 0 ? "var(--good)" : "var(--warn)";
+
+  var cardEl = document.getElementById("patrimonio-card");
+  cardEl.className = "lm-card " + (patrimonio >= 0 ? "lm-card-good" : "lm-card-attn");
 
   var note;
   if (patrimonio < 0) {

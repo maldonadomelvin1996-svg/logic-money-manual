@@ -13,16 +13,20 @@ function render() {
   resultsEl.innerHTML = "";
 
   var card = document.createElement("div");
-  card.className = "lm-card";
   if (objetivo <= 0) {
+    card.className = "lm-card";
     card.innerHTML = '<div class="lm-callout lm-callout-good">Si ya no te falta nada mensual por conseguir, significa que tus fuentes actuales ya cubren tu retiro — no necesitas acumular más.</div>';
   } else {
+    card.className = "lm-card lm-card-good";
     card.innerHTML =
-      '<div class="lm-stat-grid" style="margin-bottom:12px">' +
-        '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(anual) + '</div><div class="lm-stat-label">Anual (x12)</div></div>' +
+      '<div class="lm-hero">' +
+        '<div class="lm-hero-label">Número de independencia financiera</div>' +
+        '<div class="lm-hero-value" style="color:var(--good)">' + lmMoney(nif) + '</div>' +
       '</div>' +
-      '<hr class="lm-divider">' +
-      '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(nif) + '</div><div class="lm-stat-label">Tu número de independencia financiera</div></div>';
+      '<div class="lm-tile-row" style="margin-top:14px">' +
+        '<div class="lm-tile"><div class="lm-tile-label">Te falta al mes</div><div class="lm-tile-value">' + lmMoney(objetivo) + '</div></div>' +
+        '<div class="lm-tile"><div class="lm-tile-label">Anual (x12)</div><div class="lm-tile-value">' + lmMoney(anual) + '</div></div>' +
+      '</div>';
   }
   resultsEl.appendChild(card);
 

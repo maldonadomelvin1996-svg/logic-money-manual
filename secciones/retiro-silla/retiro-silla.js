@@ -24,19 +24,23 @@ function render() {
   resultsEl.innerHTML = "";
 
   var card = document.createElement("div");
-  card.className = "lm-card";
   if (!objetivo) {
+    card.className = "lm-card";
     card.innerHTML = '<div class="lm-callout lm-callout-neutral">Completa el paso anterior ("¿Cuánto necesito recibir al mes?") para ver cuánto te falta cubrir.</div>';
   } else if (falta <= 0) {
-    card.innerHTML = '<div class="lm-stat"><div class="lm-stat-value" style="color:var(--good)">&#10003;</div><div class="lm-stat-label">Ya puedes retirarte — tus fuentes cubren tu objetivo de ' + lmMoney(objetivo) + '/mes</div></div>';
+    card.className = "lm-card lm-card-good";
+    card.innerHTML = '<div class="lm-hero"><div class="lm-hero-value" style="color:var(--good)">&#10003;</div><div class="lm-hero-sub">Ya puedes retirarte — tus fuentes cubren tu objetivo de ' + lmMoney(objetivo) + '/mes</div></div>';
   } else {
+    card.className = "lm-card lm-card-attn";
     card.innerHTML =
-      '<div class="lm-stat-grid" style="margin-bottom:12px">' +
-        '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(objetivo) + '</div><div class="lm-stat-label">Objetivo mensual</div></div>' +
-        '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(fuentes) + '</div><div class="lm-stat-label">Tus fuentes conocidas</div></div>' +
+      '<div class="lm-hero">' +
+        '<div class="lm-hero-label">Te falta conseguir al mes</div>' +
+        '<div class="lm-hero-value" style="color:var(--warn)">' + lmMoney(falta) + '</div>' +
       '</div>' +
-      '<hr class="lm-divider">' +
-      '<div class="lm-stat"><div class="lm-stat-value" style="color:var(--warn)">' + lmMoney(falta) + '</div><div class="lm-stat-label">Te falta conseguir al mes</div></div>';
+      '<div class="lm-tile-row" style="margin-top:14px">' +
+        '<div class="lm-tile"><div class="lm-tile-label">Objetivo mensual</div><div class="lm-tile-value">' + lmMoney(objetivo) + '</div></div>' +
+        '<div class="lm-tile"><div class="lm-tile-label">Tus fuentes conocidas</div><div class="lm-tile-value">' + lmMoney(fuentes) + '</div></div>' +
+      '</div>';
   }
   resultsEl.appendChild(card);
 

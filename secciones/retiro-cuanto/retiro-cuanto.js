@@ -17,11 +17,15 @@ function render() {
 
   if (ingreso > 0) {
     var card = document.createElement("div");
-    card.className = "lm-card";
+    card.className = "lm-card lm-card-good";
     card.innerHTML =
-      '<div class="lm-stat-grid" style="margin-bottom:12px">' +
-        '<div class="lm-stat"><div class="lm-stat-value">x' + multiplicador.toFixed(2) + '</div><div class="lm-stat-label">Multiplicador (' + anios + ' años)</div></div>' +
-        '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(resultado) + '</div><div class="lm-stat-label">Necesitas al mes en el retiro</div></div>' +
+      '<div class="lm-hero">' +
+        '<div class="lm-hero-label">Necesitas al mes en el retiro</div>' +
+        '<div class="lm-hero-value" style="color:var(--gold)">' + lmMoney(resultado) + '</div>' +
+      '</div>' +
+      '<div class="lm-tile-row" style="margin-top:14px">' +
+        '<div class="lm-tile"><div class="lm-tile-label">Hoy te sentirías cómodo con</div><div class="lm-tile-value">' + lmMoney(ingreso) + '</div></div>' +
+        '<div class="lm-tile"><div class="lm-tile-label">Multiplicador (' + anios + ' años)</div><div class="lm-tile-value">x' + multiplicador.toFixed(2) + '</div></div>' +
       '</div>';
     resultsEl.appendChild(card);
   } else {

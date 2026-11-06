@@ -385,6 +385,116 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 }
 .lm-chip.lm-chip-active { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); }
 
+/* ---------- Resultados: números grandes, tiles compactos, barras finas ----------
+   Lenguaje visual tomado del software de asesor (LogicMoney.html): números
+   grandes tipo "Helvetica Neue", chips compactos en vez de barras vacías
+   enormes, bordes/glow de color según si el resultado es bueno o necesita
+   atención. */
+
+.lm-hero {
+  text-align: center;
+  padding: 8px 0 4px;
+}
+.lm-hero-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+.lm-hero-value {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(40px, 11vw, 64px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.lm-hero-sub { font-size: 13px; color: var(--text-faint); margin-top: 6px; }
+
+/* Fila de tiles compactos — ej. "32 actual | 62 retiro | 30 restantes" */
+.lm-tile-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.lm-tile {
+  flex: 1;
+  min-width: 0;
+  background: var(--card3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 10px;
+  text-align: center;
+}
+.lm-tile-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lm-tile-value {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.lm-tile-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+  font-size: 18px;
+  padding: 0 2px;
+  flex: 0 0 auto;
+}
+
+/* Barra fina con brillo — reemplaza barras/gauges grandes y vacíos */
+.lm-mini-bar-track {
+  position: relative;
+  height: 8px;
+  background: var(--card3);
+  border-radius: 99px;
+  overflow: visible;
+  margin: 10px 0 6px;
+}
+.lm-mini-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s cubic-bezier(.2,.8,.2,1);
+}
+.lm-mini-bar-marker {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+  transform: translate(-50%, -50%);
+  transition: left 0.4s cubic-bezier(.2,.8,.2,1);
+}
+.lm-mini-bar-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--text-faint);
+}
+
+/* Tarjeta con borde/glow según estado */
+.lm-card-good { border-color: rgba(62,216,142,0.45) !important; box-shadow: var(--shadow), 0 0 28px rgba(62,216,142,0.10); }
+.lm-card-attn { border-color: rgba(255,106,82,0.45) !important; box-shadow: var(--shadow), 0 0 28px rgba(255,106,82,0.10); }
+
+/* Pill de estado (Estable, Crítico, etc.) — más grande y notorio */
+.lm-status-pill {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-top: 8px;
+}
+
 /* ---------- Save confirmation banner ---------- */
 .lm-save-banner {
   display: flex;

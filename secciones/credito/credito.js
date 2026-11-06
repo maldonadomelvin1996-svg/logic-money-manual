@@ -6,10 +6,10 @@ var scoreInput = document.getElementById("score");
 var notesInput = document.getElementById("notes");
 
 function scoreBand(score) {
-  if (score >= 750) return { label: "Excelente", cls: "lm-badge-good" };
-  if (score >= 670) return { label: "Bueno", cls: "lm-badge-good" };
-  if (score >= 580) return { label: "Regular", cls: "lm-badge-gold" };
-  return { label: "Necesita mejorar", cls: "lm-badge-warn" };
+  if (score >= 750) return { label: "Excelente", color: "var(--good)", soft: "var(--good-soft)" };
+  if (score >= 670) return { label: "Bueno", color: "var(--teal)", soft: "var(--teal-soft)" };
+  if (score >= 580) return { label: "Regular", color: "var(--gold)", soft: "var(--gold-soft)" };
+  return { label: "Necesita mejorar", color: "var(--warn)", soft: "var(--warn-soft)" };
 }
 
 function renderCredito() {
@@ -21,14 +21,19 @@ function renderCredito() {
 
   if (score) {
     var band = scoreBand(score);
+    var markerPct = Math.max(2, Math.min(98, ((score - 300) / (850 - 300)) * 100));
     var card = document.createElement("div");
     card.className = "lm-card";
     card.innerHTML =
-      '<div class="lm-stat">' +
-        '<div class="lm-stat-value">' + score + '</div>' +
-        '<div class="lm-stat-label">Puntaje de crédito</div>' +
-        '<span class="lm-badge ' + band.cls + '" style="margin-top:10px">' + band.label + '</span>' +
-      '</div>';
+      '<div class="lm-hero">' +
+        '<div class="lm-hero-label">Puntaje de crédito</div>' +
+        '<div class="lm-hero-value" style="color:' + band.color + '">' + score + '</div>' +
+        '<span class="lm-status-pill" style="background:' + band.soft + ';color:' + band.color + '">' + band.label + '</span>' +
+      '</div>' +
+      '<div class="lm-mini-bar-track" style="background:linear-gradient(to right, var(--warn), var(--gold), var(--teal), var(--good))">' +
+        '<div class="lm-mini-bar-marker" style="left:' + markerPct + '%;background:' + band.color + '"></div>' +
+      '</div>' +
+      '<div class="lm-mini-bar-scale"><span>300</span><span>850</span></div>';
     resultsEl.appendChild(card);
 
     var tip = document.createElement("div");

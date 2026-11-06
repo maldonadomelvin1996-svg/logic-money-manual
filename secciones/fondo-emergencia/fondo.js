@@ -28,27 +28,31 @@ function renderFondo() {
   var resultsEl = document.getElementById("results");
   resultsEl.innerHTML = "";
 
+  var objetivo = state.objetivoGastos || state.objetivoIngreso;
+  var falta = Math.max(0, objetivo - state.tienes);
+  var pct = objetivo > 0 ? Math.min(100, Math.round((state.tienes / objetivo) * 100)) : 0;
+  var done = falta <= 0 && objetivo > 0;
+
   var card = document.createElement("div");
-  card.className = "lm-card";
-  var html = '<h3 class="lm-h3">Tu objetivo de fondo de emergencia</h3>';
+  card.className = "lm-card " + (done ? "lm-card-good" : "");
+  var html = '<div class="lm-hero">' +
+    '<div class="lm-hero-label">Tienes ahorrado</div>' +
+    '<div class="lm-hero-value" style="color:' + (done ? "var(--good)" : "var(--gold)") + '">' + lmMoney(state.tienes) + '</div>' +
+    '<div class="lm-hero-sub">de ' + lmMoney(objetivo) + ' (' + pct + '%)</div>' +
+  '</div>' +
+  '<div class="lm-mini-bar-track">' +
+    '<div class="lm-mini-bar-fill" style="width:' + Math.max(pct, 2) + '%;background:' + (done ? "var(--good)" : "var(--gold)") + '"></div>' +
+  '</div>';
 
-  [
-    { label: "Gastos necesarios × " + state.months, objetivo: state.objetivoGastos, base: state.gastosNecesarios, basisLabel: "gastos necesarios" },
-    { label: "Ingreso mensual × " + state.months, objetivo: state.objetivoIngreso, base: state.ingreso, basisLabel: "ingreso" },
-  ].forEach(function (row, i) {
-    var falta = Math.max(0, row.objetivo - state.tienes);
-    html += '<div class="lm-card-flat" style="margin-bottom:' + (i === 0 ? '10px' : '0') + '">' +
-      '<div style="font-size:13px;color:var(--text-mid);margin-bottom:6px">' + row.label + '</div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center">' +
-        '<span style="font-size:20px;font-weight:700">' + lmMoney(row.objetivo) + '</span>' +
-        (falta > 0
-          ? '<span class="lm-badge lm-badge-warn">Faltan ' + lmMoney(falta) + '</span>'
-          : '<span class="lm-badge lm-badge-good">&#10003; Completo</span>') +
-      '</div>' +
-      '</div>';
-  });
+  if (!done) {
+    html += '<div class="lm-status-pill" style="display:block;text-align:center;background:var(--warn-soft);color:var(--warn);margin-top:12px">Faltan ' + lmMoney(falta) + '</div>';
+  }
 
-  html += '<div class="lm-hint" style="text-align:center;margin-top:12px">Tienes ahorrado para esto: ' + lmMoney(state.tienes) + '</div>';
+  html += '<div class="lm-tile-row" style="margin-top:16px">' +
+    '<div class="lm-tile"><div class="lm-tile-label">Gastos necesarios x' + state.months + '</div><div class="lm-tile-value" style="font-size:16px">' + lmMoney(state.objetivoGastos) + '</div></div>' +
+    '<div class="lm-tile"><div class="lm-tile-label">Ingreso x' + state.months + '</div><div class="lm-tile-value" style="font-size:16px">' + lmMoney(state.objetivoIngreso) + '</div></div>' +
+  '</div>';
+
   if (!state.gastosNecesarios && !state.ingreso) {
     html += '<div class="lm-callout lm-callout-neutral" style="margin-top:10px">Completa <a href="../presupuesto/index.html" style="color:inherit">Presupuesto</a> e <a href="../../secciones/ingresos/index.html" style="color:inherit">Ingresos</a> para que esto se calcule solo.</div>';
   }

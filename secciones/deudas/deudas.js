@@ -90,9 +90,9 @@ function renderResults(debts) {
       '</div>';
   });
   html += '</div>';
-  html += '<div class="lm-stat-grid">' +
-    '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(totalBalance) + '</div><div class="lm-stat-label">Balance total</div></div>' +
-    '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(totalPayment) + '</div><div class="lm-stat-label">Pago mensual total</div></div>' +
+  html += '<div class="lm-tile-row">' +
+    '<div class="lm-tile"><div class="lm-tile-label">Balance total</div><div class="lm-tile-value">' + lmMoney(totalBalance) + '</div></div>' +
+    '<div class="lm-tile"><div class="lm-tile-label">Pago mensual</div><div class="lm-tile-value">' + lmMoney(totalPayment) + '</div></div>' +
     '</div>';
   html += '<div class="lm-hint" style="text-align:center;margin-top:6px">Interés promedio ponderado: ' + weightedApr.toFixed(1) + '%</div>';
   card.innerHTML = html;

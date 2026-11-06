@@ -66,9 +66,9 @@ function renderSavingResults(savings) {
       '</div>';
   });
   html += '</div>';
-  html += '<div class="lm-stat-grid">' +
-    '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(totalAmount) + '</div><div class="lm-stat-label">Total ahorrado</div></div>' +
-    '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(totalMonthly) + '</div><div class="lm-stat-label">Aportación mensual total</div></div>' +
+  html += '<div class="lm-tile-row">' +
+    '<div class="lm-tile"><div class="lm-tile-label">Total ahorrado</div><div class="lm-tile-value">' + lmMoney(totalAmount) + '</div></div>' +
+    '<div class="lm-tile"><div class="lm-tile-label">Aportación mensual</div><div class="lm-tile-value">' + lmMoney(totalMonthly) + '</div></div>' +
     '</div>';
   card.innerHTML = html;
   resultsEl.appendChild(card);

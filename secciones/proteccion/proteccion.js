@@ -71,18 +71,17 @@ function renderProteccion() {
 
     state = { needsLife: true, deudas: deudas, funeral: funeral, ingresoAnual: ingresoAnual, anios: anios, reemplazo: reemplazo, ahorros: ahorros, coberturaActual: coberturaActual, resultado: resultado };
 
+    var color = resultado >= 0 ? "var(--good)" : "var(--warn)";
     var card = document.createElement("div");
-    card.className = "lm-card";
+    card.className = "lm-card " + (resultado >= 0 ? "lm-card-good" : "lm-card-attn");
     card.innerHTML =
-      '<h3 class="lm-h3">Responsabilidades vs. recursos</h3>' +
-      '<div class="lm-stat-grid" style="margin-bottom:14px">' +
-        '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(responsabilidades) + '</div><div class="lm-stat-label">Deudas + reemplazo + funeral</div></div>' +
-        '<div class="lm-stat"><div class="lm-stat-value">' + lmMoney(recursos) + '</div><div class="lm-stat-label">Ahorros + cobertura actual</div></div>' +
+      '<div class="lm-hero">' +
+        '<div class="lm-hero-label">' + (resultado >= 0 ? "Estás cubierto" : "Te falta cobertura") + '</div>' +
+        '<div class="lm-hero-value" style="color:' + color + '">' + (resultado >= 0 ? "+" : "") + lmMoney(resultado) + '</div>' +
       '</div>' +
-      '<hr class="lm-divider">' +
-      '<div class="lm-stat">' +
-        '<div class="lm-stat-value" style="color:' + (resultado >= 0 ? "var(--good)" : "var(--warn)") + '">' + (resultado >= 0 ? "+" : "") + lmMoney(resultado) + '</div>' +
-        '<div class="lm-stat-label">' + (resultado >= 0 ? "Estás cubierto (superávit)" : "Te falta cobertura (déficit)") + '</div>' +
+      '<div class="lm-tile-row" style="margin-top:14px">' +
+        '<div class="lm-tile"><div class="lm-tile-label">Deudas + reemplazo + funeral</div><div class="lm-tile-value" style="font-size:17px">' + lmMoney(responsabilidades) + '</div></div>' +
+        '<div class="lm-tile"><div class="lm-tile-label">Ahorros + cobertura actual</div><div class="lm-tile-value" style="font-size:17px">' + lmMoney(recursos) + '</div></div>' +
       '</div>';
     resultsEl.appendChild(card);
   }
