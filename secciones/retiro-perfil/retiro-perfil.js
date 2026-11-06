@@ -2,6 +2,8 @@
    Versión simplificada: 3 perfiles mapeados a las tasas ya usadas en
    Aportación requerida (3% / 6% / 10%), para cerrar el ciclo de Retiro. */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "retiro-perfil");
+
 var PROFILES = [
   { key: "conservador", label: "Conservador", rate: 3, desc: "Priorizas proteger tu dinero sobre crecerlo rápido. Prefieres menos sorpresas, aunque crezca más lento." },
   { key: "moderado", label: "Moderado", rate: 6, desc: "Aceptas algo de variación a cambio de mejor crecimiento a largo plazo." },

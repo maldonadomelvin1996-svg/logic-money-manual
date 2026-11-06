@@ -26,6 +26,8 @@
   <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro.</h2>
   <div class="lm-callout lm-callout-neutral" id="privacy-callout">&#128274; Tus respuestas se guardan solo en este teléfono — nadie más las ve, ni siquiera Logic Money.</div>
 
+  <div id="filled-banner"></div>
+
   <div id="progress-wrap" style="margin-bottom:20px"></div>
 
   <div id="sections-list"></div>
@@ -45,6 +47,7 @@
 </footer>
 
 <script src="assets/js/storage.js"></script>
+<script src="assets/js/section-ui.js"></script>
 <script src="assets/js/demo-data.js"></script>
 <script>
 var CHAPTERS = [
@@ -123,11 +126,12 @@ CHAPTERS.forEach(function (chapter) {
   });
 });
 
-document.getElementById("clear-data-btn").addEventListener("click", function () {
-  if (confirm("Esto borra TODOS los datos guardados en este teléfono, de todas las secciones. ¿Continuar?")) {
+var clearBtn = document.getElementById("clear-data-btn");
+clearBtn.addEventListener("click", function () {
+  lmConfirmInline(clearBtn, "Esto borra TODOS los datos guardados en este teléfono, de todas las secciones. ¿Continuar?", function () {
     lmClearAllData();
     location.reload();
-  }
+  });
 });
 
 /* Botón de prueba: llena todo con un lector ficticio para poder probar
@@ -143,12 +147,26 @@ document.getElementById("clear-data-btn").addEventListener("click", function () 
     '<p class="lm-p" style="margin-top:-6px">Llena todas las secciones con un lector ficticio, para que puedas ver los resultados y el PDF sin escribir nada a mano.</p>' +
     '<button class="lm-btn lm-btn-secondary" id="demo-fill-btn" type="button">Llenar con datos de ejemplo</button>';
 
-  document.getElementById("demo-fill-btn").addEventListener("click", function () {
-    if (confirm("Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio), para probar el sitio. ¿Continuar?")) {
+  var demoBtn = document.getElementById("demo-fill-btn");
+  demoBtn.addEventListener("click", function () {
+    lmConfirmInline(demoBtn, "Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio), para probar el sitio. ¿Continuar?", function () {
       lmFillDemoData();
-      location.href = "secciones/resumen-datos/index.html";
-    }
+      location.href = "index.html?filled=1";
+    });
   });
+})();
+
+/* Si venimos de llenar los datos de ejemplo, muestra un aviso claro
+   arriba de todo (no solo los ✓ en la lista, que se pueden pasar por
+   alto) con un link directo a ver todo junto. */
+(function showFilledBanner() {
+  if (location.search.indexOf("filled=1") === -1) return;
+  history.replaceState(null, "", location.pathname);
+  document.getElementById("filled-banner").innerHTML =
+    '<div class="lm-callout lm-callout-good">' +
+      '&#10003; Listo — se llenaron las ' + doneCount + ' secciones con un lector de ejemplo. Mira los ✓ en la lista abajo, o:' +
+    '</div>' +
+    '<a class="lm-btn lm-btn-primary" href="secciones/resumen-datos/index.html" style="margin-bottom:20px">Ver todos los resultados</a>';
 })();
 </script>
 </body>

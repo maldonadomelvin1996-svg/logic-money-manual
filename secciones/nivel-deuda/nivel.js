@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Nivel de deuda (págs. 357-358) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "nivel-deuda");
+
 var paymentsInput = document.getElementById("payments");
 var incomeInput = document.getElementById("income");
 

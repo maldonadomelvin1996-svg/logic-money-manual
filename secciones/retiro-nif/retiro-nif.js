@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Retiro 4/5: Número de independencia financiera (págs. 367-368) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "retiro-nif");
+
 var objetivoInput = document.getElementById("objetivo-mensual");
 
 function render() {

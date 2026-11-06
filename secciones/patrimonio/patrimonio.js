@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Patrimonio (págs. 347-350) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "patrimonio");
+
 var activosInput = document.getElementById("activos");
 var pasivosInput = document.getElementById("pasivos");
 

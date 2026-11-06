@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Ahorros (págs. 337-338) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "ahorros");
+
 var savingsListEl = document.getElementById("savings-list");
 var savingRowCount = 0;
 

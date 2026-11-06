@@ -2,6 +2,8 @@
    PMT mensual = FV * i / ((1+i)^n - 1), con i = tasa_anual/12, n = años*12.
    Para 0% de crecimiento: PMT = FV / n (división simple). */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "retiro-aportacion");
+
 var nifInput = document.getElementById("nif");
 var aniosInput = document.getElementById("anios");
 var RATES = [0, 3, 6, 10];

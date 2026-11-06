@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Análisis de protección (págs. 359-360) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "proteccion");
+
 var basicStatusEl = document.getElementById("basic-status");
 var medico = lmGetInsuranceByType("Médico");
 var vehiculo = lmGetInsuranceByType("Vehículo");

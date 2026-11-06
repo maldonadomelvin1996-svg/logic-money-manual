@@ -1,6 +1,8 @@
 /* Logic Money — Manual Digital — Retiro 2/5: ¿Cuánto necesito? (págs. 363-364)
    multiplicador = 1.03^años (misma tabla del libro: 3% de inflación anual). */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "retiro-cuanto");
+
 var ingresoInput = document.getElementById("ingreso-objetivo");
 var aniosInput = document.getElementById("anios");
 

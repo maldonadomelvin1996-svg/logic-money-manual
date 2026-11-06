@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Objetivos (págs. 327-330) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "objetivos");
+
 var goalsListEl = document.getElementById("goals-list");
 var goalRowCount = 0;
 

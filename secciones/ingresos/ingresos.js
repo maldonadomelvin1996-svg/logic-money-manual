@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Ingresos (págs. 331-334) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "ingresos");
+
 var INCOME_CATEGORIES = [
   { key: "principal", label: "Ingreso principal" },
   { key: "pareja", label: "2do ingreso o pareja" },

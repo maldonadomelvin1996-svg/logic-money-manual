@@ -1,6 +1,22 @@
 /* Logic Money — Manual Digital — Resumen de datos (págs. 345-346)
    Página 100% de lectura: no pide nada nuevo, solo junta lo ya guardado. */
 
+(function () {
+  var slot = document.getElementById("demo-btn-slot");
+  if (!slot || typeof lmFillDemoData !== "function") return;
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "lm-demo-btn lm-no-print";
+  btn.textContent = "\u{1F9EA} Llenar TODO con un lector de ejemplo";
+  btn.addEventListener("click", function () {
+    lmConfirmInline(btn, "Esto reemplaza todos tus datos guardados con un lector de ejemplo (ficticio), para probar el sitio completo. ¿Continuar?", function () {
+      lmFillDemoData();
+      location.reload();
+    });
+  });
+  slot.appendChild(btn);
+})();
+
 var ahorrosTotal = lmGetSavingsTotal();
 var deudasTotal = lmGetDebtsTotalBalance();
 var ingresoTotal = lmGetIncomeTotal();

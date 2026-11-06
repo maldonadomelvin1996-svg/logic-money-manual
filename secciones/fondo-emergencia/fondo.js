@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Fondo de emergencia (págs. 353-354) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "fondo-emergencia");
+
 var monthsSelect = document.getElementById("months");
 
 function computeFondo() {

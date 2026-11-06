@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Seguros (págs. 339-340) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "seguros");
+
 var insuranceRowsEl = document.getElementById("insurance-rows");
 var FIXED_INSURANCE = ["Médico", "Vehículo", "Vida"];
 var insuranceRowCount = 0;

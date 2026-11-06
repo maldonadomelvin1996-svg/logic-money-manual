@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Retiro 3/5: Silla de retiro (págs. 365-366) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "retiro-silla");
+
 var seguroSocialInput = document.getElementById("seguro-social");
 var patronalInput = document.getElementById("patronal");
 var personalInput = document.getElementById("personal");

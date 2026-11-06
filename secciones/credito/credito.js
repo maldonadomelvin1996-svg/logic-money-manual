@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Crédito (págs. 355-356) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "credito");
+
 var scoreInput = document.getElementById("score");
 var notesInput = document.getElementById("notes");
 

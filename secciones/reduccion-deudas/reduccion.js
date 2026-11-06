@@ -2,6 +2,8 @@
    100% automática: lee la lista de deudas ya guardada en la sección
    Deudas y aplica el efecto bola de nieve (sin pedir nada nuevo). */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "deudas");
+
 var contentEl = document.getElementById("content");
 var debts = lmGetDebts();
 

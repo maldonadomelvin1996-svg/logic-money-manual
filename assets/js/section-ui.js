@@ -58,26 +58,70 @@ function lmRenderStorageWarningIfNeeded(containerEl) {
 }
 
 /**
+ * Footer simplificado: UNA acción principal ("Siguiente"), y todo lo demás
+ * (correo, WhatsApp, PDF, continuar en el libro) escondido detrás de un
+ * link chiquito "Más opciones" — para que la pantalla no se sienta
+ * saturada de botones después de cada cálculo.
+ *
  * opts: {
  *   containerEl: elemento donde insertar el footer,
  *   mailtoSubject: string,
  *   mailtoBody: string (texto plano, ya formateado),
  *   nextSectionHref: url de la próxima sección o null si no existe aún,
- *   nextSectionLabel: nombre de la próxima sección (para el botón),
  * }
  */
 function lmRenderSectionFooter(opts) {
   var wrap = document.createElement("div");
   wrap.className = "lm-footer-actions lm-no-print";
 
+  var nextBtn = document.createElement("a");
+  nextBtn.className = "lm-btn lm-btn-primary";
+  if (opts.nextSectionHref) {
+    nextBtn.href = opts.nextSectionHref;
+    nextBtn.textContent = "Siguiente";
+  } else {
+    nextBtn.href = lmRootPath() + "index.html";
+    nextBtn.textContent = "Ver otras secciones";
+  }
+  wrap.appendChild(nextBtn);
+
+  var linksRow = document.createElement("div");
+  linksRow.className = "lm-footer-links";
+
+  var bookLink = document.createElement("button");
+  bookLink.type = "button";
+  bookLink.className = "lm-link-btn";
+  bookLink.textContent = "o continuar en el libro físico";
+  var bookMsg = document.createElement("div");
+  bookMsg.className = "lm-callout lm-callout-gold";
+  bookMsg.style.display = "none";
+  bookMsg.style.marginTop = "10px";
+  bookMsg.textContent = "Perfecto. Ya quedó guardado en tu teléfono — continúa en la próxima página de tu manual impreso cuando quieras.";
+  bookLink.addEventListener("click", function () {
+    bookMsg.style.display = bookMsg.style.display === "none" ? "block" : "none";
+  });
+  linksRow.appendChild(bookLink);
+
+  var moreLink = document.createElement("button");
+  moreLink.type = "button";
+  moreLink.className = "lm-link-btn";
+  moreLink.textContent = "Más opciones";
+  linksRow.appendChild(moreLink);
+
+  wrap.appendChild(linksRow);
+  wrap.appendChild(bookMsg);
+
+  var moreWrap = document.createElement("div");
+  moreWrap.className = "lm-more-options";
+  moreWrap.style.display = "none";
+
   var mailtoHref = "mailto:?subject=" + encodeURIComponent(opts.mailtoSubject) +
     "&body=" + encodeURIComponent(opts.mailtoBody);
-
   var sendBtn = document.createElement("a");
   sendBtn.className = "lm-btn lm-btn-secondary";
   sendBtn.href = mailtoHref;
   sendBtn.textContent = "Enviarme una copia por correo";
-  wrap.appendChild(sendBtn);
+  moreWrap.appendChild(sendBtn);
 
   var waHref = "https://wa.me/?text=" + encodeURIComponent(opts.mailtoSubject + "\n\n" + opts.mailtoBody);
   var waBtn = document.createElement("a");
@@ -86,57 +130,72 @@ function lmRenderSectionFooter(opts) {
   waBtn.target = "_blank";
   waBtn.rel = "noopener";
   waBtn.textContent = "Enviar por WhatsApp";
-  wrap.appendChild(waBtn);
+  moreWrap.appendChild(waBtn);
 
   var printBtn = document.createElement("button");
   printBtn.className = "lm-btn lm-btn-secondary";
   printBtn.type = "button";
   printBtn.textContent = "Guardar como PDF";
   printBtn.onclick = function () { window.print(); };
-  wrap.appendChild(printBtn);
+  moreWrap.appendChild(printBtn);
 
-  var fork = document.createElement("div");
-  fork.className = "lm-fork";
-  var forkTitle = document.createElement("div");
-  forkTitle.className = "lm-fork-title";
-  forkTitle.textContent = "¿Cómo quieres continuar tu plan?";
-  fork.appendChild(forkTitle);
+  moreLink.addEventListener("click", function () {
+    moreWrap.style.display = moreWrap.style.display === "none" ? "flex" : "none";
+  });
 
-  var grid = document.createElement("div");
-  grid.className = "lm-fork-grid";
-
-  var digitalBtn = document.createElement("a");
-  digitalBtn.className = "lm-btn lm-btn-primary";
-  if (opts.nextSectionHref) {
-    digitalBtn.href = opts.nextSectionHref;
-    digitalBtn.textContent = "Seguir aquí";
-  } else {
-    digitalBtn.href = lmRootPath() + "index.html";
-    digitalBtn.textContent = "Ver otras secciones";
-  }
-  grid.appendChild(digitalBtn);
-
-  var bookBtn = document.createElement("button");
-  bookBtn.className = "lm-btn lm-btn-secondary";
-  bookBtn.type = "button";
-  bookBtn.textContent = "Continuar en el libro";
-  bookBtn.onclick = function () {
-    bookMsg.style.display = "block";
-    bookBtn.style.display = "none";
-  };
-  grid.appendChild(bookBtn);
-
-  fork.appendChild(grid);
-
-  var bookMsg = document.createElement("div");
-  bookMsg.className = "lm-callout lm-callout-gold";
-  bookMsg.style.display = "none";
-  bookMsg.style.marginTop = "12px";
-  bookMsg.textContent = "Perfecto. Ya quedó guardado en tu teléfono — continúa en la próxima página de tu manual impreso cuando quieras.";
-  fork.appendChild(bookMsg);
-
-  wrap.appendChild(fork);
+  wrap.appendChild(moreWrap);
   opts.containerEl.appendChild(wrap);
+}
+
+/**
+ * Reemplaza confirm() nativo, que se bloquea silenciosamente en varios
+ * navegadores embebidos (el navegador interno de WhatsApp o Instagram
+ * cuando alguien abre un link compartido, por ejemplo) — ahí el botón
+ * "no hacía nada" porque el código nunca pasaba del diálogo bloqueado.
+ * Esto muestra la confirmación dentro de la misma página, sin depender
+ * de diálogos del navegador.
+ */
+function lmConfirmInline(triggerBtn, message, onConfirm) {
+  var existing = triggerBtn.nextElementSibling;
+  if (existing && existing.classList && existing.classList.contains("lm-confirm-inline")) {
+    existing.remove();
+    return;
+  }
+  var card = document.createElement("div");
+  card.className = "lm-confirm-inline lm-no-print";
+  card.innerHTML =
+    '<div class="lm-confirm-msg">' + message + '</div>' +
+    '<div class="lm-confirm-actions">' +
+      '<button type="button" class="lm-btn lm-btn-primary lm-btn-sm" data-yes>Sí, continuar</button>' +
+      '<button type="button" class="lm-btn lm-btn-ghost lm-btn-sm" data-no>Cancelar</button>' +
+    '</div>';
+  triggerBtn.insertAdjacentElement("afterend", card);
+  card.querySelector("[data-yes]").addEventListener("click", function () {
+    card.remove();
+    onConfirm();
+  });
+  card.querySelector("[data-no]").addEventListener("click", function () { card.remove(); });
+}
+
+/**
+ * Botón "Llenar con ejemplo" para UNA sección específica — útil para
+ * probar cada calculadora por su cuenta sin tener que llenar las demás
+ * secciones primero. Requiere que demo-data.js esté cargado en la página.
+ */
+function lmRenderSectionDemoButton(containerEl, sectionKey) {
+  if (typeof lmBuildDemoData !== "function") return;
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "lm-demo-btn lm-no-print";
+  btn.textContent = "\u{1F9EA} Llenar esta sección con un ejemplo";
+  btn.addEventListener("click", function () {
+    lmConfirmInline(btn, "Esto reemplaza lo que ya pusiste aquí con un dato de ejemplo, para probar. ¿Continuar?", function () {
+      var demo = lmBuildDemoData()[sectionKey];
+      lmSaveSection(sectionKey, demo);
+      location.reload();
+    });
+  });
+  containerEl.appendChild(btn);
 }
 
 /**

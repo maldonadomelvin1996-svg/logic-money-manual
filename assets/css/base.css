@@ -233,6 +233,33 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-footer-actions { margin-top: 28px; }
 .lm-footer-actions .lm-btn { margin-bottom: 10px; }
 
+.lm-footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.lm-link-btn {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 8px 4px;
+  min-height: 44px;
+}
+.lm-more-options {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+.lm-more-options .lm-btn { margin-bottom: 0; }
+
 .lm-fork {
   margin-top: 24px;
   padding-top: 20px;
@@ -240,6 +267,35 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 }
 .lm-fork-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; text-align: center; }
 .lm-fork-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ---------- Confirmación en línea (reemplaza confirm() nativo) ---------- */
+.lm-confirm-inline {
+  background: var(--card3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-top: 8px;
+}
+.lm-confirm-msg { font-size: 13px; color: var(--text-mid); margin-bottom: 10px; }
+.lm-confirm-actions { display: flex; gap: 8px; }
+.lm-confirm-actions .lm-btn { width: auto; flex: 1; }
+
+/* ---------- Botón de "llenar con ejemplo" por sección ---------- */
+.lm-demo-btn {
+  display: block;
+  width: 100%;
+  background: var(--teal-soft);
+  border: 1px dashed var(--teal);
+  color: var(--teal);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 14px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-bottom: 18px;
+}
 
 .lm-site-footer {
   text-align: center;

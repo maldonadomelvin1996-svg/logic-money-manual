@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Presupuesto (págs. 341-344) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "presupuesto");
+
 var CATEGORIES = [
   { key: "vivienda", label: "Vivienda", items: ["Alquiler", "Luz", "Celular", "Internet", "Agua", "Mantenimiento, basura, otros", "Mascotas", "Otros"] },
   { key: "transportacion", label: "Transportación", items: ["Gasolina", "Seguro(s) y marbete de auto", "Mantenimiento, lavado, mecánica", "Peajes", "Taxi, Uber, tren, otros", "Otros"] },

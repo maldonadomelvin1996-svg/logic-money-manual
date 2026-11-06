@@ -1,5 +1,7 @@
 /* Logic Money — Manual Digital — Retiro 1/5: ¿Cuándo? (págs. 361-362) */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "retiro-cuando");
+
 var edadActualInput = document.getElementById("edad-actual");
 var edadRetiroInput = document.getElementById("edad-retiro");
 

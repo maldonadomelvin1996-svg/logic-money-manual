@@ -4,6 +4,8 @@
    siempre al final), con un total. Sin estrategia de pago ni DTI aquí —
    esas viven en "Reducción de deudas" y "Nivel de deuda" (Tanda 2). */
 
+lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "deudas");
+
 var debtsListEl = document.getElementById("debts-list");
 var rowCount = 0;
 
