@@ -130,20 +130,17 @@ document.getElementById("clear-data-btn").addEventListener("click", function () 
   }
 });
 
-/* Herramientas de desarrollo — ocultas para cualquier lector normal que
-   llegue por el QR del libro. Solo aparecen si visitas con ?dev=1 una vez
-   (queda recordado en este navegador) o ya quedó activado antes. */
-(function devTools() {
-  try {
-    if (location.search.indexOf("dev=1") !== -1) localStorage.setItem("lm_dev", "1");
-    var isDev = localStorage.getItem("lm_dev") === "1";
-  } catch (e) { var isDev = false; }
-  if (!isDev) return;
-
+/* Botón de prueba: llena todo con un lector ficticio para poder probar
+   el sitio de punta a punta (incluyendo imprimir/PDF) sin escribir nada
+   a mano. Visible en la pantalla principal mientras se sigue construyendo
+   el sitio — antes de imprimir los QR del libro, esto se puede esconder
+   o quitar. */
+(function demoTools() {
   var wrap = document.getElementById("dev-tools");
   wrap.innerHTML =
     '<hr class="lm-divider">' +
-    '<h3 class="lm-h3" style="color:var(--text-faint)">Herramientas de prueba (solo tú ves esto)</h3>' +
+    '<h3 class="lm-h3" style="color:var(--text-faint)">Modo de prueba</h3>' +
+    '<p class="lm-p" style="margin-top:-6px">Llena todas las secciones con un lector ficticio, para que puedas ver los resultados y el PDF sin escribir nada a mano.</p>' +
     '<button class="lm-btn lm-btn-secondary" id="demo-fill-btn" type="button">Llenar con datos de ejemplo</button>';
 
   document.getElementById("demo-fill-btn").addEventListener("click", function () {
