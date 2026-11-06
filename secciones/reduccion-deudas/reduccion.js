@@ -57,6 +57,7 @@ if (debts.length === 0) {
     mailtoSubject: "Mi plan de reducción de deudas — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../fondo-emergencia/index.html",
+    prevSectionHref: "../patrimonio/index.html",
   });
 }
 

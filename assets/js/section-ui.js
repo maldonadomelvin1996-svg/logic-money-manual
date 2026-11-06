@@ -68,11 +68,23 @@ function lmRenderStorageWarningIfNeeded(containerEl) {
  *   mailtoSubject: string,
  *   mailtoBody: string (texto plano, ya formateado),
  *   nextSectionHref: url de la próxima sección o null si no existe aún,
+ *   prevSectionHref: url de la sección anterior o null si es la primera,
  * }
  */
 function lmRenderSectionFooter(opts) {
   var wrap = document.createElement("div");
   wrap.className = "lm-footer-actions lm-no-print";
+
+  var navRow = document.createElement("div");
+  navRow.className = "lm-nav-row";
+
+  if (opts.prevSectionHref) {
+    var prevBtn = document.createElement("a");
+    prevBtn.className = "lm-btn lm-btn-ghost lm-btn-prev";
+    prevBtn.href = opts.prevSectionHref;
+    prevBtn.textContent = "← Anterior";
+    navRow.appendChild(prevBtn);
+  }
 
   var nextBtn = document.createElement("a");
   nextBtn.className = "lm-btn lm-btn-primary";
@@ -83,7 +95,8 @@ function lmRenderSectionFooter(opts) {
     nextBtn.href = lmRootPath() + "index.html";
     nextBtn.textContent = "Ver otras secciones";
   }
-  wrap.appendChild(nextBtn);
+  navRow.appendChild(nextBtn);
+  wrap.appendChild(navRow);
 
   var linksRow = document.createElement("div");
   linksRow.className = "lm-footer-links";
@@ -189,11 +202,7 @@ function lmRenderSectionDemoButton(containerEl, sectionKey) {
   if (typeof lmBuildDemoData !== "function") return;
   var wrap = document.createElement("div");
   wrap.className = "lm-demo-toggle-wrap lm-no-print";
-  wrap.innerHTML =
-    '<button type="button" class="lm-demo-toggle">' +
-      '<span class="lm-demo-toggle-track"><span class="lm-demo-toggle-knob"></span></span>' +
-      '<span class="lm-demo-toggle-label">Ejemplo</span>' +
-    '</button>';
+  wrap.innerHTML = '<button type="button" class="lm-demo-toggle" title="Llenar con ejemplo" aria-label="Llenar con ejemplo">\u{1F9EA}</button>';
   var btn = wrap.querySelector(".lm-demo-toggle");
   btn.addEventListener("click", function () {
     lmConfirmInline(btn, "Esto reemplaza lo que ya pusiste aquí con un dato de ejemplo, para probar. ¿Continuar?", function () {
@@ -204,6 +213,54 @@ function lmRenderSectionDemoButton(containerEl, sectionKey) {
     });
   });
   containerEl.appendChild(wrap);
+}
+
+/**
+ * Convierte un <input type="text"> en un "combo": el lector puede escribir
+ * lo que quiera (libre), o tocar la flechita para elegir de una lista de
+ * opciones comunes, que simplemente rellena el mismo campo de texto — no
+ * lo reemplaza por un <select>, las dos formas conviven.
+ */
+function lmAttachCombo(inputEl, options) {
+  var wrap = document.createElement("div");
+  wrap.className = "lm-combo";
+  if (inputEl.parentNode) inputEl.parentNode.replaceChild(wrap, inputEl);
+  wrap.appendChild(inputEl);
+
+  var toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "lm-combo-toggle lm-no-print";
+  toggle.innerHTML = "&#9662;";
+  toggle.setAttribute("aria-label", "Ver opciones comunes");
+  wrap.appendChild(toggle);
+
+  var list = document.createElement("div");
+  list.className = "lm-combo-list lm-no-print";
+  list.style.display = "none";
+  options.forEach(function (opt) {
+    var item = document.createElement("button");
+    item.type = "button";
+    item.className = "lm-combo-item";
+    item.textContent = opt;
+    item.addEventListener("click", function () {
+      inputEl.value = opt;
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+      inputEl.dispatchEvent(new Event("change", { bubbles: true }));
+      list.style.display = "none";
+      inputEl.focus();
+    });
+    list.appendChild(item);
+  });
+  wrap.appendChild(list);
+
+  toggle.addEventListener("click", function () {
+    list.style.display = list.style.display === "none" ? "block" : "none";
+  });
+  document.addEventListener("click", function (e) {
+    if (!wrap.contains(e.target)) list.style.display = "none";
+  });
+
+  return wrap;
 }
 
 /**

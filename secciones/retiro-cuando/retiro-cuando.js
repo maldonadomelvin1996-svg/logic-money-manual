@@ -38,6 +38,7 @@ function render() {
     mailtoSubject: "Mi retiro — Logic Money",
     mailtoBody: "Mi retiro — Logic Money Manual Digital\n\nEdad actual: " + (edadActual || "?") + "\nEdad de retiro: " + (edadRetiro || "?") + "\nAños para retiro: " + anios,
     nextSectionHref: "../retiro-cuanto/index.html",
+    prevSectionHref: "../proteccion/index.html",
   });
 
   lmSaveSection("retiro-cuando", { edadActual: edadActual, edadRetiro: edadRetiro, anios: anios });

@@ -38,10 +38,11 @@ function addSavingRow(prefill) {
     row.querySelector('[data-field="monthly"]').value = prefill.monthly || "";
   }
 
-  row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () { row.remove(); });
+  row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () { row.remove(); saveAndRender(); });
+  row.querySelectorAll("input").forEach(function (input) { input.addEventListener("input", saveAndRender); });
 }
 
-document.getElementById("add-saving").addEventListener("click", function () { addSavingRow(); });
+document.getElementById("add-saving").addEventListener("click", function () { addSavingRow(); saveAndRender(); });
 
 function readSavings() {
   var rows = savingsListEl.querySelectorAll(".lm-debt-row");
@@ -91,6 +92,7 @@ function renderSavingResults(savings) {
     mailtoSubject: "Mis ahorros — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../seguros/index.html",
+    prevSectionHref: "../deudas/index.html",
   });
 }
 
@@ -100,24 +102,18 @@ function escapeSavingHtml(s) {
   return div.innerHTML;
 }
 
-document.getElementById("save-btn").addEventListener("click", function () {
+function saveAndRender() {
   var savings = readSavings();
-  var msgEl = document.getElementById("validation-msg");
-  if (savings.length === 0) {
-    msgEl.innerHTML = '<div class="lm-callout lm-callout-warn">Añade al menos un ahorro (puede ser $0 con un propósito).</div>';
-    return;
-  }
-  msgEl.innerHTML = "";
   lmSaveSection("ahorros", { savings: savings });
   renderSavingResults(savings);
-});
+}
 
 (function init() {
   var saved = lmGetSection("ahorros");
   if (saved && saved.savings && saved.savings.length) {
     saved.savings.forEach(function (s) { addSavingRow(s); });
-    renderSavingResults(saved.savings);
   } else {
     addSavingRow();
   }
+  renderSavingResults(readSavings());
 })();

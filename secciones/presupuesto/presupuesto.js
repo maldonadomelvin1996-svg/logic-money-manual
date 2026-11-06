@@ -22,11 +22,11 @@ function buildCategoryCard(cat) {
   cat.items.forEach(function (item, i) {
     html += '<div class="lm-pitem" data-item="' + i + '">' +
       '<span class="lm-pitem-label">' + item + '</span>' +
+      '<input type="number" inputmode="decimal" class="lm-input" min="0" placeholder="$0" data-field="amount">' +
       '<select data-field="necesario">' +
         '<option value="necesario">Necesario</option>' +
         '<option value="opcional">Opcional</option>' +
       '</select>' +
-      '<input type="number" inputmode="decimal" class="lm-input" min="0" placeholder="$0" data-field="amount">' +
       '</div>';
   });
   html += '<div class="lm-cat-total"><span>Total</span><span data-cat-total>$0</span></div>';
@@ -58,12 +58,12 @@ function updateCategoryTotal(cat) {
 }
 
 CATEGORIES.forEach(function (cat) {
-  categoryCards[cat.key].addEventListener("input", function () { updateCategoryTotal(cat); updateResults(); });
-  categoryCards[cat.key].addEventListener("change", function () { updateCategoryTotal(cat); updateResults(); });
+  categoryCards[cat.key].addEventListener("input", function () { updateCategoryTotal(cat); updateResults(); saveAndRender(); });
+  categoryCards[cat.key].addEventListener("change", function () { updateCategoryTotal(cat); updateResults(); saveAndRender(); });
 });
 
 var incomeInput = document.getElementById("income-input");
-incomeInput.addEventListener("input", updateResults);
+incomeInput.addEventListener("input", function () { updateResults(); saveAndRender(); });
 
 function readAll() {
   var categories = {};
@@ -111,10 +111,11 @@ function renderPresupuestoResults(state) {
     mailtoSubject: "Mi presupuesto — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../patrimonio/index.html",
+    prevSectionHref: "../seguros/index.html",
   });
 }
 
-document.getElementById("save-btn").addEventListener("click", function () {
+function saveAndRender() {
   var state = updateResults();
   lmSaveSection("presupuesto", {
     categories: state.data.categories,
@@ -124,7 +125,7 @@ document.getElementById("save-btn").addEventListener("click", function () {
     income: state.income,
   });
   renderPresupuestoResults(state);
-});
+}
 
 (function init() {
   incomeInput.value = lmGetIncomeTotal() || "";
@@ -144,9 +145,6 @@ document.getElementById("save-btn").addEventListener("click", function () {
       updateCategoryTotal(cat);
     });
     if (saved.income) incomeInput.value = saved.income;
-    var state = updateResults();
-    renderPresupuestoResults(state);
-  } else {
-    updateResults();
   }
+  renderPresupuestoResults(updateResults());
 })();

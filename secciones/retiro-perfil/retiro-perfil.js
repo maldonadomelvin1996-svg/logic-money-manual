@@ -55,6 +55,7 @@ function renderFooter() {
     mailtoSubject: "Mi perfil de inversor — Logic Money",
     mailtoBody: "Mi perfil de inversor — Logic Money\n\nPerfil: " + profile.label + " (" + profile.rate + "% estimado de crecimiento)",
     nextSectionHref: null,
+    prevSectionHref: "../retiro-aportacion/index.html",
   });
 
   lmSaveSection("retiro-perfil", { perfil: profile.key, label: profile.label, rate: profile.rate });

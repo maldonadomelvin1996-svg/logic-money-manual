@@ -39,6 +39,7 @@ function render() {
     mailtoSubject: "Mi retiro — Logic Money",
     mailtoBody: "Cuánto necesito al mes en el retiro — Logic Money\n\nIngreso objetivo hoy: " + lmMoney(ingreso) + "\nAños para retiro: " + anios + "\nMultiplicador: x" + multiplicador.toFixed(2) + "\nResultado: " + lmMoney(resultado),
     nextSectionHref: "../retiro-silla/index.html",
+    prevSectionHref: "../retiro-cuando/index.html",
   });
 
   lmSaveSection("retiro-cuanto", { ingreso: ingreso, anios: anios, multiplicador: multiplicador, resultado: resultado });

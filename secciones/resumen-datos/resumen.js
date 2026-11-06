@@ -6,11 +6,7 @@
   if (!slot || typeof lmFillDemoData !== "function") return;
   var wrap = document.createElement("div");
   wrap.className = "lm-demo-toggle-wrap lm-no-print";
-  wrap.innerHTML =
-    '<button type="button" class="lm-demo-toggle">' +
-      '<span class="lm-demo-toggle-track"><span class="lm-demo-toggle-knob"></span></span>' +
-      '<span class="lm-demo-toggle-label">Ejemplo (todo)</span>' +
-    '</button>';
+  wrap.innerHTML = '<button type="button" class="lm-demo-toggle" title="Llenar TODO con ejemplo" aria-label="Llenar TODO con ejemplo">\u{1F9EA}</button>';
   var btn = wrap.querySelector(".lm-demo-toggle");
   btn.addEventListener("click", function () {
     lmConfirmInline(btn, "Esto reemplaza todos tus datos guardados con un lector de ejemplo (ficticio), para probar el sitio completo. ¿Continuar?", function () {
@@ -177,4 +173,5 @@ lmRenderSectionFooter({
   mailtoSubject: "Mi resumen de datos — Logic Money",
   mailtoBody: rows.map(function (r) { return r.label + ": " + r.value; }).join("\n"),
   nextSectionHref: "../patrimonio/index.html",
+  prevSectionHref: "../presupuesto/index.html",
 });

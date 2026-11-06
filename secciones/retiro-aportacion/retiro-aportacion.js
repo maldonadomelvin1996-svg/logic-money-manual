@@ -56,6 +56,7 @@ function render() {
     mailtoSubject: "Mi aportación requerida — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../retiro-perfil/index.html",
+    prevSectionHref: "../retiro-nif/index.html",
   });
 
   lmSaveSection("retiro-aportacion", { nif: nif, anios: anios, rates: RATES.map(function (r) { return { rate: r, mensual: monthlyPMT(nif, r, anios) }; }) });

@@ -38,11 +38,16 @@ function addInsuranceRow(prefill, fixedLabel) {
   }
 
   if (!fixedLabel) {
-    row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () { row.remove(); });
+    row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () { row.remove(); saveAndRender(); });
   }
+  row.querySelectorAll("input").forEach(function (input) {
+    if (input.type === "hidden") return;
+    input.addEventListener("input", saveAndRender);
+    input.addEventListener("change", saveAndRender);
+  });
 }
 
-document.getElementById("add-insurance").addEventListener("click", function () { addInsuranceRow(); });
+document.getElementById("add-insurance").addEventListener("click", function () { addInsuranceRow(); saveAndRender(); });
 
 function readInsurance() {
   var rows = insuranceRowsEl.querySelectorAll(".lm-debt-row");
@@ -90,6 +95,7 @@ function renderInsuranceResults(list) {
     mailtoSubject: "Mis seguros — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../presupuesto/index.html",
+    prevSectionHref: "../ahorros/index.html",
   });
 }
 
@@ -99,11 +105,11 @@ function escapeInsHtml(s) {
   return div.innerHTML;
 }
 
-document.getElementById("save-btn").addEventListener("click", function () {
+function saveAndRender() {
   var list = readInsurance();
   lmSaveSection("seguros", { insurance: list });
   renderInsuranceResults(list);
-});
+}
 
 (function init() {
   var saved = lmGetSection("seguros");
@@ -118,6 +124,6 @@ document.getElementById("save-btn").addEventListener("click", function () {
     saved.insurance.forEach(function (ins) {
       if (FIXED_INSURANCE.indexOf(ins.type) === -1) addInsuranceRow(ins);
     });
-    renderInsuranceResults(saved.insurance);
   }
+  renderInsuranceResults(readInsurance());
 })();

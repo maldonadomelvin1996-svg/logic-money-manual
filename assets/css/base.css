@@ -1,20 +1,22 @@
 /* Logic Money — Manual Digital
-   Paleta tomada de LogicMoney.html (LIGHT_PALETTE) para mantener la misma
-   marca que el software de asesor — tema claro: fondo blanco, tarjetas
-   blancas que resaltan con sombra real, en vez de todo oscuro y plano.
-   Los colores de acento (gold/good/warn/teal) son los mismos en ambos
-   temas del software a propósito — un indicador nunca debe cambiar de
-   color entre pantallas. */
+   Fondo negro, tarjetas blancas — para que resalten de verdad, no un
+   tema monocromático. El texto cambia de color automáticamente según el
+   contexto: claro cuando está directo sobre el fondo negro (títulos de
+   página), oscuro cuando está dentro de una tarjeta blanca — ver el
+   bloque ".lm-card, .lm-card-flat, ..." más abajo, que redefine estas
+   mismas variables dentro de su propio alcance (cascada de custom
+   properties de CSS). Los colores de acento (gold/good/warn/teal) nunca
+   cambian, ni de tema ni de contexto. */
 :root {
-  --bg: #F5F5F7;
+  --bg: #050609;
   --card: #FFFFFF;
-  --card2: #F9F9FB;
-  --card3: #F0F0F2;
-  --border: rgba(0,0,0,0.08);
-  --border-strong: rgba(0,0,0,0.15);
-  --text: #1D1D1F;
-  --text-mid: rgba(29,29,31,0.62);
-  --text-faint: rgba(29,29,31,0.42);
+  --card2: #F5F5F7;
+  --card3: #EDEDF0;
+  --border: rgba(243,241,234,0.14);
+  --border-strong: rgba(243,241,234,0.26);
+  --text: #F3F1EA;
+  --text-mid: rgba(243,241,234,0.66);
+  --text-faint: rgba(243,241,234,0.42);
   --gold: #E7A63C;
   --gold-soft: rgba(231,166,60,0.14);
   --good: #3ED88E;
@@ -23,9 +25,21 @@
   --warn-soft: rgba(255,106,82,0.14);
   --teal: #2FD6D9;
   --teal-soft: rgba(47,214,217,0.12);
-  --shadow: 0 30px 60px -12px rgba(20,20,30,0.26), 0 8px 20px rgba(20,20,30,0.12);
+  --shadow: 0 24px 48px -16px rgba(0,0,0,0.5);
   --radius: 16px;
   --radius-sm: 10px;
+}
+
+/* Dentro de una tarjeta blanca, el texto y los bordes se invierten a su
+   versión oscura — el resto de los componentes no necesita saber en qué
+   contexto está, solo siguen usando var(--text), var(--border), etc. */
+.lm-card, .lm-card-flat, .lm-debt-row, .lm-section-card {
+  --text: #1D1D1F;
+  --text-mid: rgba(29,29,31,0.62);
+  --text-faint: rgba(29,29,31,0.42);
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.15);
+  color: var(--text);
 }
 
 * { box-sizing: border-box; }
@@ -96,7 +110,7 @@ body {
 }
 
 /* ---------- Typography ---------- */
-h1.lm-title { font-size: 30px; font-weight: 700; margin: 4px 0 10px; letter-spacing: -0.02em; line-height: 1.2; }
+h1.lm-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 38px; font-weight: 700; margin: 4px 0 10px; letter-spacing: -0.02em; line-height: 1.1; color: var(--text); }
 h2.lm-subtitle { font-size: 16px; font-weight: 450; color: var(--text-mid); margin: 0 0 28px; line-height: 1.55; }
 h3.lm-h3 { font-size: 16px; font-weight: 600; margin: 0 0 12px; color: var(--text); letter-spacing: -0.01em; }
 p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 16px; }
@@ -275,6 +289,9 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 /* ---------- Footer / section-end actions ---------- */
 .lm-footer-actions { margin-top: 28px; }
 .lm-footer-actions .lm-btn { margin-bottom: 10px; }
+.lm-nav-row { display: flex; gap: 10px; }
+.lm-nav-row .lm-btn-prev { width: auto; flex: 0 0 auto; padding-left: 16px; padding-right: 16px; }
+.lm-nav-row .lm-btn-primary { flex: 1; }
 
 .lm-footer-links {
   display: flex;
@@ -323,41 +340,25 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-confirm-actions { display: flex; gap: 8px; }
 .lm-confirm-actions .lm-btn { width: auto; flex: 1; }
 
-/* ---------- Toggle "Ejemplo" por sección — chiquito, no un botón grande ---------- */
-.lm-demo-toggle-wrap { text-align: right; margin-bottom: 14px; }
+/* ---------- Botón "Ejemplo" por sección — un ícono chiquito, casi invisible
+   hasta que se necesita, para no robarle espacio al formulario real. ---------- */
+.lm-demo-toggle-wrap { text-align: right; margin-bottom: 10px; }
 .lm-demo-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px 2px;
-}
-.lm-demo-toggle-track {
-  position: relative;
-  width: 32px;
-  height: 19px;
-  border-radius: 999px;
-  background: var(--border-strong);
-  transition: background 0.2s ease;
-}
-.lm-demo-toggle-knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 15px;
-  height: 15px;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease;
+  background: none;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-faint);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
-.lm-demo-toggle-label { font-size: 12px; font-weight: 700; color: var(--text-faint); letter-spacing: 0.02em; }
-.lm-demo-toggle:hover .lm-demo-toggle-track { background: var(--teal-soft); }
-.lm-demo-toggle-on .lm-demo-toggle-track { background: var(--teal); }
-.lm-demo-toggle-on .lm-demo-toggle-knob { transform: translateX(13px); }
-.lm-demo-toggle-on .lm-demo-toggle-label { color: var(--teal); }
+.lm-demo-toggle:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
+.lm-demo-toggle-on { border-style: solid; border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
 
 .lm-site-footer {
   text-align: center;
@@ -432,6 +433,52 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-unknown-btn.lm-unknown-active { border-style: solid; border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
 .lm-input.lm-input-unknown { border-style: dashed; border-color: var(--border-strong); color: var(--text-faint); }
 .lm-pending-note { font-size: 12px; color: var(--gold); margin-top: 4px; }
+
+/* ---------- Combo: input de texto + flechita con lista de opciones ---------- */
+.lm-combo { position: relative; display: flex; align-items: flex-end; gap: 6px; }
+.lm-combo .lm-input, .lm-combo .lm-input-title { flex: 1; min-width: 0; }
+.lm-combo-toggle {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+  border: none;
+  background: var(--card3);
+  color: var(--text-faint);
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+}
+.lm-combo-toggle:hover { background: var(--border-strong); color: var(--text); }
+.lm-combo-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 6px;
+  background: var(--card);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 6px;
+  z-index: 30;
+  max-height: 240px;
+  overflow-y: auto;
+}
+.lm-combo-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.lm-combo-item:hover { background: var(--card3); }
 
 /* ---------- Objetivo chips ---------- */
 .lm-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }

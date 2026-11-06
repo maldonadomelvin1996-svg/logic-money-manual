@@ -6,22 +6,7 @@ var goalsListEl = document.getElementById("goals-list");
 var goalRowCount = 0;
 
 var PRESET_GOALS = ["Retiro", "Comprar casa", "Pagar deudas", "Fondo de emergencia", "Emprender un negocio", "Educación", "Viajar"];
-
-var chipsEl = document.getElementById("goal-chips");
-PRESET_GOALS.forEach(function (label) {
-  var chip = document.createElement("button");
-  chip.type = "button";
-  chip.className = "lm-chip";
-  chip.textContent = label;
-  chip.addEventListener("click", function () { addGoalRow({ goal: label }); });
-  chipsEl.appendChild(chip);
-});
-var otherChip = document.createElement("button");
-otherChip.type = "button";
-otherChip.className = "lm-chip";
-otherChip.textContent = "+ Otro (escribir el mío)";
-otherChip.addEventListener("click", function () { addGoalRow(); });
-chipsEl.appendChild(otherChip);
+var WHEN_PRESETS = ["1", "2", "3", "5", "10", "15", "20"];
 
 function addGoalRow(prefill) {
   goalRowCount++;
@@ -31,18 +16,18 @@ function addGoalRow(prefill) {
   row.dataset.id = id;
   row.innerHTML =
     '<div class="lm-debt-row-head">' +
-      '<span class="lm-debt-row-title">Objetivo ' + goalRowCount + '</span>' +
+      '<span class="lm-debt-row-title" data-title>Nuevo objetivo</span>' +
       '<button class="lm-remove-btn lm-no-print" type="button" data-remove="' + id + '">Quitar</button>' +
     '</div>' +
-    '<div class="lm-field" style="margin-bottom:10px">' +
-      '<input class="lm-input" type="text" placeholder="Objetivo específico (ej. comprar casa)" data-field="goal">' +
+    '<div class="lm-field" style="margin-bottom:14px">' +
+      '<input class="lm-input lm-input-title" type="text" placeholder="Ej. comprar casa" data-field="goal">' +
     '</div>' +
     '<div class="lm-field" style="margin-bottom:10px">' +
-      '<label class="lm-label" style="font-size:11px">¿Cuánto?</label>' +
+      '<label class="lm-mini-label">¿Cuánto?</label>' +
       '<input class="lm-input" type="text" placeholder="Ej. $15,000" data-field="amount">' +
     '</div>' +
     '<div class="lm-field" style="margin-bottom:0">' +
-      '<label class="lm-label" style="font-size:11px">¿Cuándo?</label>' +
+      '<label class="lm-mini-label">¿Cuándo?</label>' +
       '<div class="lm-chip-row" style="margin-bottom:8px">' +
         '<button type="button" class="lm-chip lm-chip-active" data-when-mode="years">En X años</button>' +
         '<button type="button" class="lm-chip" data-when-mode="age">A una edad</button>' +
@@ -51,7 +36,16 @@ function addGoalRow(prefill) {
     '</div>';
   goalsListEl.appendChild(row);
 
+  var goalInput = row.querySelector('[data-field="goal"]');
+  var titleEl = row.querySelector('[data-title]');
+  goalInput.addEventListener("input", function () {
+    titleEl.textContent = goalInput.value.trim() || "Nuevo objetivo";
+    saveAndRender();
+  });
+  lmAttachCombo(goalInput, PRESET_GOALS);
+
   lmWrapUnknown(row.querySelector('[data-field="amount"]'));
+  row.querySelector('[data-field="amount"]').addEventListener("input", saveAndRender);
 
   var whenValueInput = row.querySelector('[data-field="whenValue"]');
   var whenModeBtns = row.querySelectorAll('[data-when-mode]');
@@ -60,17 +54,20 @@ function addGoalRow(prefill) {
     whenValueInput.placeholder = mode === "years" ? "Ej. 5" : "Ej. 60";
     whenModeBtns.forEach(function (b) { b.classList.toggle("lm-chip-active", b.dataset.whenMode === mode); });
   }
-  whenModeBtns.forEach(function (b) { b.addEventListener("click", function () { setWhenMode(b.dataset.whenMode); }); });
+  whenModeBtns.forEach(function (b) { b.addEventListener("click", function () { setWhenMode(b.dataset.whenMode); saveAndRender(); }); });
   setWhenMode((prefill && prefill.whenMode) || "years");
   lmWrapUnknown(whenValueInput);
+  lmAttachCombo(whenValueInput, WHEN_PRESETS);
+  whenValueInput.addEventListener("input", saveAndRender);
 
   if (prefill) {
-    row.querySelector('[data-field="goal"]').value = prefill.goal || "";
+    goalInput.value = prefill.goal || "";
+    titleEl.textContent = (prefill.goal || "").trim() || "Nuevo objetivo";
     row.querySelector('[data-field="amount"]').value = prefill.amount || "";
     if (prefill.whenValue) whenValueInput.value = prefill.whenValue;
   }
 
-  row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () { row.remove(); });
+  row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () { row.remove(); saveAndRender(); });
 }
 
 document.getElementById("add-goal").addEventListener("click", function () { addGoalRow(); });
@@ -124,6 +121,7 @@ function renderGoalResults(goals) {
     mailtoSubject: "Mis objetivos — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../ingresos/index.html",
+    prevSectionHref: null,
   });
 }
 
@@ -133,17 +131,11 @@ function escapeGoalHtml(s) {
   return div.innerHTML;
 }
 
-document.getElementById("save-btn").addEventListener("click", function () {
+function saveAndRender() {
   var goals = readGoals();
-  var msgEl = document.getElementById("validation-msg");
-  if (goals.length === 0) {
-    msgEl.innerHTML = '<div class="lm-callout lm-callout-warn">Añade al menos un objetivo.</div>';
-    return;
-  }
-  msgEl.innerHTML = "";
   lmSaveSection("objetivos", { goals: goals });
   renderGoalResults(goals);
-});
+}
 
 (function init() {
   var saved = lmGetSection("objetivos");

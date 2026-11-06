@@ -37,6 +37,7 @@ function render() {
     mailtoSubject: "Mi número de independencia financiera — Logic Money",
     mailtoBody: "Número de independencia financiera — Logic Money\n\nObjetivo mensual: " + lmMoney(objetivo) + "\nAnual: " + lmMoney(anual) + "\nNúmero de independencia financiera: " + lmMoney(nif),
     nextSectionHref: "../retiro-aportacion/index.html",
+    prevSectionHref: "../retiro-silla/index.html",
   });
 
   lmSaveSection("retiro-nif", { objetivo: objetivo, anual: anual, nif: nif });

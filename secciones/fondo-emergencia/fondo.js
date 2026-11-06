@@ -71,6 +71,7 @@ function renderFondo() {
     mailtoSubject: "Mi fondo de emergencia — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../credito/index.html",
+    prevSectionHref: "../reduccion-deudas/index.html",
   });
 
   lmSaveSection("fondo-emergencia", state);

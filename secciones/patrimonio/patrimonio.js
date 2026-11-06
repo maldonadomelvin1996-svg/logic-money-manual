@@ -32,8 +32,8 @@ function updatePatrimonio() {
   return { activos: activos, pasivos: pasivos, patrimonio: patrimonio };
 }
 
-activosInput.addEventListener("input", updatePatrimonio);
-pasivosInput.addEventListener("input", updatePatrimonio);
+activosInput.addEventListener("input", function () { saveAndRender(); });
+pasivosInput.addEventListener("input", function () { saveAndRender(); });
 
 function renderPatrimonioResults(state) {
   var resultsEl = document.getElementById("results");
@@ -46,19 +46,19 @@ function renderPatrimonioResults(state) {
     mailtoBody: "Mi patrimonio — Logic Money Manual Digital\n\nActivos: " + lmMoney(state.activos) +
       "\nPasivos: " + lmMoney(state.pasivos) + "\nPatrimonio: " + lmMoney(state.patrimonio),
     nextSectionHref: "../reduccion-deudas/index.html",
+    prevSectionHref: "../presupuesto/index.html",
   });
 }
 
-document.getElementById("save-btn").addEventListener("click", function () {
+function saveAndRender() {
   var state = updatePatrimonio();
   lmSaveSection("patrimonio", state);
   renderPatrimonioResults(state);
-});
+}
 
 (function init() {
   var saved = lmGetSection("patrimonio");
   activosInput.value = saved ? saved.activos : (lmGetSavingsTotal() || "");
   pasivosInput.value = saved ? saved.pasivos : (lmGetDebtsTotalBalance() || "");
-  var state = updatePatrimonio();
-  if (saved) renderPatrimonioResults(state);
+  renderPatrimonioResults(updatePatrimonio());
 })();

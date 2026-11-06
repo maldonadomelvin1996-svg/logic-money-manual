@@ -39,7 +39,10 @@ function updateTotal() {
   document.getElementById("income-total").textContent = lmMoney(r.total);
 }
 
-rowsEl.addEventListener("input", updateTotal);
+rowsEl.addEventListener("input", function () {
+  updateTotal();
+  saveAndRender();
+});
 
 function renderIncomeResults(data) {
   var resultsEl = document.getElementById("results");
@@ -58,14 +61,15 @@ function renderIncomeResults(data) {
     mailtoSubject: "Mis ingresos — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../deudas/index.html",
+    prevSectionHref: "../objetivos/index.html",
   });
 }
 
-document.getElementById("save-btn").addEventListener("click", function () {
+function saveAndRender() {
   var data = readIncome();
   lmSaveSection("ingresos", data);
   renderIncomeResults(data);
-});
+}
 
 (function init() {
   var saved = lmGetSection("ingresos");
@@ -75,6 +79,6 @@ document.getElementById("save-btn").addEventListener("click", function () {
       if (v) rowsEl.querySelector('[data-cat="' + cat.key + '"]').value = v;
     });
     updateTotal();
-    renderIncomeResults(saved);
   }
+  renderIncomeResults(readIncome());
 })();

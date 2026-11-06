@@ -102,6 +102,7 @@ function renderProteccion() {
     mailtoSubject: "Mi análisis de protección — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../retiro-cuando/index.html",
+    prevSectionHref: "../nivel-deuda/index.html",
   });
 
   lmSaveSection("proteccion", state);

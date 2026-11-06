@@ -55,6 +55,7 @@ function renderCredito() {
     mailtoSubject: "Mi crédito — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../nivel-deuda/index.html",
+    prevSectionHref: "../fondo-emergencia/index.html",
   });
 
   lmSaveSection("credito", { score: score || null, notes: notesInput.value });

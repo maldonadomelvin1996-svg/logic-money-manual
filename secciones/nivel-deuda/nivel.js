@@ -53,6 +53,7 @@ function renderNivel() {
     mailtoSubject: "Mi nivel de deuda — Logic Money",
     mailtoBody: "Mi nivel de deuda — Logic Money Manual Digital\n\nPagos mensuales: " + lmMoney(payments) + "\nIngreso mensual: " + lmMoney(income) + "\nResultado: " + pct + "% (" + band.label + ")",
     nextSectionHref: "../proteccion/index.html",
+    prevSectionHref: "../credito/index.html",
   });
 
   lmSaveSection("nivel-deuda", { payments: payments, income: income, pct: pct, band: band.label });

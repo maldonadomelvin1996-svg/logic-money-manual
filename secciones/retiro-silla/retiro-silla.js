@@ -51,6 +51,7 @@ function render() {
     mailtoSubject: "Mi silla de retiro — Logic Money",
     mailtoBody: "Mi silla de retiro — Logic Money\n\nSeguro Social: " + lmMoney(seguroSocial) + "\nPatronal: " + lmMoney(patronal) + "\nPersonal: " + lmMoney(personal) + "\nFalta conseguir: " + lmMoney(falta),
     nextSectionHref: "../retiro-nif/index.html",
+    prevSectionHref: "../retiro-cuanto/index.html",
   });
 
   lmSaveSection("retiro-silla", { seguroSocial: seguroSocial, patronal: patronal, personal: personal, objetivo: objetivo, falta: falta });

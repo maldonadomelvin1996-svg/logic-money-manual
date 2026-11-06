@@ -6,6 +6,8 @@
 
 lmRenderSectionDemoButton(document.getElementById("demo-btn-slot"), "deudas");
 
+var DEBT_TYPES = ["Tarjeta de crédito", "Préstamo personal", "Préstamo de auto", "Hipoteca / Casa", "Préstamo estudiantil"];
+
 var debtsListEl = document.getElementById("debts-list");
 var rowCount = 0;
 
@@ -43,7 +45,14 @@ function addDebtRow(prefill) {
   var titleEl = row.querySelector('[data-title]');
   nameInput.addEventListener("input", function () {
     titleEl.textContent = nameInput.value.trim() || "Nueva deuda";
+    saveAndRender();
   });
+  lmAttachCombo(nameInput, DEBT_TYPES);
+
+  row.querySelectorAll('[data-field="balance"], [data-field="payment"], [data-field="apr"], [data-field="note"]').forEach(function (input) {
+    input.addEventListener("input", saveAndRender);
+  });
+  row.querySelector('[data-field="isHome"]').addEventListener("change", saveAndRender);
 
   var noteField = row.querySelector('[data-note-field]');
   var noteToggle = row.querySelector('[data-note-toggle]');
@@ -69,6 +78,7 @@ function addDebtRow(prefill) {
 
   row.querySelector('[data-remove="' + id + '"]').addEventListener("click", function () {
     row.remove();
+    saveAndRender();
   });
 }
 
@@ -136,6 +146,7 @@ function renderResults(debts) {
     mailtoSubject: "Mis deudas — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: "../ahorros/index.html",
+    prevSectionHref: "../ingresos/index.html",
   });
 }
 
@@ -145,17 +156,11 @@ function escapeHtml(s) {
   return div.innerHTML;
 }
 
-document.getElementById("calc-btn").addEventListener("click", function () {
+function saveAndRender() {
   var debts = readDebts();
-  var msgEl = document.getElementById("validation-msg");
-  if (debts.length === 0) {
-    msgEl.innerHTML = '<div class="lm-callout lm-callout-warn">Añade al menos una deuda con balance.</div>';
-    return;
-  }
-  msgEl.innerHTML = "";
   lmSaveSection("deudas", { debts: debts });
   renderResults(debts);
-});
+}
 
 /* Precarga si ya había datos guardados */
 (function init() {
