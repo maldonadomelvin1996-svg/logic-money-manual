@@ -33,7 +33,7 @@
 /* Dentro de una tarjeta blanca, el texto y los bordes se invierten a su
    versión oscura — el resto de los componentes no necesita saber en qué
    contexto está, solo siguen usando var(--text), var(--border), etc. */
-.lm-card, .lm-card-flat, .lm-debt-row, .lm-section-card {
+.lm-card, .lm-card-flat, .lm-debt-row, .lm-section-card, .lm-section-tile {
   --text: #1D1D1F;
   --text-mid: rgba(29,29,31,0.62);
   --text-faint: rgba(29,29,31,0.42);
@@ -222,7 +222,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-btn-primary { background: var(--gold); color: #1A1200; box-shadow: 0 8px 24px -6px rgba(231,166,60,0.45); }
 .lm-btn-primary:hover { opacity: 0.92; }
 
-.lm-btn-secondary { background: var(--card3); color: var(--text); border: 1px solid var(--border-strong); }
+.lm-btn-secondary { background: var(--card3); color: #1D1D1F; border: 1px solid var(--border-strong); }
 .lm-btn-secondary:hover { background: var(--card2); }
 
 .lm-btn-ghost { background: transparent; color: var(--text-mid); border: 1px solid var(--border); }
@@ -336,7 +336,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   padding: 12px 14px;
   margin-top: 8px;
 }
-.lm-confirm-msg { font-size: 13px; color: var(--text-mid); margin-bottom: 10px; }
+.lm-confirm-msg { font-size: 13px; color: rgba(29,29,31,0.72); margin-bottom: 10px; }
 .lm-confirm-actions { display: flex; gap: 8px; }
 .lm-confirm-actions .lm-btn { width: auto; flex: 1; }
 
@@ -398,6 +398,43 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-section-card-sub { font-size: 12px; color: var(--text-faint); margin-top: 2px; }
 .lm-chevron { color: var(--text-faint); font-size: 18px; flex-shrink: 0; }
 
+/* ---------- Grid de cuadritos (toma de datos) — secciones cortas donde el
+   lector no necesariamente las quiere hacer en orden, pueden elegir cuál
+   llenar primero. ---------- */
+.lm-section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.lm-section-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 108px;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 8px;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+.lm-section-tile[data-disabled="true"] { opacity: 0.45; pointer-events: none; }
+.lm-section-tile-icon { font-size: 28px; line-height: 1; }
+.lm-section-tile-title { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
+.lm-section-tile-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--good-soft);
+  color: var(--good);
+  font-size: 11px;
+  font-weight: 800;
+}
+
 /* ---------- Callout ---------- */
 .lm-callout {
   border-radius: var(--radius-sm);
@@ -409,7 +446,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-callout-good { background: var(--good-soft); color: var(--good); }
 .lm-callout-warn { background: var(--warn-soft); color: var(--warn); }
 .lm-callout-gold { background: var(--gold-soft); color: var(--gold); }
-.lm-callout-neutral { background: var(--card3); color: var(--text-mid); }
+.lm-callout-neutral { background: var(--card3); color: rgba(29,29,31,0.72); }
 
 /* ---------- "No sé" / saltar ---------- */
 .lm-input-row { display: flex; gap: 8px; align-items: stretch; }
