@@ -227,7 +227,9 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-btn-primary { background: var(--gold); color: #1A1200; box-shadow: 0 8px 24px -6px rgba(231,166,60,0.45); }
 .lm-btn-primary:hover { opacity: 0.92; }
 
-.lm-hero-cta { padding: 20px 20px; font-size: 17px; font-weight: 800; margin-bottom: 10px; }
+.lm-hero-cta { flex-direction: column; gap: 10px; padding: 20px 20px; font-size: 17px; font-weight: 800; margin-bottom: 10px; }
+.lm-hero-cta-mini-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.lm-hero-cta-mini-row img { height: 20px; width: auto; object-fit: contain; opacity: 0.92; }
 .lm-flow-img-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
 .lm-flow-img-btn {
   display: block;

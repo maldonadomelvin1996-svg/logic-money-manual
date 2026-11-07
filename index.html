@@ -21,10 +21,17 @@
 <main class="lm-wrap">
   <img src="assets/icons/brand/manual-planificacion.png" alt="Manual de Planificación Financiera" style="display:block;width:100%;max-width:520px;height:auto;margin:0 auto 18px">
   <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro.</h2>
-  <a class="lm-btn lm-btn-primary lm-hero-cta" href="secciones/objetivos/index.html" id="start-full-btn">Comenzar la versión completa</a>
+  <a class="lm-btn lm-btn-primary lm-hero-cta" href="secciones/objetivos/index.html" id="start-full-btn">
+    <span>Comenzar análisis</span>
+    <span class="lm-hero-cta-mini-row">
+      <img src="assets/icons/flows/presupuesto.png" alt="">
+      <img src="assets/icons/flows/estabilidad.png" alt="">
+      <img src="assets/icons/flows/crecimiento.png" alt="">
+    </span>
+  </a>
   <div class="lm-hint" style="text-align:center;margin-bottom:14px">Incluye las 3 categorías: Presupuesto, Estabilidad y Crecimiento.</div>
 
-  <button type="button" class="lm-btn lm-btn-secondary lm-no-print" id="toggle-flows-btn">Análisis específico &#8250;</button>
+  <button type="button" class="lm-btn lm-btn-secondary lm-no-print" id="toggle-flows-btn">Comenzar análisis específico &#8250;</button>
   <div id="flows-wrap" style="display:none;margin-top:14px">
     <p class="lm-p">El análisis completo incluye estas 3 categorías — o puedes hacer solo una:</p>
     <div class="lm-flow-img-stack">
@@ -198,7 +205,7 @@ var toggleFlowsBtn = document.getElementById("toggle-flows-btn");
 toggleFlowsBtn.addEventListener("click", function () {
   var showing = flowsWrap.style.display !== "none";
   flowsWrap.style.display = showing ? "none" : "block";
-  toggleFlowsBtn.innerHTML = showing ? "Análisis específico &#8250;" : "Ocultar análisis específico &#8249;";
+  toggleFlowsBtn.innerHTML = showing ? "Comenzar análisis específico &#8250;" : "Ocultar análisis específico &#8249;";
 });
 
 var clearBtn = document.getElementById("clear-data-btn");
