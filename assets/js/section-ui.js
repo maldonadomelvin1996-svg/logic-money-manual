@@ -135,6 +135,18 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
   };
 }
 
+/* Mientras un plan enfocado está activo, el fondo de cada página de ESE
+   recorrido (no la portada) se tiñe muy sutilmente con el color de esa
+   categoría — azul para Presupuesto, dorado para Estabilidad, verde para
+   Crecimiento — para que se sienta como un ambiente propio sin perder el
+   negro de base del sitio. */
+(function lmApplyFlowTheme() {
+  if (!/\/secciones\//.test(window.location.pathname)) return;
+  var flowKey = lmGetActiveFlow();
+  if (!flowKey || !LM_FLOWS[flowKey] || !document.body) return;
+  document.body.classList.add("lm-theme-" + flowKey);
+})();
+
 /**
  * Footer simplificado: UNA acción principal ("Siguiente"), y todo lo demás
  * (correo, WhatsApp, PDF, continuar en el libro) escondido detrás de un
