@@ -65,6 +65,13 @@ body.lm-theme-presupuesto { background: radial-gradient(ellipse 140% 55% at 50% 
 body.lm-theme-estabilidad { background: radial-gradient(ellipse 140% 55% at 50% -10%, rgba(231,166,60,0.18), transparent 62%), var(--bg); }
 body.lm-theme-crecimiento { background: radial-gradient(ellipse 140% 55% at 50% -10%, rgba(62,216,142,0.18), transparent 62%), var(--bg); }
 
+/* Insignia chiquita que recuerda en cuál de los 3 planes enfocados estás
+   (ej. "Análisis de Presupuesto"), aunque la sección en sí — como
+   Ingresos — sea compartida por varios planes. Se inserta sola con JS
+   (lmApplyFlowTheme) al inicio de <main>. */
+.lm-flow-badge { text-align: center; margin: 2px 0 14px; }
+.lm-flow-badge img { display: inline-block; max-width: 220px; width: 100%; height: auto; }
+
 .lm-wrap {
   width: 100%;
   max-width: 640px;

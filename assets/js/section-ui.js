@@ -145,6 +145,13 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
   var flowKey = lmGetActiveFlow();
   if (!flowKey || !LM_FLOWS[flowKey] || !document.body) return;
   document.body.classList.add("lm-theme-" + flowKey);
+
+  var main = document.querySelector("main.lm-wrap");
+  if (!main) return;
+  var badge = document.createElement("div");
+  badge.className = "lm-flow-badge lm-no-print";
+  badge.innerHTML = '<img src="../../assets/icons/flows/' + flowKey + '.png" alt="Análisis de ' + LM_FLOWS[flowKey].label + '">';
+  main.insertBefore(badge, main.firstChild);
 })();
 
 /**
