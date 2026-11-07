@@ -84,8 +84,13 @@ if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSecti
     html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 class="lm-h3" style="margin-bottom:0">Crédito</h3>';
     if (credito.score) {
       var band = scoreBand(credito.score);
+      var scoreMarkerPct = Math.max(2, Math.min(98, ((credito.score - 300) / (850 - 300)) * 100));
       html += '<span class="lm-badge" style="background:' + band.soft + ';color:' + band.color + '">' + band.label + '</span></div>';
       html += '<div class="lm-hero" style="padding-top:0"><div class="lm-hero-value" style="color:' + band.color + ';font-size:40px">' + credito.score + '</div></div>';
+      html += '<div class="lm-mini-bar-track" style="background:linear-gradient(to right, var(--warn), var(--gold), var(--teal), var(--good))">' +
+        '<div class="lm-mini-bar-marker" style="left:' + scoreMarkerPct + '%;background:' + band.color + '"></div>' +
+        '</div>' +
+        '<div class="lm-mini-bar-scale"><span>300</span><span>850</span></div>';
     } else {
       html += '<span class="lm-badge lm-badge-muted">Sin historial</span></div>';
       html += '<div class="lm-callout lm-callout-neutral" style="margin-bottom:0">Sin historial crediticio todavía. Construir crédito abre mejores oportunidades.</div>';
@@ -103,7 +108,12 @@ if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSecti
       '<div class="lm-hero-value" style="color:' + bandColor + ';font-size:40px">' + nivelDeuda.pct + '%</div>' +
       '<span class="lm-status-pill" style="background:' + (BAND_SOFT[nivelDeuda.band] || "var(--card3)") + ';color:' + bandColor + '">' + nivelDeuda.band + '</span>' +
       '</div>';
-    html += '<div class="lm-dash-row-sub" style="text-align:center">' + lmMoney(nivelDeuda.payments) + ' de ' + lmMoney(nivelDeuda.income) + ' en deudas</div>';
+    var nivelMarkerPct = Math.max(2, Math.min(98, nivelDeuda.pct));
+    html += '<div class="lm-mini-bar-track" style="background:linear-gradient(to right, var(--good), var(--good) 15%, var(--teal) 15%, var(--teal) 35%, var(--gold) 35%, var(--gold) 43%, #FF9A4D 43%, #FF9A4D 55%, var(--warn) 55%, var(--warn) 100%)">' +
+      '<div class="lm-mini-bar-marker" style="left:' + nivelMarkerPct + '%;background:' + bandColor + '"></div>' +
+      '</div>' +
+      '<div class="lm-mini-bar-scale"><span>0%</span><span>56%+</span></div>';
+    html += '<div class="lm-dash-row-sub" style="text-align:center;margin-top:4px">' + lmMoney(nivelDeuda.payments) + ' de ' + lmMoney(nivelDeuda.income) + ' en deudas</div>';
     if (nivelDeuda.pct <= 35) html += '<div class="lm-callout lm-callout-good" style="margin-top:12px;margin-bottom:0">&#10003; Tus deudas están bajo control.</div>';
     html += '</div>';
   }

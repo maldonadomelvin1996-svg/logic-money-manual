@@ -7,6 +7,30 @@
    mismas variables dentro de su propio alcance (cascada de custom
    properties de CSS). Los colores de acento (gold/good/warn/teal) nunca
    cambian, ni de tema ni de contexto. */
+
+/* Transición "pasar la página" entre secciones — usa la View Transitions
+   API nativa del navegador (activada por <meta name="view-transition">
+   en cada página). La página que se va sale por la izquierda, la que
+   entra viene de la derecha. Donde el navegador no la soporte (ej.
+   Firefox), la navegación simplemente ocurre al instante, como antes —
+   no rompe nada, solo deja de verse la animación. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(root) { animation-duration: 0.32s; }
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.32s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    mix-blend-mode: normal;
+  }
+  ::view-transition-old(root) { animation-name: lm-page-out; }
+  ::view-transition-new(root) { animation-name: lm-page-in; }
+}
+@keyframes lm-page-out {
+  to { transform: translateX(-100%); }
+}
+@keyframes lm-page-in {
+  from { transform: translateX(100%); }
+}
+
 :root {
   --bg: #050609;
   --card: #FFFFFF;
@@ -789,14 +813,19 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   border-radius: 99px;
   transition: width 0.4s cubic-bezier(.2,.8,.2,1);
 }
+/* Triangulito que marca la posición exacta sobre una barra de bandas de
+   color (puntaje de crédito, nivel de deuda) — apunta hacia abajo, con la
+   punta tocando la barra. Sigue tomando su color de "background" en el
+   estilo en línea, igual que antes (ahora recortado en forma de triángulo
+   en vez de círculo), así que nada más cambia. */
 .lm-mini-bar-marker {
   position: absolute;
-  top: 50%;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 3px solid var(--bg);
-  transform: translate(-50%, -50%);
+  top: -9px;
+  width: 16px;
+  height: 10px;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+  transform: translateX(-50%);
   transition: left 0.4s cubic-bezier(.2,.8,.2,1);
 }
 .lm-mini-bar-scale {
