@@ -19,16 +19,25 @@
 </header>
 
 <main class="lm-wrap">
-  <h1 class="lm-title">Tu plan financiero, paso a paso</h1>
+  <img src="assets/icons/brand/manual-planificacion.png" alt="Manual de Planificación Financiera" style="display:block;width:100%;max-width:520px;height:auto;margin:0 auto 18px">
   <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro.</h2>
   <a class="lm-btn lm-btn-primary lm-hero-cta" href="secciones/objetivos/index.html" id="start-full-btn">Comenzar la versión completa</a>
-  <div class="lm-hint" style="text-align:center;margin-bottom:14px">Versión completa — te lleva por todas las secciones, en orden. O enfócate en una categoría:</div>
-  <div class="lm-flow-img-stack">
-    <button type="button" class="lm-flow-img-btn" id="start-presupuesto-btn"><img src="assets/icons/flows/presupuesto.png" alt="Comenzar análisis de presupuesto"></button>
-    <button type="button" class="lm-flow-img-btn" id="start-estabilidad-btn"><img src="assets/icons/flows/estabilidad.png" alt="Comenzar análisis de estabilidad"></button>
-    <button type="button" class="lm-flow-img-btn" id="start-crecimiento-btn"><img src="assets/icons/flows/crecimiento.png" alt="Comenzar análisis de crecimiento"></button>
+  <div class="lm-hint" style="text-align:center;margin-bottom:14px">Incluye las 3 categorías: Presupuesto, Estabilidad y Crecimiento.</div>
+
+  <button type="button" class="lm-btn lm-btn-secondary lm-no-print" id="toggle-flows-btn">Análisis específico &#8250;</button>
+  <div id="flows-wrap" style="display:none;margin-top:14px">
+    <p class="lm-p">El análisis completo incluye estas 3 categorías — o puedes hacer solo una:</p>
+    <div class="lm-flow-img-stack">
+      <button type="button" class="lm-flow-img-btn" id="start-presupuesto-btn"><img src="assets/icons/flows/presupuesto.png" alt="Comenzar análisis de presupuesto"></button>
+      <p class="lm-hint" style="text-align:center;margin-top:-4px">Lo que entra y lo que sale: ingresos, gastos y patrimonio.</p>
+      <button type="button" class="lm-flow-img-btn" id="start-estabilidad-btn"><img src="assets/icons/flows/estabilidad.png" alt="Comenzar análisis de estabilidad"></button>
+      <p class="lm-hint" style="text-align:center;margin-top:-4px">Qué tan preparado estás: fondo de emergencia, crédito, nivel de deuda y seguros.</p>
+      <button type="button" class="lm-flow-img-btn" id="start-crecimiento-btn"><img src="assets/icons/flows/crecimiento.png" alt="Comenzar análisis de crecimiento"></button>
+      <p class="lm-hint" style="text-align:center;margin-top:-4px">Tu análisis de retiro.</p>
+    </div>
   </div>
-  <div class="lm-hint" style="text-align:center;margin-bottom:18px">&#128274; Tus respuestas se guardan solo en este teléfono — nadie más las ve, ni siquiera Logic Money.</div>
+
+  <div class="lm-hint" style="text-align:center;margin-top:14px;margin-bottom:18px">&#128274; Tus respuestas se guardan solo en este teléfono — nadie más las ve, ni siquiera Logic Money.</div>
 
   <div id="filled-banner"></div>
 
@@ -182,6 +191,14 @@ toggleSectionsBtn.addEventListener("click", function () {
   var showing = sectionsWrap.style.display !== "none";
   sectionsWrap.style.display = showing ? "none" : "block";
   toggleSectionsBtn.innerHTML = showing ? "Ver todas las secciones &#8250;" : "Ocultar secciones &#8249;";
+});
+
+var flowsWrap = document.getElementById("flows-wrap");
+var toggleFlowsBtn = document.getElementById("toggle-flows-btn");
+toggleFlowsBtn.addEventListener("click", function () {
+  var showing = flowsWrap.style.display !== "none";
+  flowsWrap.style.display = showing ? "none" : "block";
+  toggleFlowsBtn.innerHTML = showing ? "Análisis específico &#8250;" : "Ocultar análisis específico &#8249;";
 });
 
 var clearBtn = document.getElementById("clear-data-btn");
