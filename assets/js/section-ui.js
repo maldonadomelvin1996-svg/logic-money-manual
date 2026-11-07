@@ -118,6 +118,17 @@ var LM_FLOWS = {
   estabilidad: { label: "Estabilidad", keys: ["ingresos", "deudas", "reduccion-deudas", "ahorros", "fondo-emergencia", "credito", "nivel-deuda", "seguros", "proteccion"], dashboard: "../dashboard-estabilidad/index.html" },
   crecimiento: { label: "Crecimiento", keys: ["retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil"], dashboard: "../dashboard-crecimiento/index.html" },
 };
+
+/* Mismo orden que sigue "Siguiente" cuando NO hay un plan enfocado activo
+   (el manual completo) — usado solo para la barra de progreso, ya que ahí
+   no hay un LM_FLOWS.keys que seguir. No incluye "resumen-datos" (es una
+   parada aparte, no parte de la cadena principal) ni "plan-financiero"
+   (todavía no tiene página propia). */
+var LM_FULL_ORDER = [
+  "objetivos", "ingresos", "deudas", "ahorros", "seguros", "presupuesto",
+  "patrimonio", "reduccion-deudas", "fondo-emergencia", "credito", "nivel-deuda", "proteccion",
+  "retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil",
+];
 function lmGetActiveFlow() {
   try { return localStorage.getItem("lmActiveFlow") || null; } catch (e) { return null; }
 }
@@ -165,6 +176,46 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
   badge.className = "lm-flow-badge lm-no-print";
   badge.innerHTML = '<img src="../../assets/icons/flows/' + flowKey + '.png" alt="Análisis de ' + LM_FLOWS[flowKey].label + '">';
   main.insertBefore(badge, main.firstChild);
+})();
+
+/* Barra de progreso arriba de cada sección — cuántas preguntas faltan
+   hasta el dashboard (plan enfocado) o hasta el final del manual (sin
+   plan activo). Se salta sola en los dashboards y en páginas que no son
+   parte de ninguna cadena (ej. resumen-datos). */
+(function lmRenderFlowProgress() {
+  if (!/\/secciones\//.test(window.location.pathname)) return;
+  if (/\/secciones\/dashboard-/.test(window.location.pathname)) return;
+  var main = document.querySelector("main.lm-wrap");
+  if (!main) return;
+  var current = lmCurrentSectionKey();
+  if (!current) return;
+
+  var flowKey = lmGetActiveFlow();
+  var flow = flowKey && LM_FLOWS[flowKey];
+  var keys, stepLabel;
+  if (flow && flow.keys.indexOf(current) !== -1) {
+    keys = flow.keys;
+    stepLabel = "Hasta tu dashboard de " + flow.label;
+  } else if (!flow && LM_FULL_ORDER.indexOf(current) !== -1) {
+    keys = LM_FULL_ORDER;
+    stepLabel = "Manual completo";
+  } else {
+    return;
+  }
+
+  var idx = keys.indexOf(current);
+  var total = keys.length;
+  var pct = Math.round(((idx + 1) / total) * 100);
+
+  var wrap = document.createElement("div");
+  wrap.className = "lm-flow-progress lm-no-print";
+  wrap.innerHTML =
+    '<div class="lm-flow-progress-label"><span>Paso ' + (idx + 1) + ' de ' + total + '</span><span>' + stepLabel + '</span></div>' +
+    '<div class="lm-flow-progress-track"><div class="lm-flow-progress-fill" style="width:' + pct + '%"></div></div>';
+
+  var badge2 = main.querySelector(".lm-flow-badge");
+  if (badge2) { badge2.insertAdjacentElement("afterend", wrap); }
+  else { main.insertBefore(wrap, main.firstChild); }
 })();
 
 /**

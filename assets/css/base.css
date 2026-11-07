@@ -148,6 +148,16 @@ body[class*="lm-theme-"] .lm-card .lm-callout-neutral {
 .lm-flow-badge { text-align: center; margin: 2px 0 14px; }
 .lm-flow-badge img { display: inline-block; max-width: 220px; width: 100%; height: auto; }
 
+/* Barra de progreso del plan enfocado / manual completo — ver
+   lmRenderFlowProgress en section-ui.js. */
+.lm-flow-progress { margin: 0 0 18px; }
+.lm-flow-progress-label { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-faint); margin-bottom: 6px; }
+.lm-flow-progress-label span:last-child { text-align: right; }
+.lm-flow-progress-track { height: 6px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; }
+.lm-flow-progress-fill { height: 100%; border-radius: 999px; background: var(--gold); transition: width 0.3s ease; }
+body.lm-theme-presupuesto .lm-flow-progress-fill { background: #3B82F6; }
+body.lm-theme-crecimiento .lm-flow-progress-fill { background: var(--good); }
+
 .lm-wrap {
   width: 100%;
   max-width: 640px;
@@ -273,12 +283,21 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   font-size: 22px;
   font-weight: 600;
 }
-/* Dentro de tarjetas compactas (filas repetibles, items de presupuesto)
-   el campo vuelve a una versión mini de sí mismo — sigue sin caja, pero
-   no necesita tanto espacio. */
+/* Dentro de tarjetas compactas (filas repetibles: deudas, ahorros,
+   objetivos, items de presupuesto) el campo se vuelve un "cuadrito" con
+   caja propia — para que se distinga de un vistazo qué es un dato que ya
+   viene (texto plano) y qué es un campo donde hay que escribir. */
 .lm-debt-row .lm-input, .lm-pitem input {
   min-height: 40px;
-  padding: 8px 2px;
+  padding: 9px 11px;
+  background: var(--card3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.lm-debt-row .lm-input:hover, .lm-pitem input:hover { border-color: var(--border-strong); }
+.lm-debt-row .lm-input:focus, .lm-pitem input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(231,166,60,0.18);
 }
 
 .lm-row { display: flex; gap: 10px; }
@@ -288,11 +307,12 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
    para ver todo de un vistazo, sin tener que hacer scroll por cada dato. */
 .lm-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .lm-mini-label { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-faint); margin-bottom: 4px; }
-.lm-row-3 .lm-input { min-height: 38px; font-size: 16px !important; padding: 6px 2px; }
+.lm-row-3 .lm-input { min-height: 38px; font-size: 16px !important; padding: 7px 9px; text-align: center; }
 
 /* El nombre de la deuda/ahorro es lo primero que se lee — se siente como
-   el título de la tarjeta, no un campo más. */
-.lm-input-title { font-size: 21px !important; font-weight: 700; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+   el título de la tarjeta, no un campo más, pero con la misma caja que el
+   resto para que quede claro que también se puede editar. */
+.lm-input-title { font-size: 19px !important; font-weight: 700; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 48px !important; }
 
 /* ---------- Buttons ---------- */
 .lm-btn {
