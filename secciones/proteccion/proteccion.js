@@ -116,10 +116,10 @@ function renderProteccion() {
   lmWrapUnknown(aniosInput);
 
   var saved = lmGetSection("proteccion");
-  deudasInput.value = saved ? saved.deudas : (lmGetDebtsTotalBalance() || "");
-  ingresoAnualInput.value = saved ? saved.ingresoAnual : ((lmGetIncomeTotal() * 12) || "");
-  ahorrosInput.value = saved ? saved.ahorros : (lmGetSavingsTotal() || "");
-  coberturaInput.value = saved ? saved.coberturaActual : ((vida && vida.coverage) || "");
+  deudasInput.value = saved ? lmRound(saved.deudas) : lmRoundOrBlank(lmGetDebtsTotalBalance());
+  ingresoAnualInput.value = saved ? lmRound(saved.ingresoAnual) : lmRoundOrBlank(lmGetIncomeTotal() * 12);
+  ahorrosInput.value = saved ? lmRound(saved.ahorros) : lmRoundOrBlank(lmGetSavingsTotal());
+  coberturaInput.value = saved ? lmRound(saved.coberturaActual) : lmRoundOrBlank(vida && vida.coverage);
   if (saved && typeof saved.funeral === "number") funeralInput.value = saved.funeral;
   if (saved && saved.anios) aniosInput.value = saved.anios;
 

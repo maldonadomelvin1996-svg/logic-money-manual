@@ -51,7 +51,7 @@ aniosInput.addEventListener("input", render);
 (function init() {
   var saved = lmGetSection("retiro-cuanto");
   var retiroCuando = lmGetSection("retiro-cuando");
-  ingresoInput.value = saved ? saved.ingreso : (lmGetIncomeTotal() || "");
-  aniosInput.value = saved ? saved.anios : ((retiroCuando && retiroCuando.anios) || "");
+  ingresoInput.value = saved ? lmRound(saved.ingreso) : lmRoundOrBlank(lmGetIncomeTotal());
+  aniosInput.value = saved ? lmRound(saved.anios) : lmRoundOrBlank(retiroCuando && retiroCuando.anios);
   render();
 })();

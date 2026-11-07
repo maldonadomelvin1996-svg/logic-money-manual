@@ -170,7 +170,7 @@ function saveAndRender() {
 }
 
 (function init() {
-  incomeInput.value = lmGetIncomeTotal() || "";
+  incomeInput.value = lmRoundOrBlank(lmGetIncomeTotal());
 
   var saved = lmGetSection("presupuesto");
   if (saved && saved.categories) {
@@ -187,7 +187,7 @@ function saveAndRender() {
       items.slice(cat.items.length).forEach(function (item) { addExtraItem(cat, item); });
       updateCategoryTotal(cat);
     });
-    if (saved.income) incomeInput.value = saved.income;
+    if (saved.income) incomeInput.value = lmRound(saved.income);
   }
   renderPresupuestoResults(updateResults());
 })();

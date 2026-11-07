@@ -24,7 +24,6 @@ function render() {
         '<div class="lm-hero-value" style="color:var(--good)">' + lmMoney(nif) + '</div>' +
       '</div>' +
       '<div class="lm-tile-row" style="margin-top:14px">' +
-        '<div class="lm-tile"><div class="lm-tile-label">Te falta al mes</div><div class="lm-tile-value">' + lmMoney(objetivo) + '</div></div>' +
         '<div class="lm-tile"><div class="lm-tile-label">Anual (x12)</div><div class="lm-tile-value">' + lmMoney(anual) + '</div></div>' +
       '</div>';
   }
@@ -48,6 +47,6 @@ objetivoInput.addEventListener("input", render);
 (function init() {
   var saved = lmGetSection("retiro-nif");
   var retiroSilla = lmGetSection("retiro-silla");
-  objetivoInput.value = saved ? saved.objetivo : ((retiroSilla && retiroSilla.falta) || "");
+  objetivoInput.value = saved ? lmRound(saved.objetivo) : lmRoundOrBlank(retiroSilla && retiroSilla.falta);
   render();
 })();

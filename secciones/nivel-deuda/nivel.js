@@ -72,7 +72,7 @@ incomeInput.addEventListener("input", renderNivel);
     lmRenderDataGuard(document.getElementById("data-guard"), "Esto se arma solo con tu información de Deudas e Ingresos. Completa primero la sección de Tomar datos para ver tu nivel de deuda aquí.");
     return;
   }
-  paymentsInput.value = saved ? saved.payments : (lmGetDebtsTotalPayment() || "");
-  incomeInput.value = saved ? saved.income : (lmGetIncomeTotal() || "");
+  paymentsInput.value = saved ? lmRound(saved.payments) : lmRoundOrBlank(lmGetDebtsTotalPayment());
+  incomeInput.value = saved ? lmRound(saved.income) : lmRoundOrBlank(lmGetIncomeTotal());
   renderNivel();
 })();

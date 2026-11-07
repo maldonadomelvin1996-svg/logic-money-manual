@@ -112,7 +112,7 @@ body {
 /* ---------- Typography ---------- */
 h1.lm-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 38px; font-weight: 700; margin: 4px 0 10px; letter-spacing: -0.02em; line-height: 1.1; color: var(--text); }
 .lm-title-row { display: flex; align-items: center; gap: 14px; }
-.lm-title-row .lm-title { margin: 4px 0 10px; }
+.lm-title-row .lm-title { margin: 4px 0 10px; min-width: 0; overflow-wrap: break-word; }
 .lm-title-icon-img { width: 104px; height: 104px; object-fit: contain; flex-shrink: 0; }
 .lm-title-icon { font-size: 88px; line-height: 1; flex-shrink: 0; }
 h2.lm-subtitle { font-size: 16px; font-weight: 450; color: var(--text-mid); margin: 0 0 28px; line-height: 1.55; }

@@ -76,3 +76,19 @@ function lmMoneyDecimals(n) {
   n = Number(n) || 0;
   return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
+
+/* Redondea un número que viene de un cálculo de otra sección (ej. años x
+   1.03^n) antes de precargarlo en un <input type="number"> — si no, el
+   lector ve algo como "5418.336666..." en vez de "5418". 0 se trata como
+   vacío (el campo arranca en blanco, no en "0"), igual que antes. */
+function lmRoundOrBlank(n) {
+  var r = Math.round(Number(n) || 0);
+  return r || "";
+}
+
+/* Igual que lmRoundOrBlank, pero sin tratar 0 como vacío — para cuando el
+   valor viene de datos YA guardados por el lector (si guardó $0 a
+   propósito, debe seguir viendo "0", no un campo en blanco). */
+function lmRound(n) {
+  return Math.round(Number(n) || 0);
+}
