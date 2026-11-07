@@ -67,17 +67,18 @@ var CHAPTERS = [
     sections: [
       { key: "patrimonio", title: "Patrimonio", icon: "\u{1F3DB}️", sub: "Lo que tienes menos lo que debes", href: "secciones/patrimonio/index.html" },
       { key: "reduccion-deudas", title: "Reducción de deudas", icon: "❄️", sub: "Tu plan para salir de deudas", href: "secciones/reduccion-deudas/index.html" },
-      { key: "fondo-emergencia", title: "Fondo de emergencia", icon: "☂️", sub: "¿Cuánto necesitas guardado?", href: "secciones/fondo-emergencia/index.html" },
-      { key: "credito", title: "Crédito", icon: "\u{1F4C8}", sub: "Tu puntaje y cómo mejorarlo", href: "secciones/credito/index.html" },
-      { key: "nivel-deuda", title: "Nivel de deuda", icon: "⚖️", sub: "Razón deuda/ingreso", href: "secciones/nivel-deuda/index.html" },
-      { key: "proteccion", title: "Análisis de protección", icon: "\u{1F6DF}", sub: "¿Necesitas seguro de vida?", href: "secciones/proteccion/index.html" },
+      { key: "fondo-emergencia", title: "Fondo de emergencia", iconImg: "assets/icons/categories/fondo-emergencia.png", sub: "¿Cuánto necesitas guardado?", href: "secciones/fondo-emergencia/index.html" },
+      { key: "credito", title: "Crédito", iconImg: "assets/icons/categories/credito.png", sub: "Tu puntaje y cómo mejorarlo", href: "secciones/credito/index.html" },
+      { key: "nivel-deuda", title: "Nivel de deuda", iconImg: "assets/icons/categories/nivel-deuda.png", sub: "Razón deuda/ingreso", href: "secciones/nivel-deuda/index.html" },
+      { key: "proteccion", title: "Análisis de protección", iconImg: "assets/icons/categories/proteccion.png", sub: "¿Necesitas seguro de vida?", href: "secciones/proteccion/index.html" },
     ],
   },
   {
     title: "3. Retiro y cierre",
+    grid: true,
     sections: [
-      { key: "retiro-cuando", title: "Retiro", sub: "Tu número de independencia financiera (5 pasos)", href: "secciones/retiro-cuando/index.html" },
-      { key: "plan-financiero", title: "Plan Financiero", sub: "Tu resumen y próximos pasos", href: null },
+      { key: "retiro-cuando", title: "Retiro", iconImg: "assets/icons/categories/retiro.png", sub: "Tu número de independencia financiera (5 pasos)", href: "secciones/retiro-cuando/index.html" },
+      { key: "plan-financiero", title: "Plan Financiero", icon: "\u{1F5FA}️", sub: "Tu resumen y próximos pasos", href: null },
     ],
   },
 ];
@@ -121,9 +122,12 @@ CHAPTERS.forEach(function (chapter) {
       tile.className = "lm-section-tile";
       if (enabled) tile.href = s.href;
       if (!enabled) tile.dataset.disabled = "true";
+      var iconHtml = s.iconImg
+        ? '<img class="lm-section-tile-icon-img" src="' + lmRootPath() + s.iconImg + '" alt="">'
+        : '<span class="lm-section-tile-icon">' + (s.icon || "") + '</span>';
       tile.innerHTML =
         (done ? '<span class="lm-section-tile-check">&#10003;</span>' : '') +
-        '<span class="lm-section-tile-icon">' + (s.icon || "") + '</span>' +
+        iconHtml +
         '<span class="lm-section-tile-title">' + s.title + '</span>';
       gridEl.appendChild(tile);
     });
