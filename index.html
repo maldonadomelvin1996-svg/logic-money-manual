@@ -21,11 +21,12 @@
 <main class="lm-wrap">
   <h1 class="lm-title">Tu plan financiero, paso a paso</h1>
   <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro.</h2>
-  <a class="lm-btn lm-btn-primary lm-hero-cta" href="secciones/objetivos/index.html" id="start-full-btn">Comenzar mi análisis</a>
-  <div class="lm-hint" style="text-align:center;margin-bottom:10px">Análisis completo — te lleva por todas las secciones, en orden.</div>
-  <div class="lm-flow-alt-row">
-    <button type="button" class="lm-btn lm-btn-secondary" id="start-deudas-btn">Análisis de deudas</button>
-    <button type="button" class="lm-btn lm-btn-secondary" id="start-retiro-btn">Plan de retiro</button>
+  <a class="lm-btn lm-btn-primary lm-hero-cta" href="secciones/objetivos/index.html" id="start-full-btn">Comenzar la versión completa</a>
+  <div class="lm-hint" style="text-align:center;margin-bottom:14px">Versión completa — te lleva por todas las secciones, en orden. O enfócate en una categoría:</div>
+  <div class="lm-flow-img-stack">
+    <button type="button" class="lm-flow-img-btn" id="start-presupuesto-btn"><img src="assets/icons/flows/presupuesto.png" alt="Comenzar análisis de presupuesto"></button>
+    <button type="button" class="lm-flow-img-btn" id="start-estabilidad-btn"><img src="assets/icons/flows/estabilidad.png" alt="Comenzar análisis de estabilidad"></button>
+    <button type="button" class="lm-flow-img-btn" id="start-crecimiento-btn"><img src="assets/icons/flows/crecimiento.png" alt="Comenzar análisis de crecimiento"></button>
   </div>
   <div class="lm-hint" style="text-align:center;margin-bottom:18px">&#128274; Tus respuestas se guardan solo en este teléfono — nadie más las ve, ni siquiera Logic Money.</div>
 
@@ -158,13 +159,17 @@ CHAPTERS.forEach(function (chapter) {
 document.getElementById("start-full-btn").addEventListener("click", function () {
   lmSetActiveFlow(null);
 });
-document.getElementById("start-deudas-btn").addEventListener("click", function () {
-  lmSetActiveFlow("deudas");
+document.getElementById("start-presupuesto-btn").addEventListener("click", function () {
+  lmSetActiveFlow("presupuesto");
   location.href = "secciones/ingresos/index.html";
 });
-document.getElementById("start-retiro-btn").addEventListener("click", function () {
-  lmSetActiveFlow("retiro");
-  location.href = "secciones/ingresos/index.html";
+document.getElementById("start-estabilidad-btn").addEventListener("click", function () {
+  lmSetActiveFlow("estabilidad");
+  location.href = "secciones/fondo-emergencia/index.html";
+});
+document.getElementById("start-crecimiento-btn").addEventListener("click", function () {
+  lmSetActiveFlow("crecimiento");
+  location.href = "secciones/retiro-cuando/index.html";
 });
 
 var clearBtn = document.getElementById("clear-data-btn");

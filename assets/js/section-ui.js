@@ -58,17 +58,18 @@ function lmRenderStorageWarningIfNeeded(containerEl) {
 }
 
 /**
- * Planes de análisis enfocado: el lector puede elegir no hacer el manual
- * completo y en vez de eso seguir un recorrido corto centrado solo en lo
- * que le interesa (deudas, retiro). El "Siguiente"/"Anterior" de cada
- * sección salta directo entre las claves del plan activo, ignorando las
- * secciones que no aplican (ej. Seguros no aparece en el plan de deudas).
- * El plan activo se guarda en localStorage y se limpia cuando el lector
- * elige explícitamente el análisis completo.
+ * Planes de análisis enfocado: el lector puede elegir no hacer la versión
+ * completa y en vez de eso seguir un recorrido corto centrado en una de
+ * las 3 categorías del libro (Presupuesto, Estabilidad, Crecimiento). El
+ * "Siguiente"/"Anterior" de cada sección salta directo entre las claves
+ * del plan activo, ignorando las secciones que no aplican. El plan activo
+ * se guarda en localStorage y se limpia cuando el lector elige
+ * explícitamente la versión completa.
  */
 var LM_FLOWS = {
-  deudas: { label: "Análisis de deudas", keys: ["ingresos", "deudas", "nivel-deuda", "reduccion-deudas"] },
-  retiro: { label: "Plan de retiro", keys: ["ingresos", "deudas", "ahorros", "retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil"] },
+  presupuesto: { label: "Presupuesto", keys: ["ingresos", "presupuesto", "patrimonio"] },
+  estabilidad: { label: "Estabilidad", keys: ["fondo-emergencia", "credito", "nivel-deuda", "seguros"] },
+  crecimiento: { label: "Crecimiento", keys: ["retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil"] },
 };
 function lmGetActiveFlow() {
   try { return localStorage.getItem("lmActiveFlow") || null; } catch (e) { return null; }

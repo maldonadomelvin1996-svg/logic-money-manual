@@ -228,8 +228,18 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-btn-primary:hover { opacity: 0.92; }
 
 .lm-hero-cta { padding: 20px 20px; font-size: 17px; font-weight: 800; margin-bottom: 10px; }
-.lm-flow-alt-row { display: flex; gap: 8px; margin-bottom: 14px; }
-.lm-flow-alt-row .lm-btn { flex: 1; }
+.lm-flow-img-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.lm-flow-img-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.08s, opacity 0.15s;
+}
+.lm-flow-img-btn:active { transform: scale(0.97); }
+.lm-flow-img-btn img { display: block; width: 100%; height: auto; }
 
 .lm-btn-secondary { background: var(--card3); color: #1D1D1F; border: 1px solid var(--border-strong); }
 .lm-btn-secondary:hover { background: var(--card2); }
