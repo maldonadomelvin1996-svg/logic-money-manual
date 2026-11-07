@@ -103,7 +103,7 @@ function lmRenderStorageWarningIfNeeded(containerEl) {
  * explícitamente la versión completa.
  */
 var LM_FLOWS = {
-  presupuesto: { label: "Presupuesto", keys: ["ingresos", "presupuesto", "patrimonio"], dashboard: "../dashboard-presupuesto/index.html" },
+  presupuesto: { label: "Presupuesto", keys: ["ingresos", "deudas", "ahorros", "presupuesto", "patrimonio"], dashboard: "../dashboard-presupuesto/index.html" },
   estabilidad: { label: "Estabilidad", keys: ["fondo-emergencia", "credito", "nivel-deuda", "seguros"], dashboard: "../dashboard-estabilidad/index.html" },
   crecimiento: { label: "Crecimiento", keys: ["retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil"], dashboard: "../dashboard-crecimiento/index.html" },
 };
