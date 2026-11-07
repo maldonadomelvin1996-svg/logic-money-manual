@@ -129,6 +129,11 @@ var LM_FULL_ORDER = [
   "patrimonio", "reduccion-deudas", "fondo-emergencia", "credito", "nivel-deuda", "proteccion",
   "retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil",
 ];
+
+/* Al terminar el manual completo (sin plan enfocado activo) hay data para
+   los 3 dashboards, así que "Siguiente" los recorre los tres seguidos en
+   vez de mandar al lector a un solo dashboard. */
+var LM_DASHBOARD_TOUR = ["dashboard-presupuesto", "dashboard-estabilidad", "dashboard-crecimiento"];
 function lmGetActiveFlow() {
   try { return localStorage.getItem("lmActiveFlow") || null; } catch (e) { return null; }
 }
@@ -147,14 +152,43 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
   var flow = flowKey && LM_FLOWS[flowKey];
   var current = lmCurrentSectionKey();
   var idx = flow && current ? flow.keys.indexOf(current) : -1;
-  if (!flow || idx === -1) return { next: defaultNextHref, prev: defaultPrevHref };
-  var nextKey = flow.keys[idx + 1];
-  var prevKey = idx > 0 ? flow.keys[idx - 1] : null;
-  return {
-    next: nextKey ? "../" + nextKey + "/index.html" : (flow.dashboard || null),
-    nextLabel: !nextKey && flow.dashboard ? "Ver mi dashboard" : null,
-    prev: prevKey ? "../" + prevKey + "/index.html" : defaultPrevHref,
-  };
+  if (flow && idx !== -1) {
+    var nextKey = flow.keys[idx + 1];
+    var prevKey = idx > 0 ? flow.keys[idx - 1] : null;
+    return {
+      next: nextKey ? "../" + nextKey + "/index.html" : (flow.dashboard || null),
+      nextLabel: !nextKey && flow.dashboard ? "Ver mi dashboard" : null,
+      prev: prevKey ? "../" + prevKey + "/index.html" : defaultPrevHref,
+    };
+  }
+
+  /* Sin plan enfocado activo (manual completo): al llegar al final de la
+     cadena de secciones, en vez de quedarse sin "Siguiente", se entra al
+     recorrido de los 3 dashboards; y dentro de ese recorrido, "Siguiente"/
+     "Anterior" pasan de un dashboard al otro en vez de usar sus hrefs
+     fijos (que son para cuando SÍ hay un plan enfocado activo). */
+  if (!flowKey && current) {
+    var tourIdx = LM_DASHBOARD_TOUR.indexOf(current);
+    if (tourIdx !== -1) {
+      var nextDash = LM_DASHBOARD_TOUR[tourIdx + 1];
+      var prevDash = tourIdx > 0 ? LM_DASHBOARD_TOUR[tourIdx - 1] : null;
+      return {
+        next: nextDash ? "../" + nextDash + "/index.html" : defaultNextHref,
+        nextLabel: nextDash ? "Ver mi próximo dashboard" : null,
+        prev: prevDash ? "../" + prevDash + "/index.html" : defaultPrevHref,
+      };
+    }
+    var fullIdx = LM_FULL_ORDER.indexOf(current);
+    if (fullIdx !== -1 && fullIdx === LM_FULL_ORDER.length - 1) {
+      return {
+        next: "../" + LM_DASHBOARD_TOUR[0] + "/index.html",
+        nextLabel: "Ver mis 3 dashboards",
+        prev: defaultPrevHref,
+      };
+    }
+  }
+
+  return { next: defaultNextHref, prev: defaultPrevHref };
 }
 
 /* Mientras un plan enfocado está activo, el fondo de cada página de ESE

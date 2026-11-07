@@ -255,25 +255,27 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 }
 .lm-hint { font-size: 13px; color: var(--text-faint); margin-top: 8px; line-height: 1.5; }
 
+/* Cuadrito con caja propia (antes era solo una línea subrayada, estilo
+   Typeform) — para que cualquier campo donde hay que escribir se
+   distinga de un vistazo de un texto/resultado que ya viene calculado. */
 .lm-input, .lm-select {
   width: 100%;
-  min-height: 48px;
-  background: transparent;
-  border: none;
-  border-bottom: 1.5px solid rgba(0,0,0,0.16);
-  border-radius: 0;
+  min-height: 52px;
+  background: var(--card3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
   color: var(--text);
   font-family: inherit;
   font-size: 18px;
   font-weight: 500;
-  padding: 10px 2px;
+  padding: 14px 16px;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
-.lm-input:hover, .lm-select:hover { border-bottom-color: rgba(0,0,0,0.3); }
+.lm-input:hover, .lm-select:hover { border-color: var(--border-strong); }
 .lm-input:focus, .lm-select:focus {
-  border-bottom-color: var(--gold);
-  box-shadow: 0 10px 20px -14px rgba(231,166,60,0.65);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(231,166,60,0.18);
 }
 .lm-input::placeholder { color: var(--text-faint); font-weight: 400; }
 /* Los campos de número llevan el dato más importante de la pregunta, así
@@ -284,20 +286,12 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   font-weight: 600;
 }
 /* Dentro de tarjetas compactas (filas repetibles: deudas, ahorros,
-   objetivos, items de presupuesto) el campo se vuelve un "cuadrito" con
-   caja propia — para que se distinga de un vistazo qué es un dato que ya
-   viene (texto plano) y qué es un campo donde hay que escribir. */
+   objetivos, items de presupuesto) el cuadrito vuelve a una versión mini
+   de sí mismo — sigue siendo caja, pero no necesita tanto espacio. */
 .lm-debt-row .lm-input, .lm-pitem input {
   min-height: 40px;
   padding: 9px 11px;
-  background: var(--card3);
-  border: 1px solid var(--border);
   border-radius: 10px;
-}
-.lm-debt-row .lm-input:hover, .lm-pitem input:hover { border-color: var(--border-strong); }
-.lm-debt-row .lm-input:focus, .lm-pitem input:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(231,166,60,0.18);
 }
 
 .lm-row { display: flex; gap: 10px; }
@@ -312,7 +306,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 /* El nombre de la deuda/ahorro es lo primero que se lee — se siente como
    el título de la tarjeta, no un campo más, pero con la misma caja que el
    resto para que quede claro que también se puede editar. */
-.lm-input-title { font-size: 19px !important; font-weight: 700; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 48px !important; }
+.lm-input-title { font-size: 19px !important; font-weight: 700; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 /* ---------- Buttons ---------- */
 .lm-btn {
