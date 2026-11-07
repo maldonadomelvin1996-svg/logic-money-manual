@@ -19,6 +19,12 @@
   .lm-pitem select { min-height: 40px; width: 100px; flex-shrink: 0; font-size: 16px; font-weight: 600; padding: 8px 2px; background: transparent; border: none; border-radius: 10px; }
   .lm-pitem select:focus { background: rgba(231,166,60,0.12); outline: none; }
   .lm-cat-total { display:flex; justify-content:space-between; padding-top:10px; margin-top:4px; font-weight:600; font-size:13px; }
+  .lm-pitem-label-input { flex: 1; min-width: 0; font-size: 13px; color: var(--text); background: transparent; border: none; border-bottom: 1px dashed var(--border-strong); padding: 4px 0; font-family: inherit; }
+  .lm-pitem-label-input:focus { outline: none; border-color: var(--gold); }
+  .lm-pitem-label-input::placeholder { color: var(--text-faint); }
+  .lm-pitem-remove { flex-shrink: 0; background: none; border: none; color: var(--text-faint); font-size: 18px; line-height: 1; width: 24px; height: 24px; cursor: pointer; }
+  .lm-pitem-remove:hover { color: var(--warn); }
+  .lm-add-item-btn { background: none; border: none; color: var(--gold); font-size: 13px; font-weight: 700; padding: 10px 0 2px; cursor: pointer; }
 </style>
 </head>
 <body>

@@ -20,7 +20,7 @@ function buildCategoryCard(cat) {
   card.className = "lm-card";
   var html = '<h3 class="lm-h3">' + cat.label + '</h3>';
   cat.items.forEach(function (item, i) {
-    html += '<div class="lm-pitem" data-item="' + i + '">' +
+    html += '<div class="lm-pitem" data-item="' + i + '" data-fixed-label="' + item.replace(/"/g, "&quot;") + '">' +
       '<span class="lm-pitem-label">' + item + '</span>' +
       '<input type="number" inputmode="decimal" class="lm-input" min="0" placeholder="$0" data-field="amount">' +
       '<select data-field="necesario">' +
@@ -29,23 +29,65 @@ function buildCategoryCard(cat) {
       '</select>' +
       '</div>';
   });
+  html += '<div class="lm-extra-items"></div>';
+  html += '<button type="button" class="lm-add-item-btn lm-no-print">+ Añadir otro gasto</button>';
   html += '<div class="lm-cat-total"><span>Total</span><span data-cat-total>$0</span></div>';
   card.innerHTML = html;
   categoriesEl.appendChild(card);
   return card;
 }
 
+function addExtraItem(cat, prefill) {
+  var card = categoryCards[cat.key];
+  var extraWrap = card.querySelector(".lm-extra-items");
+  var row = document.createElement("div");
+  row.className = "lm-pitem";
+  row.dataset.extra = "true";
+  row.innerHTML =
+    '<input type="text" class="lm-pitem-label-input" placeholder="Describe el gasto" data-field="label">' +
+    '<input type="number" inputmode="decimal" class="lm-input" min="0" placeholder="$0" data-field="amount">' +
+    '<select data-field="necesario">' +
+      '<option value="necesario">Necesario</option>' +
+      '<option value="opcional">Opcional</option>' +
+    '</select>' +
+    '<button type="button" class="lm-pitem-remove lm-no-print" aria-label="Quitar">&times;</button>';
+  extraWrap.appendChild(row);
+  if (prefill) {
+    row.querySelector('[data-field="label"]').value = prefill.label || "";
+    row.querySelector('[data-field="amount"]').value = prefill.amount || "";
+    row.querySelector('[data-field="necesario"]').value = prefill.necesario ? "necesario" : "opcional";
+  }
+  row.querySelector(".lm-pitem-remove").addEventListener("click", function () {
+    row.remove();
+    updateCategoryTotal(cat);
+    updateResults();
+    saveAndRender();
+  });
+  return row;
+}
+
 var categoryCards = {};
 CATEGORIES.forEach(function (cat) { categoryCards[cat.key] = buildCategoryCard(cat); });
+CATEGORIES.forEach(function (cat) {
+  categoryCards[cat.key].querySelector(".lm-add-item-btn").addEventListener("click", function () {
+    addExtraItem(cat);
+    updateCategoryTotal(cat);
+    updateResults();
+    saveAndRender();
+  });
+});
 
 function readCategory(cat) {
   var card = categoryCards[cat.key];
   var rows = card.querySelectorAll(".lm-pitem");
   var items = [];
-  rows.forEach(function (row, i) {
+  rows.forEach(function (row) {
+    var isExtra = row.dataset.extra === "true";
+    var label = isExtra ? row.querySelector('[data-field="label"]').value.trim() : row.dataset.fixedLabel;
     var amount = parseFloat(row.querySelector('[data-field="amount"]').value) || 0;
     var necesario = row.querySelector('[data-field="necesario"]').value === "necesario";
-    items.push({ label: cat.items[i], amount: amount, necesario: necesario });
+    if (isExtra && !label && amount <= 0) return;
+    items.push({ label: label || "Otro gasto", amount: amount, necesario: necesario });
   });
   return items;
 }
@@ -135,13 +177,14 @@ function saveAndRender() {
     CATEGORIES.forEach(function (cat) {
       var items = saved.categories[cat.key];
       if (!items) return;
-      var rows = categoryCards[cat.key].querySelectorAll(".lm-pitem");
+      var rows = categoryCards[cat.key].querySelectorAll(".lm-pitem[data-item]");
       rows.forEach(function (row, i) {
         if (items[i]) {
           row.querySelector('[data-field="amount"]').value = items[i].amount || "";
           row.querySelector('[data-field="necesario"]').value = items[i].necesario ? "necesario" : "opcional";
         }
       });
+      items.slice(cat.items.length).forEach(function (item) { addExtraItem(cat, item); });
       updateCategoryTotal(cat);
     });
     if (saved.income) incomeInput.value = saved.income;
