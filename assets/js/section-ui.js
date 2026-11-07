@@ -146,6 +146,8 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
   if (!flowKey || !LM_FLOWS[flowKey] || !document.body) return;
   document.body.classList.add("lm-theme-" + flowKey);
 
+  if (/\/secciones\/dashboard-/.test(window.location.pathname)) return;
+
   var main = document.querySelector("main.lm-wrap");
   if (!main) return;
   var badge = document.createElement("div");
