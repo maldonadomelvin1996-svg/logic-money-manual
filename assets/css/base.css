@@ -104,6 +104,7 @@ body.lm-theme-crecimiento { background: radial-gradient(ellipse 140% 55% at 50% 
 
 .lm-brand-logic { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
 .lm-brand-money { font-weight: 700; font-size: 18px; color: var(--gold); letter-spacing: -0.01em; }
+.lm-brand-logo { display: block; height: 34px; width: auto; }
 
 .lm-breadcrumb {
   font-size: 13px;
