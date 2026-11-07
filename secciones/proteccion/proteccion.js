@@ -109,6 +109,10 @@ function renderProteccion() {
 }
 
 (function init() {
+  if (!lmHasSection("ingresos") && !lmHasSection("deudas") && !lmHasSection("ahorros")) {
+    lmRenderDataGuard(document.getElementById("data-guard"), "Esto se calcula mejor con tu información de Ingresos, Deudas y Ahorros. Puedes contestar aquí igual, o completar primero la sección de Tomar datos.");
+  }
+
   lmWrapUnknown(aniosInput);
 
   var saved = lmGetSection("proteccion");

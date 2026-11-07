@@ -22,7 +22,10 @@ function renderNivel() {
   var income = parseFloat(incomeInput.value) || 0;
   var resultsEl = document.getElementById("results");
   resultsEl.innerHTML = "";
-  if (income <= 0) return;
+  if (income <= 0) {
+    resultsEl.innerHTML = '<div class="lm-callout lm-callout-neutral">Agrega tu ingreso mensual arriba para ver el cálculo.</div>';
+    return;
+  }
 
   var pct = Math.round((payments / income) * 100);
   var band = debtBand(pct);
@@ -64,6 +67,11 @@ incomeInput.addEventListener("input", renderNivel);
 
 (function init() {
   var saved = lmGetSection("nivel-deuda");
+  if (!saved && !lmHasSection("deudas") && !lmHasSection("ingresos")) {
+    document.getElementById("inputs-card").style.display = "none";
+    lmRenderDataGuard(document.getElementById("data-guard"), "Esto se arma solo con tu información de Deudas e Ingresos. Completa primero la sección de Tomar datos para ver tu nivel de deuda aquí.");
+    return;
+  }
   paymentsInput.value = saved ? saved.payments : (lmGetDebtsTotalPayment() || "");
   incomeInput.value = saved ? saved.income : (lmGetIncomeTotal() || "");
   renderNivel();

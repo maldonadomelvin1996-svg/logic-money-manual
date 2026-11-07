@@ -53,9 +53,6 @@ function renderFondo() {
     '<div class="lm-tile"><div class="lm-tile-label">Ingreso x' + state.months + '</div><div class="lm-tile-value" style="font-size:16px">' + lmMoney(state.objetivoIngreso) + '</div></div>' +
   '</div>';
 
-  if (!state.gastosNecesarios && !state.ingreso) {
-    html += '<div class="lm-callout lm-callout-neutral" style="margin-top:10px">Completa <a href="../presupuesto/index.html" style="color:inherit">Presupuesto</a> e <a href="../../secciones/ingresos/index.html" style="color:inherit">Ingresos</a> para que esto se calcule solo.</div>';
-  }
   card.innerHTML = html;
   resultsEl.appendChild(card);
 
@@ -81,6 +78,11 @@ monthsSelect.addEventListener("change", renderFondo);
 
 (function init() {
   var saved = lmGetSection("fondo-emergencia");
+  if (!saved && !lmHasSection("presupuesto") && !lmHasSection("ingresos")) {
+    document.getElementById("inputs-card").style.display = "none";
+    lmRenderDataGuard(document.getElementById("data-guard"), "Esto se arma solo con tu información de Presupuesto e Ingresos. Completa primero la sección de Tomar datos para ver tu meta de fondo de emergencia aquí.");
+    return;
+  }
   if (saved && saved.months) monthsSelect.value = saved.months;
   renderFondo();
 })();

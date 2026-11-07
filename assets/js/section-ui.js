@@ -198,6 +198,19 @@ function lmConfirmInline(triggerBtn, message, onConfirm) {
  * antes de imprimir los QR reales. Requiere que demo-data.js esté
  * cargado en la página.
  */
+/**
+ * Para páginas de "Análisis de datos" que se arman solas con lo que el
+ * lector ya puso en "Tomar datos" (Patrimonio, Fondo de emergencia, Nivel
+ * de deuda): si todavía no hay NADA de esa información guardada, no tiene
+ * sentido mostrar el cálculo en $0 — mejor invitarlo a hacer "Tomar datos"
+ * primero, con un botón directo para empezar ese recorrido desde el inicio.
+ */
+function lmRenderDataGuard(containerEl, message) {
+  containerEl.innerHTML =
+    '<div class="lm-callout lm-callout-neutral">' + message + '</div>' +
+    '<a class="lm-btn lm-btn-primary" href="../objetivos/index.html">Comenzar mi análisis</a>';
+}
+
 function lmRenderSectionDemoButton(containerEl, sectionKey) {
   if (typeof lmBuildDemoData !== "function") return;
   var wrap = document.createElement("div");

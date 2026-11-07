@@ -56,7 +56,7 @@ function escapeRedHtml(s) {
 }
 
 if (debts.length === 0) {
-  contentEl.innerHTML = '<div class="lm-callout lm-callout-warn">Primero completa la sección de <a href="../deudas/index.html" style="color:inherit">Deudas</a> — esta página se arma sola con esa información.</div>';
+  lmRenderDataGuard(contentEl, "Esto se arma solo con tu información de Deudas. Completa primero la sección de Tomar datos para ver tu plan aquí.");
 } else if (debts.length === 1) {
   contentEl.innerHTML = '<div class="lm-callout lm-callout-neutral">Como solo tienes una deuda, la forma de reducirla es aportar dinero adicional de tu sobrante mensual directamente a ella.</div>';
 } else {

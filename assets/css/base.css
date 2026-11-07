@@ -222,6 +222,8 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-btn-primary { background: var(--gold); color: #1A1200; box-shadow: 0 8px 24px -6px rgba(231,166,60,0.45); }
 .lm-btn-primary:hover { opacity: 0.92; }
 
+.lm-hero-cta { padding: 20px 20px; font-size: 17px; font-weight: 800; margin-bottom: 10px; }
+
 .lm-btn-secondary { background: var(--card3); color: #1D1D1F; border: 1px solid var(--border-strong); }
 .lm-btn-secondary:hover { background: var(--card2); }
 

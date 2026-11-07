@@ -58,6 +58,12 @@ function saveAndRender() {
 
 (function init() {
   var saved = lmGetSection("patrimonio");
+  if (!saved && !lmHasSection("ahorros") && !lmHasSection("deudas")) {
+    document.getElementById("inputs-card").style.display = "none";
+    document.getElementById("patrimonio-card").style.display = "none";
+    lmRenderDataGuard(document.getElementById("data-guard"), "Esto se arma solo con tu información de Ahorros y Deudas. Completa primero la sección de Tomar datos para ver tu patrimonio aquí.");
+    return;
+  }
   activosInput.value = saved ? saved.activos : (lmGetSavingsTotal() || "");
   pasivosInput.value = saved ? saved.pasivos : (lmGetDebtsTotalBalance() || "");
   renderPatrimonioResults(updatePatrimonio());
