@@ -237,13 +237,32 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 }
 .lm-hero-cta:hover { opacity: 1; background: #22242C; }
 .lm-hero-cta-label {
-  font-size: 23px;
+  font-size: clamp(26px, 8vw, 32px);
   font-weight: 800;
   color: #FFFFFF;
   text-shadow: 0 3px 14px rgba(0,0,0,0.65);
 }
-.lm-hero-cta-mini-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
-.lm-hero-cta-mini-row img { height: 20px; width: auto; object-fit: contain; opacity: 0.92; }
+.lm-hero-cta-mini-row { display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; }
+.lm-hero-cta-mini-row img { height: 34px; width: auto; max-width: 31%; object-fit: contain; opacity: 0.95; }
+
+/* Toggle chiquito, sin texto — para desplegar cosas secundarias
+   (ej. la cuadrícula completa de secciones) sin ocupar espacio. */
+.lm-icon-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: none;
+  border: 1px solid var(--border-strong);
+  color: var(--text-faint);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s;
+}
+.lm-icon-toggle:hover { border-color: var(--gold); color: var(--gold); }
+.lm-icon-toggle.lm-icon-toggle-open { transform: rotate(180deg); }
 .lm-flow-img-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
 .lm-flow-img-btn {
   display: block;

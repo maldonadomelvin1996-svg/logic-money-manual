@@ -48,7 +48,9 @@
 
   <div id="filled-banner"></div>
 
-  <button type="button" class="lm-btn lm-btn-ghost lm-no-print" id="toggle-sections-btn" style="margin-bottom:10px">Ver todas las secciones &#8250;</button>
+  <div style="text-align:center;margin-bottom:10px">
+    <button type="button" class="lm-icon-toggle lm-no-print" id="toggle-sections-btn" aria-label="Ver todas las secciones" title="Ver todas las secciones">&#9662;</button>
+  </div>
 
   <div id="sections-wrap" style="display:none">
     <div id="progress-wrap" style="margin-bottom:20px"></div>
@@ -57,10 +59,6 @@
 
     <div class="lm-callout lm-callout-neutral" style="margin-top:8px">Las secciones marcadas "Próximamente" ya están en el libro impreso — mientras las terminamos en digital, continúa ahí.</div>
   </div>
-
-  <hr class="lm-divider">
-  <h3 class="lm-h3" style="color:var(--text-faint)">Privacidad</h3>
-  <button class="lm-btn lm-btn-ghost" id="clear-data-btn" type="button">Borrar todos mis datos</button>
 
   <div id="dev-tools"></div>
 </main>
@@ -197,7 +195,9 @@ var toggleSectionsBtn = document.getElementById("toggle-sections-btn");
 toggleSectionsBtn.addEventListener("click", function () {
   var showing = sectionsWrap.style.display !== "none";
   sectionsWrap.style.display = showing ? "none" : "block";
-  toggleSectionsBtn.innerHTML = showing ? "Ver todas las secciones &#8250;" : "Ocultar secciones &#8249;";
+  toggleSectionsBtn.classList.toggle("lm-icon-toggle-open", !showing);
+  toggleSectionsBtn.setAttribute("aria-label", showing ? "Ver todas las secciones" : "Ocultar secciones");
+  toggleSectionsBtn.title = showing ? "Ver todas las secciones" : "Ocultar secciones";
 });
 
 var flowsWrap = document.getElementById("flows-wrap");
@@ -206,14 +206,6 @@ toggleFlowsBtn.addEventListener("click", function () {
   var showing = flowsWrap.style.display !== "none";
   flowsWrap.style.display = showing ? "none" : "block";
   toggleFlowsBtn.innerHTML = showing ? "Comenzar análisis específico &#8250;" : "Ocultar análisis específico &#8249;";
-});
-
-var clearBtn = document.getElementById("clear-data-btn");
-clearBtn.addEventListener("click", function () {
-  lmConfirmInline(clearBtn, "Esto borra TODOS los datos guardados en este teléfono, de todas las secciones. ¿Continuar?", function () {
-    lmClearAllData();
-    location.reload();
-  });
 });
 
 /* Botón de prueba: llena todo con un lector ficticio para poder probar
