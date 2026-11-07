@@ -20,16 +20,16 @@
 
 <main class="lm-wrap">
   <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro.</h2>
-  <a class="lm-btn lm-btn-primary lm-hero-cta" href="secciones/objetivos/index.html" id="start-full-btn">
+  <button type="button" class="lm-btn lm-btn-primary lm-hero-cta lm-flow-trigger" id="start-full-btn" data-flow="completo">
     <img class="lm-hero-cta-wordmark" src="assets/icons/brand/manual-planificacion.png" alt="Manual de Planificación Financiera">
     <span class="lm-hero-cta-caption">Incluye las 3 categorías: Presupuesto, Estabilidad y Crecimiento.</span>
-  </a>
+  </button>
   <div class="lm-hint" style="text-align:center;margin-bottom:14px">O elige un análisis específico:</div>
 
   <div class="lm-flow-row">
-    <button type="button" class="lm-flow-sq-btn" id="start-presupuesto-btn" data-flow="presupuesto"><img src="assets/icons/flows/presupuesto.png" alt="Análisis de presupuesto"></button>
-    <button type="button" class="lm-flow-sq-btn" id="start-estabilidad-btn" data-flow="estabilidad"><img src="assets/icons/flows/estabilidad.png" alt="Análisis de estabilidad"></button>
-    <button type="button" class="lm-flow-sq-btn" id="start-crecimiento-btn" data-flow="crecimiento"><img src="assets/icons/flows/crecimiento.png" alt="Análisis de crecimiento"></button>
+    <button type="button" class="lm-flow-sq-btn lm-flow-trigger" id="start-presupuesto-btn" data-flow="presupuesto"><img src="assets/icons/flows/presupuesto.png" alt="Análisis de presupuesto"></button>
+    <button type="button" class="lm-flow-sq-btn lm-flow-trigger" id="start-estabilidad-btn" data-flow="estabilidad"><img src="assets/icons/flows/estabilidad.png" alt="Análisis de estabilidad"></button>
+    <button type="button" class="lm-flow-sq-btn lm-flow-trigger" id="start-crecimiento-btn" data-flow="crecimiento"><img src="assets/icons/flows/crecimiento.png" alt="Análisis de crecimiento"></button>
   </div>
 
   <div id="flow-expand" class="lm-flow-expand lm-no-print" style="display:none">
@@ -168,11 +168,12 @@ CHAPTERS.forEach(function (chapter) {
   });
 });
 
-document.getElementById("start-full-btn").addEventListener("click", function () {
-  lmSetActiveFlow(null);
-});
-
 var FLOW_META = {
+  completo: {
+    label: "Manual de Planificación Financiera",
+    topics: ["Análisis de presupuesto", "Análisis de estabilidad", "Análisis de crecimiento"],
+    firstHref: "secciones/objetivos/index.html",
+  },
   presupuesto: {
     label: "Análisis de Presupuesto",
     topics: ["Ingresos", "Deudas", "Ahorros", "Presupuesto", "Patrimonio neto"],
@@ -194,13 +195,16 @@ var flowExpandEl = document.getElementById("flow-expand");
 var flowExpandTitleEl = document.getElementById("flow-expand-title");
 var flowExpandListEl = document.getElementById("flow-expand-list");
 var flowExpandConfirmEl = document.getElementById("flow-expand-confirm");
-var flowSqBtns = Array.prototype.slice.call(document.querySelectorAll(".lm-flow-sq-btn"));
+var flowTriggerBtns = Array.prototype.slice.call(document.querySelectorAll(".lm-flow-trigger"));
 var openFlowKey = null;
 
+function activeClassFor(btn) {
+  return btn.classList.contains("lm-hero-cta") ? "lm-hero-cta-active" : "lm-flow-sq-btn-active";
+}
 function closeFlowExpand() {
   openFlowKey = null;
   flowExpandEl.style.display = "none";
-  flowSqBtns.forEach(function (b) { b.classList.remove("lm-flow-sq-btn-active"); });
+  flowTriggerBtns.forEach(function (b) { b.classList.remove(activeClassFor(b)); });
 }
 function openFlowExpand(key, btn) {
   openFlowKey = key;
@@ -208,10 +212,10 @@ function openFlowExpand(key, btn) {
   flowExpandTitleEl.textContent = meta.label + " incluye:";
   flowExpandListEl.innerHTML = meta.topics.map(function (t) { return "<li>" + t + "</li>"; }).join("");
   flowExpandEl.style.display = "block";
-  flowSqBtns.forEach(function (b) { b.classList.toggle("lm-flow-sq-btn-active", b === btn); });
+  flowTriggerBtns.forEach(function (b) { b.classList.toggle(activeClassFor(b), b === btn); });
 }
 
-flowSqBtns.forEach(function (btn) {
+flowTriggerBtns.forEach(function (btn) {
   btn.addEventListener("click", function () {
     var key = btn.dataset.flow;
     if (openFlowKey === key) { closeFlowExpand(); return; }
@@ -220,7 +224,7 @@ flowSqBtns.forEach(function (btn) {
 });
 flowExpandConfirmEl.addEventListener("click", function () {
   if (!openFlowKey) return;
-  lmSetActiveFlow(openFlowKey);
+  lmSetActiveFlow(openFlowKey === "completo" ? null : openFlowKey);
   location.href = FLOW_META[openFlowKey].firstHref;
 });
 

@@ -250,6 +250,7 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   box-shadow: 0 20px 44px -10px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.07);
 }
 .lm-hero-cta:hover { opacity: 1; background: #22242C; }
+.lm-hero-cta-active { background: #22242C; outline: 2px solid var(--gold); outline-offset: 3px; }
 .lm-hero-cta-wordmark { display: block; width: 100%; max-width: 440px; height: auto; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.6)); }
 .lm-hero-cta-caption { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.78); text-align: center; }
 
