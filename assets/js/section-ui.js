@@ -4,6 +4,42 @@
    "continuar aquí (digital)" vs "continuar en el libro (físico)".
    Cada sección solo tiene que llamar lmRenderSectionFooter(...). */
 
+/**
+ * Pie chart simple en SVG (sin librerías) para los dashboards. slices:
+ * [{ value, color }]. Valores en 0 se ignoran. Devuelve el string <svg>.
+ */
+function lmBuildPieSVG(slices, size) {
+  size = size || 180;
+  var r = size / 2;
+  var total = slices.reduce(function (s, x) { return s + Math.max(0, x.value); }, 0);
+  if (total <= 0) {
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '"><circle cx="' + r + '" cy="' + r + '" r="' + (r - 2) + '" fill="none" stroke="var(--card3)" stroke-width="3"></circle></svg>';
+  }
+  function polar(cx, cy, radius, angleDeg) {
+    var rad = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+  }
+  var cumulative = 0;
+  var paths = "";
+  slices.forEach(function (s) {
+    if (s.value <= 0) return;
+    var startAngle = (cumulative / total) * 360;
+    cumulative += s.value;
+    var endAngle = (cumulative / total) * 360;
+    var isFullCircle = endAngle - startAngle >= 359.99;
+    if (isFullCircle) {
+      paths += '<circle cx="' + r + '" cy="' + r + '" r="' + r + '" fill="' + s.color + '"></circle>';
+      return;
+    }
+    var start = polar(r, r, r, endAngle);
+    var end = polar(r, r, r, startAngle);
+    var largeArc = endAngle - startAngle <= 180 ? "0" : "1";
+    paths += '<path d="M ' + r + ' ' + r + ' L ' + start.x.toFixed(2) + ' ' + start.y.toFixed(2) +
+      ' A ' + r + ' ' + r + ' 0 ' + largeArc + ' 0 ' + end.x.toFixed(2) + ' ' + end.y.toFixed(2) + ' Z" fill="' + s.color + '"></path>';
+  });
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '">' + paths + '</svg>';
+}
+
 function lmRenderSaveBanner(containerEl) {
   var ok = !(typeof LM_LAST_SAVE_OK !== "undefined" && LM_LAST_SAVE_OK === false);
   var el = document.createElement("div");
@@ -67,9 +103,9 @@ function lmRenderStorageWarningIfNeeded(containerEl) {
  * explícitamente la versión completa.
  */
 var LM_FLOWS = {
-  presupuesto: { label: "Presupuesto", keys: ["ingresos", "presupuesto", "patrimonio"] },
-  estabilidad: { label: "Estabilidad", keys: ["fondo-emergencia", "credito", "nivel-deuda", "seguros"] },
-  crecimiento: { label: "Crecimiento", keys: ["retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil"] },
+  presupuesto: { label: "Presupuesto", keys: ["ingresos", "presupuesto", "patrimonio"], dashboard: "../dashboard-presupuesto/index.html" },
+  estabilidad: { label: "Estabilidad", keys: ["fondo-emergencia", "credito", "nivel-deuda", "seguros"], dashboard: "../dashboard-estabilidad/index.html" },
+  crecimiento: { label: "Crecimiento", keys: ["retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil"], dashboard: "../dashboard-crecimiento/index.html" },
 };
 function lmGetActiveFlow() {
   try { return localStorage.getItem("lmActiveFlow") || null; } catch (e) { return null; }
@@ -93,7 +129,8 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
   var nextKey = flow.keys[idx + 1];
   var prevKey = idx > 0 ? flow.keys[idx - 1] : null;
   return {
-    next: nextKey ? "../" + nextKey + "/index.html" : null,
+    next: nextKey ? "../" + nextKey + "/index.html" : (flow.dashboard || null),
+    nextLabel: !nextKey && flow.dashboard ? "Ver mi dashboard" : null,
     prev: prevKey ? "../" + prevKey + "/index.html" : defaultPrevHref,
   };
 }
@@ -133,7 +170,7 @@ function lmRenderSectionFooter(opts) {
   nextBtn.className = "lm-btn lm-btn-primary";
   if (nav.next) {
     nextBtn.href = nav.next;
-    nextBtn.textContent = "Siguiente";
+    nextBtn.textContent = nav.nextLabel || "Siguiente";
   } else {
     nextBtn.href = lmRootPath() + "index.html";
     nextBtn.textContent = "Ver otras secciones";

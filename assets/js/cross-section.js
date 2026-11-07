@@ -52,6 +52,14 @@ function lmGetPresupuestoTotalNecesario() {
   var p = lmGetPresupuesto();
   return p ? (p.totalNecesario || 0) : 0;
 }
+/* Subtotal de la categoría "Ahorros" del presupuesto (Fondo de Emergencia,
+   Plan de Retiro, Otros) — separado del resto de los gastos para el
+   dashboard de Presupuesto (Ingresos / Ahorros / Gastos / Deudas). */
+function lmGetPresupuestoAhorrosTotal() {
+  var p = lmGetPresupuesto();
+  var items = p && p.categories && p.categories.ahorros ? p.categories.ahorros : [];
+  return items.reduce(function (sum, i) { return sum + (i.amount || 0); }, 0);
+}
 
 /* Orden de pago: de menos a más tiempo restante, la casa siempre al final.
    Compartido entre la sección de Deudas y Reducción de deudas. */
