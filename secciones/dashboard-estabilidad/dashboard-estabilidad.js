@@ -4,6 +4,18 @@
 
 var contentEl = document.getElementById("content");
 
+function monthLabel(months) {
+  var d = new Date();
+  d.setMonth(d.getMonth() + months);
+  var s = d.toLocaleDateString("es-ES", { month: "long", year: "numeric" });
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+function escapeDashHtml(s) {
+  var div = document.createElement("div");
+  div.textContent = s;
+  return div.innerHTML;
+}
+
 function scoreBand(score) {
   if (score >= 750) return { label: "Excelente", color: "var(--good)", soft: "var(--good-soft)" };
   if (score >= 670) return { label: "Bueno", color: "var(--teal)", soft: "var(--teal-soft)" };
@@ -35,6 +47,33 @@ if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSecti
     html += '<div class="lm-mini-bar-track"><div class="lm-mini-bar-fill" style="width:' + Math.max(pct, 2) + '%;background:' + (done ? "var(--good)" : "var(--gold)") + '"></div></div>';
     html += '<div class="lm-mini-bar-scale"><span>' + lmMoney(fondo.tienes) + ' ahorrados</span><span>Objetivo: ' + lmMoney(objetivo) + '</span></div>';
     if (!done) html += '<div class="lm-status-pill" style="display:block;text-align:center;background:var(--warn-soft);color:var(--warn);margin-top:10px">Aún te falta ' + lmMoney(falta) + '</div>';
+    html += '</div>';
+  }
+
+  // ---- Reducción de deudas (efecto bola de nieve) ----
+  var reduccion = lmGetSection("reduccion-deudas");
+  if (reduccion && reduccion.rows && reduccion.rows.length) {
+    html += '<div class="lm-card">';
+    html += '<h3 class="lm-h3">Reducción de deudas &mdash; efecto bola de nieve</h3>';
+    html += '<div class="lm-card-flat" style="margin-bottom:' + (reduccion.months !== null ? "14px" : "0") + '">';
+    reduccion.rows.forEach(function (r, i) {
+      var sePagaLabel = r.paidOffMonth === null ? "No se saldaría así" : monthLabel(r.paidOffMonth);
+      html += '<div style="padding:8px 0;' + (i < reduccion.rows.length - 1 ? "border-bottom:1px solid var(--border);" : "") + '">' +
+        '<div style="display:flex;justify-content:space-between;align-items:baseline">' +
+          '<span>' + (i + 1) + '. ' + escapeDashHtml(r.name) + (r.isHome ? ' <span class="lm-badge lm-badge-muted">casa</span>' : '') + '</span>' +
+          '<span class="lm-dash-row-sub">Se salda: ' + sePagaLabel + '</span>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:baseline;color:var(--text-mid);font-size:13px;margin-top:4px">' +
+          (r.extra > 0
+            ? '<span>Pago: ' + lmMoney(r.payment) + ' + ' + lmMoney(r.extra) + ' adicional</span>'
+            : '<span>Pago: ' + lmMoney(r.payment) + ' (sin cambio hasta que se salde la anterior)</span>') +
+        '</div>' +
+      '</div>';
+    });
+    html += '</div>';
+    if (reduccion.months !== null) {
+      html += '<div class="lm-callout lm-callout-good" style="margin-bottom:0">Pagando en este orden, quedarías libre de estas deudas en <strong>' + monthLabel(reduccion.months) + '</strong> (' + reduccion.months + ' meses).</div>';
+    }
     html += '</div>';
   }
 
@@ -111,6 +150,7 @@ if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSecti
 
   var bodyLines = ["Mi dashboard de estabilidad — Logic Money Manual Digital", ""];
   if (fondo) bodyLines.push("Fondo de emergencia: " + lmMoney(fondo.tienes) + " de " + lmMoney(fondo.objetivoGastos || 0));
+  if (reduccion && reduccion.months !== null) bodyLines.push("Libre de deudas en: " + monthLabel(reduccion.months) + " (" + reduccion.months + " meses)");
   if (credito) bodyLines.push("Crédito: " + (credito.score || "sin historial"));
   if (nivelDeuda) bodyLines.push("Nivel de deuda: " + nivelDeuda.pct + "% (" + nivelDeuda.band + ")");
 
@@ -119,6 +159,6 @@ if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSecti
     mailtoSubject: "Mi dashboard de estabilidad — Logic Money",
     mailtoBody: bodyLines.join("\n"),
     nextSectionHref: null,
-    prevSectionHref: "../seguros/index.html",
+    prevSectionHref: "../proteccion/index.html",
   });
 }

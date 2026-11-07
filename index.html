@@ -27,9 +27,15 @@
   <div class="lm-hint" style="text-align:center;margin-bottom:14px">O elige un análisis específico:</div>
 
   <div class="lm-flow-row">
-    <button type="button" class="lm-flow-sq-btn" id="start-presupuesto-btn"><img src="assets/icons/flows/presupuesto.png" alt="Análisis de presupuesto"></button>
-    <button type="button" class="lm-flow-sq-btn" id="start-estabilidad-btn"><img src="assets/icons/flows/estabilidad.png" alt="Análisis de estabilidad"></button>
-    <button type="button" class="lm-flow-sq-btn" id="start-crecimiento-btn"><img src="assets/icons/flows/crecimiento.png" alt="Análisis de crecimiento"></button>
+    <button type="button" class="lm-flow-sq-btn" id="start-presupuesto-btn" data-flow="presupuesto"><img src="assets/icons/flows/presupuesto.png" alt="Análisis de presupuesto"></button>
+    <button type="button" class="lm-flow-sq-btn" id="start-estabilidad-btn" data-flow="estabilidad"><img src="assets/icons/flows/estabilidad.png" alt="Análisis de estabilidad"></button>
+    <button type="button" class="lm-flow-sq-btn" id="start-crecimiento-btn" data-flow="crecimiento"><img src="assets/icons/flows/crecimiento.png" alt="Análisis de crecimiento"></button>
+  </div>
+
+  <div id="flow-expand" class="lm-flow-expand lm-no-print" style="display:none">
+    <div class="lm-flow-expand-title" id="flow-expand-title"></div>
+    <ul class="lm-flow-expand-list" id="flow-expand-list"></ul>
+    <button type="button" class="lm-btn lm-btn-primary" id="flow-expand-confirm">Comenzar análisis</button>
   </div>
 
   <div class="lm-hint" style="text-align:center;margin-top:14px;margin-bottom:18px">&#128274; Tus respuestas se guardan solo en este teléfono — nadie más las ve, ni siquiera Logic Money.</div>
@@ -165,17 +171,57 @@ CHAPTERS.forEach(function (chapter) {
 document.getElementById("start-full-btn").addEventListener("click", function () {
   lmSetActiveFlow(null);
 });
-document.getElementById("start-presupuesto-btn").addEventListener("click", function () {
-  lmSetActiveFlow("presupuesto");
-  location.href = "secciones/ingresos/index.html";
+
+var FLOW_META = {
+  presupuesto: {
+    label: "Análisis de Presupuesto",
+    topics: ["Ingresos", "Deudas", "Ahorros", "Presupuesto", "Patrimonio neto"],
+    firstHref: "secciones/ingresos/index.html",
+  },
+  estabilidad: {
+    label: "Análisis de Estabilidad",
+    topics: ["Ingresos", "Deudas", "Reducción de deudas", "Ahorros", "Fondo de emergencia", "Crédito", "Nivel de deuda", "Seguros", "Análisis de protección"],
+    firstHref: "secciones/ingresos/index.html",
+  },
+  crecimiento: {
+    label: "Análisis de Crecimiento",
+    topics: ["¿Cuándo retirarte?", "¿Cuánto necesitas al mes?", "Silla de retiro", "Número de independencia financiera", "Aportación requerida", "Perfil de inversor"],
+    firstHref: "secciones/retiro-cuando/index.html",
+  },
+};
+
+var flowExpandEl = document.getElementById("flow-expand");
+var flowExpandTitleEl = document.getElementById("flow-expand-title");
+var flowExpandListEl = document.getElementById("flow-expand-list");
+var flowExpandConfirmEl = document.getElementById("flow-expand-confirm");
+var flowSqBtns = Array.prototype.slice.call(document.querySelectorAll(".lm-flow-sq-btn"));
+var openFlowKey = null;
+
+function closeFlowExpand() {
+  openFlowKey = null;
+  flowExpandEl.style.display = "none";
+  flowSqBtns.forEach(function (b) { b.classList.remove("lm-flow-sq-btn-active"); });
+}
+function openFlowExpand(key, btn) {
+  openFlowKey = key;
+  var meta = FLOW_META[key];
+  flowExpandTitleEl.textContent = meta.label + " incluye:";
+  flowExpandListEl.innerHTML = meta.topics.map(function (t) { return "<li>" + t + "</li>"; }).join("");
+  flowExpandEl.style.display = "block";
+  flowSqBtns.forEach(function (b) { b.classList.toggle("lm-flow-sq-btn-active", b === btn); });
+}
+
+flowSqBtns.forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    var key = btn.dataset.flow;
+    if (openFlowKey === key) { closeFlowExpand(); return; }
+    openFlowExpand(key, btn);
+  });
 });
-document.getElementById("start-estabilidad-btn").addEventListener("click", function () {
-  lmSetActiveFlow("estabilidad");
-  location.href = "secciones/ingresos/index.html";
-});
-document.getElementById("start-crecimiento-btn").addEventListener("click", function () {
-  lmSetActiveFlow("crecimiento");
-  location.href = "secciones/retiro-cuando/index.html";
+flowExpandConfirmEl.addEventListener("click", function () {
+  if (!openFlowKey) return;
+  lmSetActiveFlow(openFlowKey);
+  location.href = FLOW_META[openFlowKey].firstHref;
 });
 
 var sectionsWrap = document.getElementById("sections-wrap");
