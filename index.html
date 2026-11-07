@@ -21,7 +21,12 @@
 <main class="lm-wrap">
   <h1 class="lm-title">Tu plan financiero, paso a paso</h1>
   <h2 class="lm-subtitle">Esta es la versión digital del manual de planificación financiera de Logic Money. Puedes hacer el manual completo aquí, o entrar directo a una sección desde el QR del libro.</h2>
-  <a class="lm-btn lm-btn-primary lm-hero-cta" href="secciones/objetivos/index.html">Comenzar mi análisis</a>
+  <a class="lm-btn lm-btn-primary lm-hero-cta" href="secciones/objetivos/index.html" id="start-full-btn">Comenzar mi análisis</a>
+  <div class="lm-hint" style="text-align:center;margin-bottom:10px">Análisis completo — te lleva por todas las secciones, en orden.</div>
+  <div class="lm-flow-alt-row">
+    <button type="button" class="lm-btn lm-btn-secondary" id="start-deudas-btn">Análisis de deudas</button>
+    <button type="button" class="lm-btn lm-btn-secondary" id="start-retiro-btn">Plan de retiro</button>
+  </div>
   <div class="lm-hint" style="text-align:center;margin-bottom:18px">&#128274; Tus respuestas se guardan solo en este teléfono — nadie más las ve, ni siquiera Logic Money.</div>
 
   <div id="filled-banner"></div>
@@ -101,18 +106,11 @@ var listEl = document.getElementById("sections-list");
 var counter = 0;
 CHAPTERS.forEach(function (chapter) {
   var h = document.createElement("h3");
-  h.className = "lm-h3";
-  h.style.marginTop = "22px";
+  h.className = "lm-chapter-title";
   h.textContent = chapter.title;
   listEl.appendChild(h);
 
   if (chapter.grid) {
-    var sub = document.createElement("p");
-    sub.className = "lm-p";
-    sub.style.marginTop = "-6px";
-    sub.textContent = "Elige por cuál empezar, o hazlas en este orden dándole Siguiente en cada una.";
-    listEl.appendChild(sub);
-
     var gridEl = document.createElement("div");
     gridEl.className = "lm-section-grid";
     chapter.sections.forEach(function (s) {
@@ -155,6 +153,18 @@ CHAPTERS.forEach(function (chapter) {
       (done ? '<span class="lm-badge lm-badge-good">&#10003;</span>' : (enabled ? '<span class="lm-chevron">&#8250;</span>' : ''));
     listEl.appendChild(el);
   });
+});
+
+document.getElementById("start-full-btn").addEventListener("click", function () {
+  lmSetActiveFlow(null);
+});
+document.getElementById("start-deudas-btn").addEventListener("click", function () {
+  lmSetActiveFlow("deudas");
+  location.href = "secciones/ingresos/index.html";
+});
+document.getElementById("start-retiro-btn").addEventListener("click", function () {
+  lmSetActiveFlow("retiro");
+  location.href = "secciones/ingresos/index.html";
 });
 
 var clearBtn = document.getElementById("clear-data-btn");

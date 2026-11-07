@@ -58,6 +58,46 @@ function lmRenderStorageWarningIfNeeded(containerEl) {
 }
 
 /**
+ * Planes de análisis enfocado: el lector puede elegir no hacer el manual
+ * completo y en vez de eso seguir un recorrido corto centrado solo en lo
+ * que le interesa (deudas, retiro). El "Siguiente"/"Anterior" de cada
+ * sección salta directo entre las claves del plan activo, ignorando las
+ * secciones que no aplican (ej. Seguros no aparece en el plan de deudas).
+ * El plan activo se guarda en localStorage y se limpia cuando el lector
+ * elige explícitamente el análisis completo.
+ */
+var LM_FLOWS = {
+  deudas: { label: "Análisis de deudas", keys: ["ingresos", "deudas", "nivel-deuda", "reduccion-deudas"] },
+  retiro: { label: "Plan de retiro", keys: ["ingresos", "deudas", "ahorros", "retiro-cuando", "retiro-cuanto", "retiro-silla", "retiro-nif", "retiro-aportacion", "retiro-perfil"] },
+};
+function lmGetActiveFlow() {
+  try { return localStorage.getItem("lmActiveFlow") || null; } catch (e) { return null; }
+}
+function lmSetActiveFlow(key) {
+  try {
+    if (key) localStorage.setItem("lmActiveFlow", key);
+    else localStorage.removeItem("lmActiveFlow");
+  } catch (e) { /* localStorage no disponible — el plan simplemente no se recuerda */ }
+}
+function lmCurrentSectionKey() {
+  var m = window.location.pathname.match(/\/secciones\/([^/]+)\//);
+  return m ? m[1] : null;
+}
+function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
+  var flowKey = lmGetActiveFlow();
+  var flow = flowKey && LM_FLOWS[flowKey];
+  var current = lmCurrentSectionKey();
+  var idx = flow && current ? flow.keys.indexOf(current) : -1;
+  if (!flow || idx === -1) return { next: defaultNextHref, prev: defaultPrevHref };
+  var nextKey = flow.keys[idx + 1];
+  var prevKey = idx > 0 ? flow.keys[idx - 1] : null;
+  return {
+    next: nextKey ? "../" + nextKey + "/index.html" : null,
+    prev: prevKey ? "../" + prevKey + "/index.html" : defaultPrevHref,
+  };
+}
+
+/**
  * Footer simplificado: UNA acción principal ("Siguiente"), y todo lo demás
  * (correo, WhatsApp, PDF, continuar en el libro) escondido detrás de un
  * link chiquito "Más opciones" — para que la pantalla no se sienta
@@ -78,18 +118,20 @@ function lmRenderSectionFooter(opts) {
   var navRow = document.createElement("div");
   navRow.className = "lm-nav-row";
 
-  if (opts.prevSectionHref) {
+  var nav = lmFlowAwareNav(opts.nextSectionHref, opts.prevSectionHref);
+
+  if (nav.prev) {
     var prevBtn = document.createElement("a");
     prevBtn.className = "lm-btn lm-btn-ghost lm-btn-prev";
-    prevBtn.href = opts.prevSectionHref;
+    prevBtn.href = nav.prev;
     prevBtn.textContent = "← Anterior";
     navRow.appendChild(prevBtn);
   }
 
   var nextBtn = document.createElement("a");
   nextBtn.className = "lm-btn lm-btn-primary";
-  if (opts.nextSectionHref) {
-    nextBtn.href = opts.nextSectionHref;
+  if (nav.next) {
+    nextBtn.href = nav.next;
     nextBtn.textContent = "Siguiente";
   } else {
     nextBtn.href = lmRootPath() + "index.html";
