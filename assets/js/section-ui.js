@@ -4,6 +4,17 @@
    "continuar aquí (digital)" vs "continuar en el libro (físico)".
    Cada sección solo tiene que llamar lmRenderSectionFooter(...). */
 
+/* Cada página es un cuestionario corto que se lee de arriba a abajo —
+   nunca debe abrir a media página. Algunos navegadores (sobre todo en
+   iOS) intentan "restaurar" el scroll de la página anterior al navegar
+   con un link normal, dejando al lector en la parte de abajo justo donde
+   dio "Siguiente". Forzamos manual + top en cada carga. */
+if ("scrollRestoration" in history) {
+  try { history.scrollRestoration = "manual"; } catch (e) {}
+}
+window.scrollTo(0, 0);
+window.addEventListener("load", function () { window.scrollTo(0, 0); });
+
 /**
  * Pie chart simple en SVG (sin librerías) para los dashboards. slices:
  * [{ value, color }]. Valores en 0 se ignoran. Devuelve el string <svg>.
