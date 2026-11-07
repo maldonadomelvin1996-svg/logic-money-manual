@@ -419,8 +419,8 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
   box-shadow: var(--shadow);
 }
 .lm-section-tile[data-disabled="true"] { opacity: 0.45; pointer-events: none; }
-.lm-section-tile-icon { font-size: 50px; line-height: 1; flex-shrink: 0; }
-.lm-section-tile-icon-img { width: 56px; height: 56px; object-fit: contain; flex-shrink: 0; }
+.lm-section-tile-icon { font-size: 62px; line-height: 1; flex-shrink: 0; }
+.lm-section-tile-icon-img { width: 72px; height: 72px; object-fit: contain; flex-shrink: 0; }
 .lm-section-tile-title { font-size: 15.5px; font-weight: 800; line-height: 1.16; letter-spacing: -0.01em; }
 .lm-section-tile-check {
   position: absolute;
