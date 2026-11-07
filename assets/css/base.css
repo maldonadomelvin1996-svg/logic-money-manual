@@ -113,8 +113,8 @@ body {
 h1.lm-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 38px; font-weight: 700; margin: 4px 0 10px; letter-spacing: -0.02em; line-height: 1.1; color: var(--text); }
 .lm-title-row { display: flex; align-items: center; gap: 14px; }
 .lm-title-row .lm-title { margin: 4px 0 10px; }
-.lm-title-icon-img { width: 52px; height: 52px; object-fit: contain; flex-shrink: 0; }
-.lm-title-icon { font-size: 44px; line-height: 1; flex-shrink: 0; }
+.lm-title-icon-img { width: 104px; height: 104px; object-fit: contain; flex-shrink: 0; }
+.lm-title-icon { font-size: 88px; line-height: 1; flex-shrink: 0; }
 h2.lm-subtitle { font-size: 16px; font-weight: 450; color: var(--text-mid); margin: 0 0 28px; line-height: 1.55; }
 h3.lm-h3 { font-size: 16px; font-weight: 600; margin: 0 0 12px; color: var(--text); letter-spacing: -0.01em; }
 h3.lm-chapter-title { font-size: 24px; font-weight: 800; margin: 28px 0 14px; color: var(--gold); letter-spacing: -0.01em; }
