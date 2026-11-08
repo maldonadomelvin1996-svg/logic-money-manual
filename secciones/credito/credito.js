@@ -6,7 +6,7 @@ var scoreInput = document.getElementById("score");
 var notesInput = document.getElementById("notes");
 
 function scoreBand(score) {
-  if (score >= 750) return { label: "Excelente", color: "var(--good)", soft: "var(--good-soft)" };
+  if (score >= 750) return { label: "Excelente", color: "var(--blue)", soft: "var(--blue-soft)" };
   if (score >= 670) return { label: "Bueno", color: "var(--teal)", soft: "var(--teal-soft)" };
   if (score >= 580) return { label: "Regular", color: "var(--gold)", soft: "var(--gold-soft)" };
   return { label: "Necesita mejorar", color: "var(--warn)", soft: "var(--warn-soft)" };
@@ -23,14 +23,16 @@ function renderCredito() {
     var band = scoreBand(score);
     var markerPct = Math.max(2, Math.min(98, ((score - 300) / (850 - 300)) * 100));
     var card = document.createElement("div");
-    card.className = "lm-card";
+    card.className = "lm-card lm-card-tint";
+    card.style.setProperty("--tint", band.color);
+    card.style.setProperty("--tint-soft", band.soft);
     card.innerHTML =
       '<div class="lm-hero">' +
         '<div class="lm-hero-label">Puntaje de crédito</div>' +
         '<div class="lm-hero-value" style="color:' + band.color + '">' + score + '</div>' +
         '<span class="lm-status-pill" style="background:' + band.soft + ';color:' + band.color + '">' + band.label + '</span>' +
       '</div>' +
-      '<div class="lm-mini-bar-track" style="background:linear-gradient(to right, var(--warn), var(--gold), var(--teal), var(--good))">' +
+      '<div class="lm-mini-bar-track" style="background:linear-gradient(to right, var(--warn), var(--gold), var(--teal), var(--blue))">' +
         '<div class="lm-mini-bar-marker" style="left:' + markerPct + '%;background:' + band.color + '"></div>' +
       '</div>' +
       '<div class="lm-mini-bar-scale"><span>300</span><span>850</span></div>';

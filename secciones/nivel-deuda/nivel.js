@@ -6,7 +6,7 @@ var paymentsInput = document.getElementById("payments");
 var incomeInput = document.getElementById("income");
 
 var DEBT_BANDS = [
-  { max: 15, label: "Ideal", color: "var(--good)", soft: "var(--good-soft)" },
+  { max: 15, label: "Ideal", color: "var(--blue)", soft: "var(--blue-soft)" },
   { max: 35, label: "Estable", color: "var(--teal)", soft: "var(--teal-soft)" },
   { max: 43, label: "Riesgoso", color: "var(--gold)", soft: "var(--gold-soft)" },
   { max: 55, label: "Crítico", color: "#FF9A4D", soft: "rgba(255,154,77,0.14)" },
@@ -32,14 +32,16 @@ function renderNivel() {
   var markerPct = Math.max(2, Math.min(98, pct));
 
   var card = document.createElement("div");
-  card.className = "lm-card " + (pct <= 35 ? "lm-card-good" : "lm-card-attn");
+  card.className = "lm-card lm-card-tint";
+  card.style.setProperty("--tint", band.color);
+  card.style.setProperty("--tint-soft", band.soft);
   card.innerHTML =
     '<div class="lm-hero">' +
       '<div class="lm-hero-label">Nivel de deuda</div>' +
       '<div class="lm-hero-value" style="color:' + band.color + '">' + pct + '%</div>' +
       '<span class="lm-status-pill" style="background:' + band.soft + ';color:' + band.color + '">' + band.label + '</span>' +
     '</div>' +
-    '<div class="lm-mini-bar-track" style="background:linear-gradient(to right, var(--good) 0%, var(--good) 15%, var(--teal) 15%, var(--teal) 35%, var(--gold) 35%, var(--gold) 43%, #FF9A4D 43%, #FF9A4D 55%, var(--warn) 55%, var(--warn) 100%)">' +
+    '<div class="lm-mini-bar-track" style="background:linear-gradient(to right, var(--blue) 0%, var(--blue) 15%, var(--teal) 15%, var(--teal) 35%, var(--gold) 35%, var(--gold) 43%, #FF9A4D 43%, #FF9A4D 55%, var(--warn) 55%, var(--warn) 100%)">' +
       '<div class="lm-mini-bar-marker" style="left:' + markerPct + '%;background:' + band.color + '"></div>' +
     '</div>' +
     '<div class="lm-mini-bar-scale"><span>0%</span><span>56%+</span></div>' +

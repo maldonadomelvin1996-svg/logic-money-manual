@@ -25,8 +25,9 @@ if (!lmHasSection("ingresos") && !lmHasSection("presupuesto")) {
   var superavit = ingreso - ahorros - gastos - deudas;
   var pctOf = function (n) { return ingreso > 0 ? Math.round((n / ingreso) * 100) : 0; };
   var pctLibre = pctOf(superavit);
+  var deficit = superavit < 0;
 
-  var html = '<div class="lm-card lm-card-good">';
+  var html = '<div class="lm-card ' + (deficit ? "lm-card-attn" : "lm-card-good") + '">';
   html += '<h3 class="lm-h3">Distribución del ingreso mensual</h3>';
   html += '<div class="lm-card-flat" style="margin-bottom:14px">';
   html += dashRow("\u{1F4B5}", "var(--good-soft)", "var(--good)", "Ingresos", "Lo que entra cada mes", ingreso, null);
@@ -50,7 +51,6 @@ if (!lmHasSection("ingresos") && !lmHasSection("presupuesto")) {
       '</div>';
   }
 
-  var deficit = superavit < 0;
   var superTint = deficit ? "var(--warn)" : "var(--good)";
   html += '<div class="lm-card-flat" style="margin-top:4px;margin-bottom:0;background:' + (deficit ? "var(--warn-soft)" : "var(--good-soft)") + '">' +
     '<div style="display:flex;justify-content:space-between;align-items:center">' +
