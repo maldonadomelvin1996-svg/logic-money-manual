@@ -131,8 +131,10 @@ var LM_FULL_ORDER = [
 ];
 
 /* Al terminar el manual completo (sin plan enfocado activo) hay data para
-   los 3 dashboards, así que "Siguiente" los recorre los tres seguidos en
-   vez de mandar al lector a un solo dashboard. */
+   los 3 dashboards — en vez de obligar un orden fijo con "Siguiente", se
+   entra a un hub (ver dashboards/) con un botón por cada uno, para que el
+   lector salte libremente entre ellos. Esta lista es solo para que
+   lmFlowAwareNav reconozca cuándo está parado en uno de los 3. */
 var LM_DASHBOARD_TOUR = ["dashboard-presupuesto", "dashboard-estabilidad", "dashboard-crecimiento"];
 function lmGetActiveFlow() {
   try { return localStorage.getItem("lmActiveFlow") || null; } catch (e) { return null; }
@@ -163,26 +165,25 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
   }
 
   /* Sin plan enfocado activo (manual completo): al llegar al final de la
-     cadena de secciones, en vez de quedarse sin "Siguiente", se entra al
-     recorrido de los 3 dashboards; y dentro de ese recorrido, "Siguiente"/
-     "Anterior" pasan de un dashboard al otro en vez de usar sus hrefs
-     fijos (que son para cuando SÍ hay un plan enfocado activo). */
+     cadena de secciones, en vez de quedarse sin "Siguiente", entra al hub
+     de los 3 dashboards. Parado en cualquiera de los 3, "Anterior" vuelve
+     al hub (no al dashboard anterior — el lector elige libremente cuál
+     ver) y "Siguiente" pasa a "Áreas a mejorar", el resumen que junta las
+     banderas rojas de los tres. */
   if (!flowKey && current) {
     var tourIdx = LM_DASHBOARD_TOUR.indexOf(current);
     if (tourIdx !== -1) {
-      var nextDash = LM_DASHBOARD_TOUR[tourIdx + 1];
-      var prevDash = tourIdx > 0 ? LM_DASHBOARD_TOUR[tourIdx - 1] : null;
       return {
-        next: nextDash ? "../" + nextDash + "/index.html" : defaultNextHref,
-        nextLabel: nextDash ? "Ver mi próximo dashboard" : null,
-        prev: prevDash ? "../" + prevDash + "/index.html" : defaultPrevHref,
+        next: "../areas-mejorar/index.html",
+        nextLabel: "Ver áreas a mejorar",
+        prev: "../dashboards/index.html",
       };
     }
     var fullIdx = LM_FULL_ORDER.indexOf(current);
     if (fullIdx !== -1 && fullIdx === LM_FULL_ORDER.length - 1) {
       return {
-        next: "../" + LM_DASHBOARD_TOUR[0] + "/index.html",
-        nextLabel: "Ver mis 3 dashboards",
+        next: "../dashboards/index.html",
+        nextLabel: "Ver mis dashboards",
         prev: defaultPrevHref,
       };
     }
