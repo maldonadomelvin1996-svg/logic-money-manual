@@ -101,10 +101,15 @@ body.lm-theme-estabilidad {
     linear-gradient(180deg, #0b0906, #060504 55%);
 }
 body.lm-theme-crecimiento {
+  /* El glow verde se contiene a una distancia fija (no a % del alto de la
+     página completa) para que en dashboards largos no se arrastre hasta
+     el final — se apaga rápido y el resto de la página queda en un fondo
+     oscuro parejo, para que resalten más las tarjetas. */
   background:
-    radial-gradient(circle at 88% 6%, rgba(62,216,142,0.16), transparent 34%),
-    radial-gradient(circle at 8% 90%, rgba(34,150,90,0.09), transparent 36%),
-    linear-gradient(180deg, #0a140d, #060a08 55%);
+    radial-gradient(circle at 88% 6%, rgba(62,216,142,0.14), transparent 420px),
+    radial-gradient(circle at 8% 360px, rgba(34,150,90,0.06), transparent 300px),
+    linear-gradient(180deg, #0a140d, #060a08 440px);
+  background-color: #060a08;
 }
 
 /* Tarjetas con el mismo tinte y sombra que el modo presentación del
