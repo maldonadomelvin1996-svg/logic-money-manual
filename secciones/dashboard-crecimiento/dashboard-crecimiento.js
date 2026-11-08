@@ -77,9 +77,10 @@ function lmRenderDashboardCrecimiento(contentEl, opts) {
 
   if (retiroCuanto) {
     html += '<div class="lm-card-flat" style="margin-top:6px">';
-    html += '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span class="lm-dash-row-sub">Objetivo de ingreso mensual hoy</span><span class="lm-dash-row-value">' + lmMoney(retiroCuanto.ingreso) + '</span></div>';
-    html += '<div style="display:flex;justify-content:space-between;padding:7px 0"><span class="lm-dash-row-sub">Ajustado por inflación (' + retiroCuando.anios + ' años)</span><span class="lm-dash-row-value" style="color:var(--gold)">' + lmMoney(retiroCuanto.resultado) + '</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span class="lm-dash-row-sub">Ingreso mensual necesario para retirarte hoy</span><span class="lm-dash-row-value">' + lmMoney(retiroCuanto.ingreso) + '</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:7px 0"><span class="lm-dash-row-sub">Ingreso mensual necesario para retirarte en ' + retiroCuando.anios + ' años</span><span class="lm-dash-row-value" style="color:var(--gold)">' + lmMoney(retiroCuanto.resultado) + '</span></div>';
     html += '</div>';
+    html += '<div class="lm-hint" style="margin-top:6px">El segundo número ya incluye la "inflación" (el aumento del costo de vida) de aquí a tus ' + retiroCuando.anios + ' años restantes.</div>';
   }
   if (retiroSilla) {
     html += '<div class="lm-card-flat" style="margin-top:8px">';
