@@ -745,6 +745,37 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 .lm-chip:hover { border-color: rgba(0,0,0,0.25); }
 .lm-chip.lm-chip-active { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); box-shadow: 0 0 16px -4px rgba(231,166,60,0.5); }
 
+/* ---------- Opciones de cuestionario (pregunta de selección única, ej.
+   Perfil de inversor) — fila completa, estilo radio, con un punto que se
+   rellena de dorado al seleccionar. ---------- */
+.lm-quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: var(--card3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 14px;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.35;
+  cursor: pointer;
+}
+.lm-quiz-option:last-child { margin-bottom: 0; }
+.lm-quiz-option-dot {
+  flex-shrink: 0;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  background: transparent;
+}
+.lm-quiz-option-active { border-color: var(--gold); background: var(--gold-soft); font-weight: 600; }
+.lm-quiz-option-active .lm-quiz-option-dot { border-color: var(--gold); background: var(--gold); box-shadow: inset 0 0 0 3px var(--card3); }
+
 /* ---------- Resultados: números grandes, tiles compactos, barras finas ----------
    Lenguaje visual tomado del software de asesor (LogicMoney.html): números
    grandes tipo "Helvetica Neue", chips compactos en vez de barras vacías

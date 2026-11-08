@@ -45,7 +45,7 @@ var DEMO_SEEDS = {
     proteccionCoberturaActual: 75000,
     retiroCuando: { edadActual: 32, edadRetiro: 62 },
     retiroSilla: { seguroSocial: null, patronal: null, personal: 150 }, // Seguro Social y patronal quedan "No sé" a propósito, para probar ese caso
-    retiroPerfil: { perfil: "moderado", label: "Moderado", rate: 6 },
+    retiroPerfil: { perfil: "moderado", label: "Moderado", rate: 6, score: 21, answers: { horizonte: 3, objetivo: 3, reaccion: 3, experiencia: 3, dependencia: 3, proporcion: 3, tradeoff: 3 } },
   },
 
   estable: {
@@ -82,7 +82,7 @@ var DEMO_SEEDS = {
     proteccionCoberturaActual: 150000,
     retiroCuando: { edadActual: 32, edadRetiro: 62 },
     retiroSilla: { seguroSocial: 950, patronal: 500, personal: 300 },
-    retiroPerfil: { perfil: "moderado", label: "Moderado", rate: 6 },
+    retiroPerfil: { perfil: "moderado", label: "Moderado", rate: 6, score: 21, answers: { horizonte: 3, objetivo: 3, reaccion: 3, experiencia: 3, dependencia: 3, proporcion: 3, tradeoff: 3 } },
   },
 };
 
