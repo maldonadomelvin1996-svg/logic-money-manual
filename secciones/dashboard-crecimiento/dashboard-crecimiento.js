@@ -170,7 +170,7 @@ function lmRenderDashboardCrecimiento(contentEl, opts) {
         }).join("") + '</tr>';
     });
     html += '</tbody></table></div>';
-    html += '<div class="lm-hint" style="margin-top:10px">Estimados basados en rendimientos históricos. Los resultados pueden variar según el mercado, comisiones e inflación.</div>';
+    html += '<div class="lm-hint" style="margin-top:10px">Estimados basados en rendimientos históricos, que pueden variar según el mercado, comisiones e inflación. Son un estimado general para darte una idea de hacia dónde vas — no sustituyen un plan hecho con tu asesor financiero, con más detalle y ajustado a tu situación.</div>';
     html += '</div>';
   }
 
