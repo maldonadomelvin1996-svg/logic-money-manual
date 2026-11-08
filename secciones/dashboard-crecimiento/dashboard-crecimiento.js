@@ -6,6 +6,12 @@
    secciones/dashboards/) también pueda llamarla — ver la misma nota en
    dashboard-presupuesto.js. */
 
+var RETIRO_PERFIL_DESC = {
+  conservador: "Priorizas proteger tu dinero sobre crecerlo rápido.",
+  moderado: "Aceptas algo de variación a cambio de mejor crecimiento a largo plazo.",
+  agresivo: "Toleras que el valor suba y baje con tal de maximizar el crecimiento.",
+};
+
 function monthlyPMT(fv, ratePct, years) {
   var n = years * 12;
   if (n <= 0 || fv <= 0) return 0;
@@ -115,6 +121,19 @@ function lmRenderDashboardCrecimiento(contentEl, opts) {
       html += '</div>';
     }
   }
+
+  // ---- Perfil de inversor ----
+  var retiroPerfil = lmGetSection("retiro-perfil");
+  html += '<div class="lm-card lm-card-good">';
+  html += lmDashTitle("retiro", "Perfil de inversor");
+  if (retiroPerfil) {
+    html += '<div class="lm-hero" style="padding-top:0"><div class="lm-hero-value" style="color:var(--gold)">' + retiroPerfil.label + '</div></div>';
+    html += '<div class="lm-dash-row-sub" style="text-align:center">' + (RETIRO_PERFIL_DESC[retiroPerfil.perfil] || "") + ' Tasa de crecimiento esperada usada en tus cálculos: ' + retiroPerfil.rate + '% anual.</div>';
+    html += '<div class="lm-hint" style="text-align:center;margin-top:10px;margin-bottom:0">Esto es una guía general, no un análisis financiero formal — consulta más a detalle con tu asesor de confianza.</div>';
+  } else {
+    html += '<div class="lm-callout lm-callout-neutral" style="margin-bottom:0">Completa el cuestionario de <a href="../retiro-perfil/index.html" style="color:inherit">Perfil de inversor</a> para ver aquí si tu perfil es conservador, moderado o agresivo.</div>';
+  }
+  html += '</div>';
 
   // ---- Meta total (NIF) ----
   if (retiroNif) {
