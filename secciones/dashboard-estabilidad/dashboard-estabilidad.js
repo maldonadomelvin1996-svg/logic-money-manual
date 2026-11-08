@@ -117,7 +117,7 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
     var falta = Math.max(0, objetivo - fondo.tienes);
     var done = falta <= 0 && objetivo > 0;
     html += '<div class="lm-card ' + (done ? "lm-card-good" : "lm-card-attn") + '">';
-    html += '<h3 class="lm-h3">Fondo de emergencia</h3>';
+    html += lmDashTitle("fondo-emergencia", "Fondo de emergencia");
     html += '<div class="lm-tile-row">' +
       '<div class="lm-tile"><div class="lm-tile-label">Cobertura actual</div><div class="lm-tile-value">' + coberturaMeses.toFixed(1) + ' meses</div></div>' +
       '<div class="lm-tile"><div class="lm-tile-label">Meta</div><div class="lm-tile-value">' + fondo.months + ' meses</div></div>' +
@@ -132,7 +132,7 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
   var reduccion = lmGetSection("reduccion-deudas");
   if (reduccion && reduccion.rows && reduccion.rows.length) {
     html += '<div class="lm-card">';
-    html += '<h3 class="lm-h3">Reducción de deudas &mdash; efecto bola de nieve</h3>';
+    html += lmDashTitle("deudas", "Reducción de deudas &mdash; efecto bola de nieve");
     html += '<div class="lm-card-flat" style="margin-bottom:' + (reduccion.months !== null ? "14px" : "0") + '">';
     reduccion.rows.forEach(function (r, i) {
       var sePagaLabel = r.paidOffMonth === null ? "No se saldaría así" : monthLabel(r.paidOffMonth);
@@ -165,7 +165,7 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
       var band = scoreBand(credito.score);
       var scoreMarkerPct = Math.max(2, Math.min(98, ((credito.score - 300) / (850 - 300)) * 100));
       html += '<div class="lm-card lm-card-tint" style="--tint:' + band.color + ';--tint-soft:' + band.soft + '">';
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 class="lm-h3" style="margin-bottom:0">Crédito</h3>';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">' + lmDashTitle("credito", "Crédito", "margin-bottom:0");
       html += '<span class="lm-badge" style="background:' + band.soft + ';color:' + band.color + '">' + band.label + '</span></div>';
       html += '<div class="lm-hero" style="padding-top:0"><div class="lm-hero-value" style="color:' + band.color + ';font-size:40px">' + credito.score + '</div></div>';
       html += '<div class="lm-mini-bar-track" style="background:linear-gradient(to right, var(--warn), var(--gold), var(--teal), var(--blue))">' +
@@ -174,7 +174,7 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
         '<div class="lm-mini-bar-scale"><span>300</span><span>850</span></div>';
     } else {
       html += '<div class="lm-card">';
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 class="lm-h3" style="margin-bottom:0">Crédito</h3>';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">' + lmDashTitle("credito", "Crédito", "margin-bottom:0");
       html += '<span class="lm-badge lm-badge-muted">Sin historial</span></div>';
       html += '<div class="lm-callout lm-callout-neutral" style="margin-bottom:0">Sin historial crediticio todavía. Construir crédito abre mejores oportunidades.</div>';
     }
@@ -187,7 +187,7 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
     var bandColor = BAND_COLORS[nivelDeuda.band] || "var(--text)";
     var bandSoft = BAND_SOFT[nivelDeuda.band] || "var(--card3)";
     html += '<div class="lm-card lm-card-tint" style="--tint:' + bandColor + ';--tint-soft:' + bandSoft + '">';
-    html += '<h3 class="lm-h3">Nivel de deuda</h3>';
+    html += lmDashTitle("nivel-deuda", "Nivel de deuda");
     html += '<div class="lm-hero" style="padding-top:0">' +
       '<div class="lm-hero-value" style="color:' + bandColor + ';font-size:40px">' + nivelDeuda.pct + '%</div>' +
       '<span class="lm-status-pill" style="background:' + bandSoft + ';color:' + bandColor + '">' + nivelDeuda.band + '</span>' +
@@ -209,7 +209,7 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
     seguros.insurance.forEach(function (i) { byType[i.type] = i; });
     var medico = byType["Médico"], vehiculo = byType["Vehículo"], vida = byType["Vida"];
     html += '<div class="lm-card">';
-    html += '<h3 class="lm-h3">Seguros</h3>';
+    html += lmDashTitle("seguros", "Seguros");
     html += '<div class="lm-card-flat" style="margin-bottom:14px">';
     [["Seguro médico", medico], ["Seguro de vehículo", vehiculo], ["Seguro de vida", vida]].forEach(function (pair) {
       var label = pair[0], ins = pair[1];

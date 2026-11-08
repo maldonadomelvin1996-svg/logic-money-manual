@@ -59,7 +59,7 @@ function lmRenderDashboardCrecimiento(contentEl, opts) {
 
   // ---- Horizonte temporal ----
   html += '<div class="lm-card lm-card-good">';
-  html += '<h3 class="lm-h3">Camino al retiro</h3>';
+  html += lmDashTitle("retiro", "Camino al retiro");
   html += '<div class="lm-tile-row">' +
     '<div class="lm-tile"><div class="lm-tile-label">Hoy</div><div class="lm-tile-value">' + retiroCuando.edadActual + '</div></div>' +
     '<div class="lm-tile-arrow">&#8594;</div>' +
@@ -90,7 +90,7 @@ function lmRenderDashboardCrecimiento(contentEl, opts) {
     var avancePct = retiroNif.nif > 0 ? Math.min(100, Math.round((yaTienes / retiroNif.nif) * 100)) : 0;
 
     html += '<div class="lm-card">';
-    html += '<h3 class="lm-h3">Capital necesario (número de independencia financiera)</h3>';
+    html += lmDashTitle("retiro", "Capital necesario (número de independencia financiera)");
     html += '<div class="lm-hero" style="padding-top:0"><div class="lm-hero-value" style="color:var(--good)">' + lmMoney(retiroNif.nif) + '</div></div>';
     html += '<div class="lm-mini-bar-track"><div class="lm-mini-bar-fill" style="width:' + Math.max(avancePct, 2) + '%;background:var(--good)"></div></div>';
     html += '<div class="lm-tile-row" style="margin-top:10px">' +

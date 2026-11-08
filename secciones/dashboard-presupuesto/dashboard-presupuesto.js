@@ -62,7 +62,7 @@ function lmRenderDashboardPresupuesto(contentEl, opts) {
   var deficit = superavit < 0;
 
   var html = '<div class="lm-card ' + (deficit ? "lm-card-attn" : "lm-card-good") + '">';
-  html += '<h3 class="lm-h3">Distribución del ingreso mensual</h3>';
+  html += lmDashTitle("presupuesto", "Distribución del ingreso mensual");
   html += '<div class="lm-card-flat" style="margin-bottom:14px">';
   html += dashRow("\u{1F4B5}", "var(--good-soft)", "var(--good)", "Ingresos", "Lo que entra cada mes", ingreso, null);
   html += dashRow("\u{1F437}", "var(--teal-soft)", "var(--teal)", "Ahorros", "Para el futuro", ahorros, pctOf(ahorros));
@@ -104,7 +104,7 @@ function lmRenderDashboardPresupuesto(contentEl, opts) {
   var markerPct = 50 + 50 * Math.max(-1, Math.min(1, patrimonio / scale));
 
   html += '<div class="lm-card ' + (patrimonio >= 0 ? "lm-card-good" : "lm-card-attn") + '">';
-  html += '<h3 class="lm-h3">Lo que tienes vs. lo que debes</h3>';
+  html += lmDashTitle("patrimonio", "Lo que tienes vs. lo que debes");
   html += '<div class="lm-tile-row">' +
     '<div class="lm-tile"><div class="lm-tile-label">Activos</div><div class="lm-tile-value">' + lmMoney(activos) + '</div></div>' +
     '<div class="lm-tile"><div class="lm-tile-label">Deudas</div><div class="lm-tile-value" style="color:var(--warn)">' + lmMoney(pasivos) + '</div></div>' +

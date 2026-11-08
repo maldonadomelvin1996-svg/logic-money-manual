@@ -86,6 +86,18 @@ function lmRenderMejoraList(items, emptyMsg) {
   return html;
 }
 
+/* Título de tarjeta de dashboard con el mismo icono de categoría que ya
+   usan los cards de "área a mejorar" (ver lmRenderMejoraList arriba) — a
+   la izquierda del texto, para que cada bloque del dashboard se reconozca
+   de un vistazo. Reemplaza un <h3 class="lm-h3">texto</h3> directo;
+   extraStyle es opcional (ej. "margin-bottom:0" cuando el h3 comparte
+   fila con un badge). */
+function lmDashTitle(icon, text, extraStyle) {
+  return '<h3 class="lm-h3 lm-h3-icon"' + (extraStyle ? ' style="' + extraStyle + '"' : '') + '>' +
+    '<img class="lm-h3-icon-img" src="../../assets/icons/categories/' + icon + '.png" alt="">' +
+    '<span>' + text + '</span></h3>';
+}
+
 function lmRenderSaveBanner(containerEl) {
   var ok = !(typeof LM_LAST_SAVE_OK !== "undefined" && LM_LAST_SAVE_OK === false);
   var el = document.createElement("div");
