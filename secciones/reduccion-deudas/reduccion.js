@@ -77,9 +77,11 @@ if (debts.length === 0) {
         '<span>' + lmMoney(r.balance) + '</span>' +
       '</div>' +
       '<div style="display:flex;justify-content:space-between;align-items:baseline;color:var(--text-mid);font-size:13px;margin-top:4px">' +
-        (r.extra > 0
-          ? '<span>Pago: ' + lmMoney(r.payment) + ' + ' + lmMoney(r.extra) + ' adicional</span>'
-          : '<span>Pago: ' + lmMoney(r.payment) + ' (sin cambio hasta que se salde la anterior)</span>') +
+        (i === 0
+          ? '<span>Pago: ' + lmMoney(r.payment) + ' (tu pago mínimo actual)</span>'
+          : r.extra > 0
+            ? '<span>Pago: ' + lmMoney(r.payment) + ' + ' + lmMoney(r.extra) + ' adicional</span>'
+            : '<span>Pago: ' + lmMoney(r.payment) + ' (sin cambio hasta que se salde la anterior)</span>') +
         (r.extra > 0 ? '<span style="color:var(--good);font-weight:700">' + lmMoney(totalPago) + ' nuevo pago</span>' : '') +
       '</div>' +
       '<div style="margin-top:6px;font-size:12.5px;color:var(--gold);font-weight:600">Se salda: ' + sePagaLabel + '</div>' +
