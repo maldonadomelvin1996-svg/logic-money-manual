@@ -245,6 +245,11 @@ h1.lm-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-
 .lm-title-icon { font-size: 88px; line-height: 1; flex-shrink: 0; }
 h2.lm-subtitle { font-size: 16px; font-weight: 450; color: var(--text-mid); margin: 0 0 28px; line-height: 1.55; }
 h3.lm-h3 { font-size: 16px; font-weight: 600; margin: 0 0 12px; color: var(--text); letter-spacing: -0.01em; }
+/* Divisor de sección grande — marca un cambio de tema dentro de la misma
+   página (ej. "Áreas a mejorar" después de las tarjetas de resultados en
+   un dashboard), a diferencia de lm-h3 que es solo el título de una
+   tarjeta. Ocupa todo el ancho, igual que el título de la página. */
+.lm-dash-section-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 28px; font-weight: 800; margin: 32px 0 14px; letter-spacing: -0.01em; color: var(--text); width: 100%; }
 h3.lm-chapter-title { font-size: 24px; font-weight: 800; margin: 28px 0 14px; color: var(--gold); letter-spacing: -0.01em; }
 p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 16px; }
 

@@ -231,7 +231,7 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
 
   var mejoraItems = lmGetEstabilidadMejoraItems();
   if (mejoraItems.length) {
-    html += '<h3 class="lm-h3" style="margin-top:4px">Áreas a mejorar de Estabilidad</h3>';
+    html += '<div class="lm-dash-section-title">Áreas a mejorar de Estabilidad</div>';
     html += lmRenderMejoraList(mejoraItems, "");
   }
 
