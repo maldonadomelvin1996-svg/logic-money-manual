@@ -38,12 +38,16 @@
     <div class="lm-field">
       <label class="lm-label" for="patronal">Retiro patronal / pensión (mensual)</label>
       <div id="wrap-patronal"><input class="lm-input" type="number" inputmode="decimal" id="patronal" min="0"></div>
+      <div class="lm-hint">Ej. 401(k) si trabajas para empresa privada, TSP si trabajas para el gobierno federal, o Plan 106 si trabajas para el gobierno de Puerto Rico.</div>
     </div>
     <div class="lm-field" style="margin-bottom:0">
       <label class="lm-label" for="personal">Retiro personal / inversiones (mensual)</label>
       <div id="wrap-personal"><input class="lm-input" type="number" inputmode="decimal" id="personal" min="0"></div>
     </div>
   </div>
+
+  <div id="extra-fuentes"></div>
+  <button class="lm-btn lm-btn-ghost lm-no-print" id="add-fuente" type="button">+ Añadir otra fuente de ingreso</button>
 
   <div id="results"></div>
   <div id="footer-slot"></div>
