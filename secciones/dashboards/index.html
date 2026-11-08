@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mis dashboards — Logic Money Manual Digital</title>
-<meta name="description" content="Elige qué dashboard ver: Presupuesto, Estabilidad o Crecimiento.">
+<meta name="description" content="Tus 3 dashboards — Presupuesto, Estabilidad y Crecimiento — en una sola pantalla, cambia entre ellos cuando quieras.">
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="manifest" href="../../manifest.json">
 <link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32">
@@ -21,15 +21,17 @@
 
 <main class="lm-wrap">
   <img class="lm-dash-wordmark" src="../../assets/icons/brand/manual-planificacion.png" alt="Manual de Planificación Financiera" style="max-width:360px">
-  <h2 class="lm-subtitle" style="text-align:center">Completaste las 3 categorías. Elige cuál dashboard ver primero — puedes ir y volver entre los tres cuando quieras.</h2>
+  <h2 class="lm-subtitle" style="text-align:center">Completaste las 3 categorías. Cambia entre tus dashboards cuando quieras — los tres siguen disponibles aquí arriba.</h2>
 
-  <div class="lm-flow-row">
-    <a class="lm-flow-sq-btn" href="../dashboard-presupuesto/index.html"><img src="../../assets/icons/flows/presupuesto.png" alt="Dashboard de presupuesto"></a>
-    <a class="lm-flow-sq-btn" href="../dashboard-estabilidad/index.html"><img src="../../assets/icons/flows/estabilidad.png" alt="Dashboard de estabilidad"></a>
-    <a class="lm-flow-sq-btn" href="../dashboard-crecimiento/index.html"><img src="../../assets/icons/flows/crecimiento.png" alt="Dashboard de crecimiento"></a>
+  <div class="lm-flow-row lm-no-print" id="dash-tabs">
+    <button type="button" class="lm-flow-sq-btn" data-dash="presupuesto"><img src="../../assets/icons/flows/presupuesto.png" alt="Dashboard de presupuesto"></button>
+    <button type="button" class="lm-flow-sq-btn" data-dash="estabilidad"><img src="../../assets/icons/flows/estabilidad.png" alt="Dashboard de estabilidad"></button>
+    <button type="button" class="lm-flow-sq-btn" data-dash="crecimiento"><img src="../../assets/icons/flows/crecimiento.png" alt="Dashboard de crecimiento"></button>
   </div>
 
-  <div class="lm-hint" style="text-align:center;margin:18px 0 10px">Ya viste los tres y quieres el resumen de qué atender primero:</div>
+  <div id="content" style="margin-top:18px"></div>
+
+  <div class="lm-hint" style="text-align:center;margin:18px 0 10px">Ya viste los que te interesan y quieres el resumen de qué atender primero:</div>
   <a class="lm-btn lm-btn-primary" href="../areas-mejorar/index.html">Ver áreas a mejorar</a>
 </main>
 
@@ -40,5 +42,12 @@
 
 <script src="../../assets/js/storage.js"></script>
 <script src="../../assets/js/section-ui.js"></script>
+<script src="../../assets/js/demo-data.js"></script>
+<script src="../../assets/js/cross-section.js"></script>
+<script>window.LM_DASHBOARD_HUB = true;</script>
+<script src="../dashboard-presupuesto/dashboard-presupuesto.js"></script>
+<script src="../dashboard-estabilidad/dashboard-estabilidad.js"></script>
+<script src="../dashboard-crecimiento/dashboard-crecimiento.js"></script>
+<script src="dashboards.js"></script>
 </body>
 </html>

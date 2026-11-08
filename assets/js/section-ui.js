@@ -227,13 +227,17 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
 
   var flowKey = lmGetActiveFlow();
   var flow = flowKey && LM_FLOWS[flowKey];
-  var keys, stepLabel;
+  var keys, stepLabel, skipHref, skipLabel;
   if (flow && flow.keys.indexOf(current) !== -1) {
     keys = flow.keys;
     stepLabel = "Hasta tu dashboard de " + flow.label;
+    skipHref = flow.dashboard;
+    skipLabel = "Ir directo a mi dashboard &rarr;";
   } else if (!flow && LM_FULL_ORDER.indexOf(current) !== -1) {
     keys = LM_FULL_ORDER;
     stepLabel = "Manual completo";
+    skipHref = "../dashboards/index.html";
+    skipLabel = "Ir directo a mis dashboards &rarr;";
   } else {
     return;
   }
@@ -246,7 +250,8 @@ function lmFlowAwareNav(defaultNextHref, defaultPrevHref) {
   wrap.className = "lm-flow-progress lm-no-print";
   wrap.innerHTML =
     '<div class="lm-flow-progress-label"><span>Paso ' + (idx + 1) + ' de ' + total + '</span><span>' + stepLabel + '</span></div>' +
-    '<div class="lm-flow-progress-track"><div class="lm-flow-progress-fill" style="width:' + pct + '%"></div></div>';
+    '<div class="lm-flow-progress-track"><div class="lm-flow-progress-fill" style="width:' + pct + '%"></div></div>' +
+    (skipHref ? '<a class="lm-flow-progress-skip" href="' + skipHref + '">' + skipLabel + '</a>' : '');
 
   var badge2 = main.querySelector(".lm-flow-badge");
   if (badge2) { badge2.insertAdjacentElement("afterend", wrap); }

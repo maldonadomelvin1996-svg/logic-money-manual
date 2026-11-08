@@ -1,8 +1,10 @@
 /* Logic Money — Manual Digital — Dashboard: Crecimiento
    Cierre del plan enfocado "Crecimiento": los 6 pasos de Retiro, ya
-   llenados en ese recorrido, en una sola vista. */
+   llenados en ese recorrido, en una sola vista.
 
-var contentEl = document.getElementById("content");
+   Envuelto en una función para que el hub de dashboards (ver
+   secciones/dashboards/) también pueda llamarla — ver la misma nota en
+   dashboard-presupuesto.js. */
 
 function monthlyPMT(fv, ratePct, years) {
   var n = years * 12;
@@ -12,11 +14,14 @@ function monthlyPMT(fv, ratePct, years) {
   return fv * i / (Math.pow(1 + i, n) - 1);
 }
 
-var retiroCuando = lmGetSection("retiro-cuando");
+function lmRenderDashboardCrecimiento(contentEl, opts) {
+  opts = opts || {};
+  var retiroCuando = lmGetSection("retiro-cuando");
+  if (!retiroCuando) {
+    lmRenderDataGuard(contentEl, "Este dashboard se arma solo con tu información de Retiro. Completa primero esos pasos para verlo aquí.");
+    return;
+  }
 
-if (!retiroCuando) {
-  lmRenderDataGuard(contentEl, "Este dashboard se arma solo con tu información de Retiro. Completa primero esos pasos para verlo aquí.");
-} else {
   var retiroCuanto = lmGetSection("retiro-cuanto");
   var retiroSilla = lmGetSection("retiro-silla");
   var retiroNif = lmGetSection("retiro-nif");
@@ -94,6 +99,8 @@ if (!retiroCuando) {
     "Años para retiro: " + retiroCuando.anios];
   if (retiroNif) bodyLines.push("Número de independencia financiera: " + lmMoney(retiroNif.nif));
 
+  if (opts.showFooter === false) return;
+
   lmRenderSectionFooter({
     containerEl: contentEl,
     mailtoSubject: "Mi dashboard de crecimiento — Logic Money",
@@ -101,4 +108,8 @@ if (!retiroCuando) {
     nextSectionHref: null,
     prevSectionHref: "../retiro-perfil/index.html",
   });
+}
+
+if (!window.LM_DASHBOARD_HUB) {
+  lmRenderDashboardCrecimiento(document.getElementById("content"));
 }

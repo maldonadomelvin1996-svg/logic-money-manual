@@ -1,9 +1,14 @@
 /* Logic Money — Manual Digital — Dashboard: Presupuesto
    Cierre del plan enfocado "Presupuesto": junta Ingresos, Presupuesto y
    Patrimonio (ya llenados en ese recorrido) en una sola vista, sin pedir
-   nada nuevo. */
+   nada nuevo.
 
-var contentEl = document.getElementById("content");
+   Envuelto en una función (en vez de correr directo al cargar la página)
+   para que el hub de dashboards (ver secciones/dashboards/) pueda llamarla
+   también, cada vez que el lector toca la pestaña "Presupuesto" — sin
+   duplicar esta lógica en dos lugares. Cuando esta página se abre sola
+   (dashboard-presupuesto/index.html), se sigue corriendo igual que
+   siempre, al final del archivo. */
 
 function dashRow(icon, soft, color, title, sub, amount, pct) {
   return '<div class="lm-dash-row">' +
@@ -15,9 +20,13 @@ function dashRow(icon, soft, color, title, sub, amount, pct) {
     '</div></div>';
 }
 
-if (!lmHasSection("ingresos") && !lmHasSection("presupuesto")) {
-  lmRenderDataGuard(contentEl, "Este dashboard se arma solo con tu información de Ingresos y Presupuesto. Completa primero esas secciones para verlo aquí.");
-} else {
+function lmRenderDashboardPresupuesto(contentEl, opts) {
+  opts = opts || {};
+  if (!lmHasSection("ingresos") && !lmHasSection("presupuesto")) {
+    lmRenderDataGuard(contentEl, "Este dashboard se arma solo con tu información de Ingresos y Presupuesto. Completa primero esas secciones para verlo aquí.");
+    return;
+  }
+
   var ingreso = lmGetIncomeTotal();
   var ahorros = lmGetPresupuestoAhorrosTotal();
   var gastos = Math.max(0, lmGetPresupuestoTotalGastos() - ahorros);
@@ -85,6 +94,8 @@ if (!lmHasSection("ingresos") && !lmHasSection("presupuesto")) {
 
   contentEl.innerHTML = html;
 
+  if (opts.showFooter === false) return;
+
   lmRenderSectionFooter({
     containerEl: contentEl,
     mailtoSubject: "Mi dashboard de presupuesto — Logic Money",
@@ -94,4 +105,8 @@ if (!lmHasSection("ingresos") && !lmHasSection("presupuesto")) {
     nextSectionHref: null,
     prevSectionHref: "../patrimonio/index.html",
   });
+}
+
+if (!window.LM_DASHBOARD_HUB) {
+  lmRenderDashboardPresupuesto(document.getElementById("content"));
 }

@@ -183,6 +183,8 @@ body[class*="lm-theme-"] .lm-card .lm-callout-neutral {
 .lm-flow-progress-fill { height: 100%; border-radius: 999px; background: var(--gold); transition: width 0.3s ease; }
 body.lm-theme-presupuesto .lm-flow-progress-fill { background: var(--blue); }
 body.lm-theme-crecimiento .lm-flow-progress-fill { background: var(--good); }
+.lm-flow-progress-skip { display: block; text-align: right; font-size: 12px; font-weight: 700; color: var(--gold); text-decoration: none; margin-top: 6px; }
+.lm-flow-progress-skip:hover { opacity: 0.8; }
 
 .lm-wrap {
   width: 100%;

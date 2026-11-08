@@ -1,8 +1,10 @@
 /* Logic Money — Manual Digital — Dashboard: Estabilidad
    Cierre del plan enfocado "Estabilidad": Fondo de emergencia, Crédito,
-   Nivel de deuda y Seguros, ya llenados en ese recorrido. */
+   Nivel de deuda y Seguros, ya llenados en ese recorrido.
 
-var contentEl = document.getElementById("content");
+   Envuelto en una función para que el hub de dashboards (ver
+   secciones/dashboards/) también pueda llamarla — ver la misma nota en
+   dashboard-presupuesto.js. */
 
 function monthLabel(months) {
   var d = new Date();
@@ -27,9 +29,13 @@ function scoreBand(score) {
 var BAND_COLORS = { "Ideal": "var(--blue)", "Estable": "var(--teal)", "Riesgoso": "var(--gold)", "Crítico": "#FF9A4D", "Embrollao": "var(--warn)" };
 var BAND_SOFT = { "Ideal": "var(--blue-soft)", "Estable": "var(--teal-soft)", "Riesgoso": "var(--gold-soft)", "Crítico": "rgba(255,154,77,0.14)", "Embrollao": "var(--warn-soft)" };
 
-if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSection("nivel-deuda") && !lmHasSection("seguros")) {
-  lmRenderDataGuard(contentEl, "Este dashboard se arma solo con tu información de Fondo de emergencia, Crédito, Nivel de deuda y Seguros. Completa primero esas secciones para verlo aquí.");
-} else {
+function lmRenderDashboardEstabilidad(contentEl, opts) {
+  opts = opts || {};
+  if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSection("nivel-deuda") && !lmHasSection("seguros")) {
+    lmRenderDataGuard(contentEl, "Este dashboard se arma solo con tu información de Fondo de emergencia, Crédito, Nivel de deuda y Seguros. Completa primero esas secciones para verlo aquí.");
+    return;
+  }
+
   var html = "";
 
   // ---- Fondo de emergencia ----
@@ -169,6 +175,8 @@ if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSecti
   if (credito) bodyLines.push("Crédito: " + (credito.score || "sin historial"));
   if (nivelDeuda) bodyLines.push("Nivel de deuda: " + nivelDeuda.pct + "% (" + nivelDeuda.band + ")");
 
+  if (opts.showFooter === false) return;
+
   lmRenderSectionFooter({
     containerEl: contentEl,
     mailtoSubject: "Mi dashboard de estabilidad — Logic Money",
@@ -176,4 +184,8 @@ if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSecti
     nextSectionHref: null,
     prevSectionHref: "../proteccion/index.html",
   });
+}
+
+if (!window.LM_DASHBOARD_HUB) {
+  lmRenderDashboardEstabilidad(document.getElementById("content"));
 }
