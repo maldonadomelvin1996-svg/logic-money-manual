@@ -20,6 +20,31 @@ function dashRow(icon, soft, color, title, sub, amount, pct) {
     '</div></div>';
 }
 
+/* Áreas a mejorar propias de Presupuesto: déficit y patrimonio negativo
+   — las dos cosas que este dashboard mide. Reutilizada también por
+   secciones/areas-mejorar (las 3 categorías juntas). */
+function lmGetPresupuestoMejoraItems() {
+  var items = [];
+  if (lmHasSection("presupuesto")) {
+    var ingresoM = lmGetIncomeTotal();
+    var ahorrosM = lmGetPresupuestoAhorrosTotal();
+    var gastosM = Math.max(0, lmGetPresupuestoTotalGastos() - ahorrosM);
+    var deudasM = lmGetDebtsTotalPayment();
+    var superavitM = ingresoM - ahorrosM - gastosM - deudasM;
+    if (ingresoM > 0 && superavitM < 0) {
+      items.push(lmMejoraItem("presupuesto", "Tienes un déficit mensual", "Gastas " + lmMoney(Math.abs(superavitM)) + " más de lo que entra cada mes.", "var(--warn)", "var(--warn-soft)", "../presupuesto/index.html", "red"));
+    }
+  }
+  var patrimonioM = lmGetSection("patrimonio");
+  if (patrimonioM) {
+    var netoM = (patrimonioM.activos || 0) - (patrimonioM.pasivos || 0);
+    if (netoM < 0) {
+      items.push(lmMejoraItem("patrimonio", "Tu patrimonio neto es negativo", "Debes " + lmMoney(Math.abs(netoM)) + " más de lo que tienes.", "var(--warn)", "var(--warn-soft)", "../patrimonio/index.html", "red"));
+    }
+  }
+  return items;
+}
+
 function lmRenderDashboardPresupuesto(contentEl, opts) {
   opts = opts || {};
   if (!lmHasSection("ingresos") && !lmHasSection("presupuesto")) {
@@ -91,6 +116,12 @@ function lmRenderDashboardPresupuesto(contentEl, opts) {
   html += '<div class="lm-dash-slider-track"><div class="lm-dash-slider-marker" style="left:' + markerPct + '%"></div></div>';
   html += '<div class="lm-dash-slider-scale"><span>En deuda</span><span>Positivo</span></div>';
   html += '</div>';
+
+  var mejoraItems = lmGetPresupuestoMejoraItems();
+  if (mejoraItems.length) {
+    html += '<h3 class="lm-h3" style="margin-top:4px">Áreas a mejorar de Presupuesto</h3>';
+    html += lmRenderMejoraList(mejoraItems, "");
+  }
 
   contentEl.innerHTML = html;
 

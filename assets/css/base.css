@@ -840,15 +840,18 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 }
 
 /* Tarjeta con borde/glow según estado */
-.lm-card-good { border-color: rgba(62,216,142,0.45) !important; box-shadow: var(--shadow), 0 0 28px rgba(62,216,142,0.10); }
-.lm-card-attn { border-color: rgba(255,106,82,0.45) !important; box-shadow: var(--shadow), 0 0 28px rgba(255,106,82,0.10); }
+.lm-card-good { border-color: rgba(62,216,142,0.6) !important; box-shadow: var(--shadow), 0 0 44px rgba(62,216,142,0.28) !important; }
+.lm-card-attn { border-color: rgba(255,106,82,0.6) !important; box-shadow: var(--shadow), 0 0 44px rgba(255,106,82,0.28) !important; }
 
 /* Glow de color variable (no solo bueno/malo binario) — para tarjetas con
    varias bandas posibles, como crédito o nivel de deuda, donde el color
    exacto de la tarjeta debe coincidir con la banda en la que caiga
    (ej. "Riesgoso" = dorado, no solo "malo" = rojo). Se pasa el color de
-   la banda por variables en línea: style="--tint:...;--tint-soft:...". */
-.lm-card-tint { border-color: var(--tint) !important; box-shadow: var(--shadow), 0 0 28px var(--tint-soft) !important; }
+   la banda por variables en línea: style="--tint:...;--tint-soft:...".
+   El glow usa el tinte real (no --tint-soft, pensado para fondos planos
+   de badges) a una opacidad fija más alta, para que se note de verdad —
+   no una mancha tenue, algo que grite "atiende esto". */
+.lm-card-tint { border-color: var(--tint) !important; box-shadow: var(--shadow), 0 0 44px color-mix(in srgb, var(--tint) 35%, transparent) !important; }
 
 /* ---------- Dashboards (Presupuesto / Estabilidad / Crecimiento) ----------
    Pantalla de cierre de cada plan enfocado: resume en una vista lo que ya

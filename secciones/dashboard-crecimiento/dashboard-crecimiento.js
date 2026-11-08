@@ -14,6 +14,35 @@ function monthlyPMT(fv, ratePct, years) {
   return fv * i / (Math.pow(1 + i, n) - 1);
 }
 
+/* Área a mejorar propia de Crecimiento: no es "te falta tanto para el
+   retiro" (ese faltante es normal si quedan años por delante) — lo que
+   importa es si la aportación mensual actual (lo que ya se está
+   metiendo a Ahorros con propósito "retiro") alcanza la aportación
+   recomendada para el perfil de riesgo del lector (o 6%/moderado si
+   todavía no definió un perfil). Reutilizada también por
+   secciones/areas-mejorar (las 3 categorías juntas). */
+function lmGetCrecimientoMejoraItems() {
+  var items = [];
+  var retiroAportacionM = lmGetSection("retiro-aportacion");
+  if (retiroAportacionM && retiroAportacionM.rates && retiroAportacionM.rates.length) {
+    var retiroPerfilM = lmGetSection("retiro-perfil");
+    var targetRateM = retiroPerfilM ? retiroPerfilM.rate : 6;
+    var matchM = retiroAportacionM.rates.filter(function (r) { return r.rate === targetRateM; })[0] ||
+      retiroAportacionM.rates.filter(function (r) { return r.rate === 6; })[0];
+    if (matchM) {
+      var requeridaM = matchM.mensual;
+      var actualM = lmGetMonthlySavingsByPurpose("retiro|jubilaci");
+      var faltaMensualM = requeridaM - actualM;
+      if (faltaMensualM > 0) {
+        items.push(lmMejoraItem("retiro", "Tu aportación al retiro está por debajo de lo recomendado",
+          "Aportas " + lmMoney(actualM) + "/mes; se recomiendan " + lmMoney(requeridaM) + "/mes (" + matchM.rate + "% de crecimiento esperado).",
+          "var(--warn)", "var(--warn-soft)", "../ahorros/index.html", "red"));
+      }
+    }
+  }
+  return items;
+}
+
 function lmRenderDashboardCrecimiento(contentEl, opts) {
   opts = opts || {};
   var retiroCuando = lmGetSection("retiro-cuando");
@@ -91,6 +120,12 @@ function lmRenderDashboardCrecimiento(contentEl, opts) {
     html += '</tbody></table></div>';
     html += '<div class="lm-hint" style="margin-top:10px">Estimados basados en rendimientos históricos. Los resultados pueden variar según el mercado, comisiones e inflación.</div>';
     html += '</div>';
+  }
+
+  var mejoraItems = lmGetCrecimientoMejoraItems();
+  if (mejoraItems.length) {
+    html += '<h3 class="lm-h3" style="margin-top:4px">Áreas a mejorar de Crecimiento</h3>';
+    html += lmRenderMejoraList(mejoraItems, "");
   }
 
   contentEl.innerHTML = html;

@@ -32,6 +32,15 @@ function lmGetSavingsByPurpose(pattern) {
   return lmGetSavings().filter(function (s) { return re.test(s.purpose); })
     .reduce(function (sum, s) { return sum + (s.amount || 0); }, 0);
 }
+/* Igual que lmGetSavingsByPurpose, pero suma el aporte MENSUAL (campo
+   "monthly" de cada fila de Ahorros) en vez del total ya ahorrado — para
+   comparar cuánto se está aportando al retiro hoy contra cuánto se
+   debería aportar (ver dashboard-crecimiento.js). */
+function lmGetMonthlySavingsByPurpose(pattern) {
+  var re = new RegExp(pattern, "i");
+  return lmGetSavings().filter(function (s) { return re.test(s.purpose); })
+    .reduce(function (sum, s) { return sum + (s.monthly || 0); }, 0);
+}
 
 function lmGetInsurance() {
   var s = lmGetSection("seguros");

@@ -51,6 +51,41 @@ function lmBuildPieSVG(slices, size) {
   return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '">' + paths + '</svg>';
 }
 
+/**
+ * "Área a mejorar": una bandera (roja = urgente, dorada = informativa)
+ * que cualquier dashboard puede juntar en una lista — compartido entre
+ * cada dashboard (su propia categoría, acotada) y secciones/areas-mejorar
+ * (las tres categorías juntas). href siempre apunta a la sección de toma
+ * de datos donde se arregla, nunca a un dashboard, para que funcione
+ * igual sin importar desde dónde se muestre la lista.
+ */
+function lmMejoraItem(icon, title, detail, color, soft, href, severity) {
+  return { icon: icon, title: title, detail: detail, color: color, soft: soft, href: href, severity: severity || "red" };
+}
+function lmRenderMejoraList(items, emptyMsg) {
+  if (!items.length) {
+    return '<div class="lm-callout lm-callout-good">&#10003; ' + emptyMsg + '</div>';
+  }
+  var sorted = items.slice().sort(function (a, b) {
+    var aw = a.severity === "red" ? 0 : 1;
+    var bw = b.severity === "red" ? 0 : 1;
+    return aw - bw;
+  });
+  var html = "";
+  sorted.forEach(function (item) {
+    html += '<a class="lm-card lm-card-tint" style="--tint:' + item.color + ';--tint-soft:' + item.soft + ';display:block;text-decoration:none" href="' + item.href + '">' +
+      '<div style="display:flex;align-items:center;gap:14px">' +
+        '<img src="../../assets/icons/categories/' + item.icon + '.png" alt="" style="width:48px;height:48px;object-fit:contain;flex-shrink:0">' +
+        '<div style="flex:1;min-width:0">' +
+          '<div style="font-weight:700;font-size:16px">' + item.title + '</div>' +
+          '<div style="color:var(--text-mid);font-size:13px;margin-top:3px;line-height:1.4">' + item.detail + '</div>' +
+        '</div>' +
+        '<span class="lm-chevron">&#8250;</span>' +
+      '</div></a>';
+  });
+  return html;
+}
+
 function lmRenderSaveBanner(containerEl) {
   var ok = !(typeof LM_LAST_SAVE_OK !== "undefined" && LM_LAST_SAVE_OK === false);
   var el = document.createElement("div");

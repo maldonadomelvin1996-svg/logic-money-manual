@@ -29,6 +29,68 @@ function scoreBand(score) {
 var BAND_COLORS = { "Ideal": "var(--blue)", "Estable": "var(--teal)", "Riesgoso": "var(--gold)", "Crítico": "#FF9A4D", "Embrollao": "var(--warn)" };
 var BAND_SOFT = { "Ideal": "var(--blue-soft)", "Estable": "var(--teal-soft)", "Riesgoso": "var(--gold-soft)", "Crítico": "rgba(255,154,77,0.14)", "Embrollao": "var(--warn-soft)" };
 
+/* Áreas a mejorar propias de Estabilidad: fondo de emergencia, crédito,
+   nivel de deuda y seguros (incluida la cobertura de vida) — las cosas
+   que este dashboard mide. Reutilizada también por secciones/areas-mejorar
+   (las 3 categorías juntas). */
+function lmGetEstabilidadMejoraItems() {
+  var items = [];
+
+  var fondoM = lmGetSection("fondo-emergencia");
+  if (fondoM) {
+    var objetivoFondoM = fondoM.objetivoGastos || fondoM.objetivoIngreso || 0;
+    var faltaFondoM = Math.max(0, objetivoFondoM - fondoM.tienes);
+    var fondoListoM = faltaFondoM <= 0 && objetivoFondoM > 0;
+    if (!fondoListoM) {
+      items.push(lmMejoraItem("fondo-emergencia", "Tu fondo de emergencia está incompleto", "Te faltan " + lmMoney(faltaFondoM) + " para completarlo.", "var(--warn)", "var(--warn-soft)", "../fondo-emergencia/index.html", "red"));
+    }
+  }
+
+  var creditoM = lmGetSection("credito");
+  if (creditoM) {
+    if (creditoM.score) {
+      var creditoBandM = scoreBand(creditoM.score);
+      if (creditoBandM.label === "Regular" || creditoBandM.label === "Necesita mejorar") {
+        items.push(lmMejoraItem("credito", "Tu puntaje de crédito tiene espacio para mejorar", "Puntaje actual: " + creditoM.score + " (" + creditoBandM.label + ").", creditoBandM.color, creditoBandM.soft, "../credito/index.html", "red"));
+      }
+    } else {
+      items.push(lmMejoraItem("credito", "Aún no tienes historial crediticio", "Construir crédito abre mejores oportunidades a futuro.", "var(--gold)", "var(--gold-soft)", "../credito/index.html", "gold"));
+    }
+  }
+
+  var nivelDeudaM = lmGetSection("nivel-deuda");
+  if (nivelDeudaM && nivelDeudaM.pct > 35) {
+    var nivelColorM = BAND_COLORS[nivelDeudaM.band] || "var(--warn)";
+    var nivelSoftM = BAND_SOFT[nivelDeudaM.band] || "var(--warn-soft)";
+    items.push(lmMejoraItem("nivel-deuda", "Tu nivel de deuda está alto", nivelDeudaM.pct + "% de tu ingreso va a deudas (" + nivelDeudaM.band + ").", nivelColorM, nivelSoftM, "../nivel-deuda/index.html", "red"));
+  }
+
+  var segurosM = lmGetSection("seguros");
+  if (segurosM && segurosM.insurance) {
+    var byTypeM = {};
+    segurosM.insurance.forEach(function (i) { byTypeM[i.type] = i; });
+    [["Médico", "No tienes seguro médico"], ["Vehículo", "No tienes seguro de vehículo"], ["Vida", "No tienes seguro de vida"]].forEach(function (pair) {
+      var ins = byTypeM[pair[0]];
+      if (!ins || !ins.has) {
+        items.push(lmMejoraItem("seguros", pair[1], "Considera cotizar uno — te protege a ti y a quienes dependen de ti.", "var(--warn)", "var(--warn-soft)", "../seguros/index.html", "red"));
+      }
+    });
+  }
+
+  var proteccionM = lmGetSection("proteccion");
+  if (proteccionM && proteccionM.needsLife) {
+    var responsabilidadesM = (proteccionM.deudas || 0) + (proteccionM.funeral || 0) + (proteccionM.reemplazo || 0);
+    var recomendadaM = Math.max(0, responsabilidadesM - (proteccionM.ahorros || 0));
+    var actualM = proteccionM.coberturaActual || 0;
+    var superavitSeguroM = actualM - recomendadaM;
+    if (superavitSeguroM < 0) {
+      items.push(lmMejoraItem("proteccion", "Te falta cobertura de seguro de vida", "Te faltan " + lmMoney(Math.abs(superavitSeguroM)) + " en cobertura recomendada.", "var(--warn)", "var(--warn-soft)", "../proteccion/index.html", "red"));
+    }
+  }
+
+  return items;
+}
+
 function lmRenderDashboardEstabilidad(contentEl, opts) {
   opts = opts || {};
   if (!lmHasSection("fondo-emergencia") && !lmHasSection("credito") && !lmHasSection("nivel-deuda") && !lmHasSection("seguros")) {
@@ -165,6 +227,12 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
       html += '<div class="lm-callout lm-callout-neutral" style="margin-bottom:0">Completa <a href="../proteccion/index.html" style="color:inherit">Análisis de protección</a> para ver cuánta cobertura de vida necesitas.</div>';
     }
     html += '</div>';
+  }
+
+  var mejoraItems = lmGetEstabilidadMejoraItems();
+  if (mejoraItems.length) {
+    html += '<h3 class="lm-h3" style="margin-top:4px">Áreas a mejorar de Estabilidad</h3>';
+    html += lmRenderMejoraList(mejoraItems, "");
   }
 
   contentEl.innerHTML = html;
