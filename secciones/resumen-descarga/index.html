@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Descargar mi resumen — Logic Money Manual Digital</title>
+<meta name="description" content="Tu situación financiera y tus áreas a mejorar, en un resumen que puedes guardar o imprimir.">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="../../assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#050609">
+<meta name="view-transition" content="same-origin">
+</head>
+<body>
+
+<header class="lm-header lm-no-print">
+  <a class="lm-header-back" href="../dashboards/index.html">&larr; Volver</a>
+  <span class="lm-breadcrumb">Descargar mi resumen</span>
+</header>
+
+<main class="lm-wrap" id="resumen-root">
+  <div class="lm-title-row lm-no-print">
+    <img class="lm-title-icon-img" src="../../assets/icons/categories/resumen-datos.png" alt="">
+    <h1 class="lm-title">Descargar mi resumen</h1>
+  </div>
+  <h2 class="lm-subtitle lm-no-print">Tu situación y tus áreas a mejorar en una sola página, lista para guardar como PDF o imprimir. Nada de esto se guarda en ningún lado — solo vive en esta pantalla.</h2>
+
+  <div class="lm-field lm-no-print" style="margin-bottom:24px">
+    <label class="lm-label" for="nombre-input">Tu nombre (opcional)</label>
+    <input class="lm-input" type="text" id="nombre-input" placeholder="Para personalizar el resumen">
+    <div class="lm-hint">Si lo dejas en blanco, el resumen dice simplemente "Mi resumen financiero".</div>
+  </div>
+
+  <div id="content"></div>
+
+  <button class="lm-btn lm-btn-primary lm-no-print" id="print-btn" type="button" style="margin-top:8px">&#128190; Guardar como PDF</button>
+  <div class="lm-hint lm-no-print" style="text-align:center;margin-top:10px">En tu teléfono: toca Guardar, elige "Imprimir" o "Guardar en PDF" en las opciones para compartir.</div>
+</main>
+
+<footer class="lm-site-footer lm-no-print">
+  Logic Money · Esta herramienta es una guía general y no sustituye asesoría financiera personalizada.<br>
+  Tus datos se guardan solo en este teléfono — nadie más los ve.
+</footer>
+
+<script src="../../assets/js/storage.js"></script>
+<script src="../../assets/js/section-ui.js"></script>
+<script src="../../assets/js/demo-data.js"></script>
+<script src="../../assets/js/cross-section.js"></script>
+<script>window.LM_DASHBOARD_HUB = true;</script>
+<script src="../dashboard-presupuesto/dashboard-presupuesto.js"></script>
+<script src="../dashboard-estabilidad/dashboard-estabilidad.js"></script>
+<script src="../dashboard-crecimiento/dashboard-crecimiento.js"></script>
+<script src="resumen-descarga.js"></script>
+</body>
+</html>

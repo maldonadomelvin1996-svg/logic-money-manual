@@ -963,7 +963,19 @@ p.lm-p { color: var(--text-mid); line-height: 1.6; font-size: 14px; margin: 0 0 
 
 @media print {
   .lm-no-print { display: none !important; }
-  body { background: #fff; color: #111; }
+  body {
+    background: #fff;
+    color: #111;
+    --text: #111;
+    --text-mid: rgba(17,17,17,0.64);
+    --text-faint: rgba(17,17,17,0.42);
+    --border: rgba(0,0,0,0.12);
+    --border-strong: rgba(0,0,0,0.22);
+  }
   .lm-card, .lm-card-flat, .lm-debt-row { background: #fff; border-color: #ccc; box-shadow: none; }
   .lm-header { border-color: #ccc; }
+  /* El glow grande se ve bien en pantalla, pero en papel/PDF es solo una
+     mancha de color que gasta tinta — se imprime el borde de color nada
+     más, sin el resplandor. */
+  .lm-card-good, .lm-card-attn, .lm-card-tint { box-shadow: none !important; }
 }
