@@ -17,9 +17,9 @@
    desde el hub del manual completo). */
 
 var DASH_RENDERERS = {
-  presupuesto: { render: lmRenderDashboardPresupuesto, label: "Presupuesto" },
-  estabilidad: { render: lmRenderDashboardEstabilidad, label: "Estabilidad" },
-  crecimiento: { render: lmRenderDashboardCrecimiento, label: "Crecimiento" },
+  presupuesto: { render: lmRenderDashboardPresupuesto, label: "Presupuesto", mejora: lmGetPresupuestoMejoraItems },
+  estabilidad: { render: lmRenderDashboardEstabilidad, label: "Estabilidad", mejora: lmGetEstabilidadMejoraItems },
+  crecimiento: { render: lmRenderDashboardCrecimiento, label: "Crecimiento", mejora: lmGetCrecimientoMejoraItems },
 };
 var HAS_DATA_KEYS = {
   presupuesto: ["ingresos", "presupuesto", "patrimonio"],
@@ -74,11 +74,40 @@ if (catsToShow.length === 0) {
   disclaimerEl.innerHTML = DISCLAIMER_HTML;
   contentEl.appendChild(disclaimerEl);
 
-  catsToShow.forEach(function (key) {
+  /* En el resumen del manual completo (sin ?cat=, varias categorías a la
+     vez) se piden por separado: primero el PNG + dashboard de cada
+     categoría (sin su bloque de "áreas a mejorar"), y luego, al final,
+     una sola sección combinada con las áreas a mejorar de todas. El
+     resumen de una sola categoría (?cat=X) no cambia: ahí ya tiene
+     sentido mostrar su área a mejorar junto a su propio dashboard. */
+  catsToShow.forEach(function (key, i) {
+    if (!scoped) {
+      var wordmarkEl = document.createElement("img");
+      wordmarkEl.className = "lm-dash-wordmark";
+      if (i) wordmarkEl.style.marginTop = "32px";
+      wordmarkEl.src = "../../assets/icons/flows/" + key + ".png";
+      wordmarkEl.alt = "Análisis de " + DASH_RENDERERS[key].label;
+      contentEl.appendChild(wordmarkEl);
+    }
     var sub = document.createElement("div");
     contentEl.appendChild(sub);
-    DASH_RENDERERS[key].render(sub, { showFooter: false });
+    DASH_RENDERERS[key].render(sub, { showFooter: false, showMejora: !!scoped });
   });
+
+  if (!scoped) {
+    var mejoraItems = [];
+    catsToShow.forEach(function (key) { mejoraItems = mejoraItems.concat(DASH_RENDERERS[key].mejora()); });
+
+    var mejoraTitleEl = document.createElement("div");
+    mejoraTitleEl.className = "lm-dash-section-title";
+    mejoraTitleEl.style.marginTop = "32px";
+    mejoraTitleEl.textContent = "Áreas a mejorar";
+    contentEl.appendChild(mejoraTitleEl);
+
+    var mejoraListEl = document.createElement("div");
+    mejoraListEl.innerHTML = lmRenderMejoraList(mejoraItems, "No encontramos áreas urgentes qué mejorar en lo que has llenado hasta ahora. ¡Sigue así!");
+    contentEl.appendChild(mejoraListEl);
+  }
 }
 
 var fechaHoy = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });

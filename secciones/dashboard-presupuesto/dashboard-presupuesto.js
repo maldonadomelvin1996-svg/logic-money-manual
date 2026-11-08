@@ -118,7 +118,7 @@ function lmRenderDashboardPresupuesto(contentEl, opts) {
   html += '</div>';
 
   var mejoraItems = lmGetPresupuestoMejoraItems();
-  if (mejoraItems.length) {
+  if (opts.showMejora !== false && mejoraItems.length) {
     html += '<div class="lm-dash-section-title">Áreas a mejorar de Presupuesto</div>';
     html += lmRenderMejoraList(mejoraItems, "");
   }

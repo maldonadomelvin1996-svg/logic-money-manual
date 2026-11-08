@@ -123,7 +123,7 @@ function lmRenderDashboardCrecimiento(contentEl, opts) {
   }
 
   var mejoraItems = lmGetCrecimientoMejoraItems();
-  if (mejoraItems.length) {
+  if (opts.showMejora !== false && mejoraItems.length) {
     html += '<div class="lm-dash-section-title">Áreas a mejorar de Crecimiento</div>';
     html += lmRenderMejoraList(mejoraItems, "");
   }
