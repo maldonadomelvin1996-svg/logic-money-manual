@@ -12,6 +12,14 @@ function monthLabel(months) {
   var s = d.toLocaleDateString("es-ES", { month: "long", year: "numeric" });
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+function yearsMonthsLabel(totalMonths) {
+  var years = Math.floor(totalMonths / 12);
+  var months = totalMonths % 12;
+  var parts = [];
+  if (years > 0) parts.push(years + (years === 1 ? " año" : " años"));
+  if (months > 0 || years === 0) parts.push(months + (months === 1 ? " mes" : " meses"));
+  return parts.join(" y ");
+}
 function escapeDashHtml(s) {
   var div = document.createElement("div");
   div.textContent = s;
@@ -139,12 +147,13 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
             : r.extra > 0
               ? '<span>Pago: ' + lmMoney(r.payment) + ' + ' + lmMoney(r.extra) + ' adicional</span>'
               : '<span>Pago: ' + lmMoney(r.payment) + ' (sin cambio hasta que se salde la anterior)</span>') +
+          (r.extra > 0 ? '<span style="color:var(--good);font-weight:700">' + lmMoney(r.payment + r.extra) + ' nuevo pago</span>' : '') +
         '</div>' +
       '</div>';
     });
     html += '</div>';
     if (reduccion.months !== null) {
-      html += '<div class="lm-callout lm-callout-good" style="margin-bottom:0">Pagando en este orden, quedarías libre de estas deudas en <strong>' + monthLabel(reduccion.months) + '</strong> (' + reduccion.months + ' meses).</div>';
+      html += '<div class="lm-callout lm-callout-good" style="margin-bottom:0">Pagando en este orden, quedarías libre de estas deudas en <strong>' + monthLabel(reduccion.months) + '</strong> (' + yearsMonthsLabel(reduccion.months) + ').</div>';
     }
     html += '</div>';
   }
@@ -241,7 +250,7 @@ function lmRenderDashboardEstabilidad(contentEl, opts) {
 
   var bodyLines = ["Mi dashboard de estabilidad — Logic Money Manual Digital", ""];
   if (fondo) bodyLines.push("Fondo de emergencia: " + lmMoney(fondo.tienes) + " de " + lmMoney(fondo.objetivoGastos || 0));
-  if (reduccion && reduccion.months !== null) bodyLines.push("Libre de deudas en: " + monthLabel(reduccion.months) + " (" + reduccion.months + " meses)");
+  if (reduccion && reduccion.months !== null) bodyLines.push("Libre de deudas en: " + monthLabel(reduccion.months) + " (" + yearsMonthsLabel(reduccion.months) + ")");
   if (credito) bodyLines.push("Crédito: " + (credito.score || "sin historial"));
   if (nivelDeuda) bodyLines.push("Nivel de deuda: " + nivelDeuda.pct + "% (" + nivelDeuda.band + ")");
 

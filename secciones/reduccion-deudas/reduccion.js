@@ -19,6 +19,14 @@ function monthLabel(months) {
   var s = d.toLocaleDateString("es-ES", { month: "long", year: "numeric" });
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+function yearsMonthsLabel(totalMonths) {
+  var years = Math.floor(totalMonths / 12);
+  var months = totalMonths % 12;
+  var parts = [];
+  if (years > 0) parts.push(years + (years === 1 ? " año" : " años"));
+  if (months > 0 || years === 0) parts.push(months + (months === 1 ? " mes" : " meses"));
+  return parts.join(" y ");
+}
 
 function simulateSnowball(ordered) {
   var live = ordered.map(function (d) {
@@ -100,7 +108,7 @@ if (debts.length === 0) {
     var lastMonth = Math.max.apply(Math, rows.map(function (d) { return d.paidOffMonth || 0; }));
     var noteEl = document.createElement("div");
     noteEl.className = "lm-callout lm-callout-gold";
-    noteEl.innerHTML = 'Pagando en este orden, quedarías <strong>libre de estas deudas en ' + monthLabel(lastMonth) + '</strong> (' + lastMonth + ' meses). Cada deuda sigue pagando lo mismo de siempre — solo cuando una se salda, su pago se suma completo a la siguiente.';
+    noteEl.innerHTML = 'Pagando en este orden, quedarías <strong>libre de estas deudas en ' + monthLabel(lastMonth) + '</strong> (' + yearsMonthsLabel(lastMonth) + '). Cada deuda sigue pagando lo mismo de siempre — solo cuando una se salda, su pago se suma completo a la siguiente.';
     contentEl.appendChild(noteEl);
   }
 
