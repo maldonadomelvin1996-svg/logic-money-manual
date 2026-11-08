@@ -250,13 +250,22 @@ toggleSectionsBtn.addEventListener("click", function () {
     '<hr class="lm-divider">' +
     '<h3 class="lm-h3" style="color:var(--text-faint)">Modo de prueba</h3>' +
     '<p class="lm-p" style="margin-top:-6px">Llena todas las secciones con un lector ficticio, para que puedas ver los resultados y el PDF sin escribir nada a mano.</p>' +
-    '<button class="lm-btn lm-btn-secondary" id="demo-fill-btn" type="button">Llenar con datos de ejemplo</button>' +
+    '<button class="lm-btn lm-btn-secondary" id="demo-fill-btn" type="button">Llenar con cliente en apuros (déficit)</button>' +
+    '<button class="lm-btn lm-btn-secondary" id="demo-fill-estable-btn" type="button" style="margin-top:10px">Llenar con cliente estable (sin déficit)</button>' +
     '<button class="lm-btn lm-btn-ghost" id="clear-data-btn" type="button" style="margin-top:10px">Borrar todos mis datos</button>';
 
   var demoBtn = document.getElementById("demo-fill-btn");
   demoBtn.addEventListener("click", function () {
-    lmConfirmInline(demoBtn, "Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio), para probar el sitio. ¿Continuar?", function () {
-      lmFillDemoData();
+    lmConfirmInline(demoBtn, "Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio) en apuros financieros, para probar el sitio. ¿Continuar?", function () {
+      lmFillDemoData("deficit");
+      location.href = "index.html?filled=1";
+    });
+  });
+
+  var demoEstableBtn = document.getElementById("demo-fill-estable-btn");
+  demoEstableBtn.addEventListener("click", function () {
+    lmConfirmInline(demoEstableBtn, "Esto reemplaza cualquier dato que ya hayas puesto con un lector de ejemplo (ficticio) modesto pero sin déficit, para probar el sitio. ¿Continuar?", function () {
+      lmFillDemoData("estable");
       location.href = "index.html?filled=1";
     });
   });
