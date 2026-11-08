@@ -83,6 +83,39 @@ function lmRenderDashboardCrecimiento(contentEl, opts) {
   }
   html += '</div>';
 
+  // ---- Silla de retiro: mismo concepto visual que el software de asesor
+  // (ver assets/js/stool.js) — una pata por fuente de ingreso del retiro. ----
+  if (retiroSilla) {
+    var stoolLegs = [];
+    if (retiroSilla.seguroSocial > 0) stoolLegs.push({ label: "Seguro Social", value: retiroSilla.seguroSocial, color: LM_STOOL_PALETTE.seguroSocial });
+    if (retiroSilla.patronal > 0) stoolLegs.push({ label: "Retiro patronal", value: retiroSilla.patronal, color: LM_STOOL_PALETTE.patronal });
+    if (retiroSilla.personal > 0) stoolLegs.push({ label: "Retiro personal", value: retiroSilla.personal, color: LM_STOOL_PALETTE.personal });
+    (retiroSilla.extras || []).forEach(function (extra, i) {
+      stoolLegs.push({ label: extra.label, value: extra.amount, color: LM_STOOL_EXTRA_POOL[i % LM_STOOL_EXTRA_POOL.length] });
+    });
+
+    if (stoolLegs.length) {
+      var stoolTotal = stoolLegs.reduce(function (sum, leg) { return sum + leg.value; }, 0);
+      var stoolSurplus = stoolTotal - retiroSilla.objetivo;
+      var stoolMaterial = stoolSurplus >= 0 ? "plastic" : "wood";
+      var stoolBuilt = lmBuildStoolSVG(stoolLegs, retiroSilla.objetivo, stoolMaterial);
+      var stoolGrossMonthly = lmGetIncomeTotal();
+      var stoolReplacementPct = stoolGrossMonthly > 0 ? Math.round((stoolTotal / stoolGrossMonthly) * 100) : null;
+
+      html += '<div class="lm-card ' + (stoolSurplus >= 0 ? "lm-card-good" : "lm-card-attn") + '">';
+      html += lmDashTitle("retiro", "Silla de retiro");
+      html += '<div style="width:100%;overflow:visible"><svg viewBox="0 0 720 ' + stoolBuilt.viewH + '" style="width:100%;height:auto;display:block;overflow:visible">' + stoolBuilt.svg + '</svg></div>';
+      html += '<div class="lm-tile-row" style="margin-top:10px">' +
+        '<div class="lm-tile"><div class="lm-tile-label">Generan tus ' + stoolLegs.length + (stoolLegs.length === 1 ? ' pata' : ' patas') + '</div><div class="lm-tile-value" style="font-size:18px">' + lmMoney(stoolTotal) + '/mes</div></div>' +
+        '<div class="lm-tile" style="background:' + (stoolSurplus >= 0 ? "var(--good-soft)" : "var(--warn-soft)") + '"><div class="lm-tile-label" style="color:' + (stoolSurplus >= 0 ? "var(--good)" : "var(--warn)") + '">' + (stoolSurplus >= 0 ? "Superávit mensual" : "Déficit mensual") + '</div><div class="lm-tile-value" style="font-size:18px;color:' + (stoolSurplus >= 0 ? "var(--good)" : "var(--warn)") + '">' + (stoolSurplus >= 0 ? "+" : "") + lmMoney(stoolSurplus) + '</div></div>' +
+        '</div>';
+      if (stoolReplacementPct !== null) {
+        html += '<div class="lm-dash-row-sub" style="text-align:center">Esto reemplaza el ' + stoolReplacementPct + '% de tu ingreso bruto actual (' + lmMoney(stoolGrossMonthly) + '/mes).</div>';
+      }
+      html += '</div>';
+    }
+  }
+
   // ---- Meta total (NIF) ----
   if (retiroNif) {
     var yaTienes = lmGetSavingsByPurpose("retiro|jubilaci");
